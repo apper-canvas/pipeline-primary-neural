@@ -217,12 +217,12 @@ this.activities.splice(index, 1);
     await new Promise(resolve => setTimeout(resolve, 200));
     
     const index = this.emailFollowUps.findIndex(f => f.Id === parseInt(followUpId));
-    if (index === -1) {
+if (index === -1) {
       throw new Error("Follow-up not found");
     }
     
     this.emailFollowUps.splice(index, 1);
-return newFollowUp;
+    return true;
   }
 }
 

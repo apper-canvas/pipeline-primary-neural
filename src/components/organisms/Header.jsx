@@ -9,10 +9,11 @@ const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
 
-  const navigationItems = [
+const navigationItems = [
     { name: "Dashboard", path: "/", icon: "LayoutDashboard" },
     { name: "Pipeline", path: "/pipeline", icon: "GitBranch" },
     { name: "Contacts", path: "/contacts", icon: "Users" },
+    { name: "Leads", path: "/leads", icon: "UserPlus" },
     { name: "Activities", path: "/activities", icon: "Activity" }
   ];
 

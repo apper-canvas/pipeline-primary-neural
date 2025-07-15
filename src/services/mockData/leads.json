@@ -1,0 +1,80 @@
+[
+  {
+    "Id": 1,
+    "name": "Sarah Johnson",
+    "email": "sarah.johnson@techcorp.com",
+    "phone": "+1 (555) 123-4567",
+    "company": "TechCorp Solutions",
+    "status": "new",
+    "source": "website",
+    "priority": "high",
+    "notes": "Interested in enterprise solution. Budget $50K+",
+    "assignedTo": "John Doe",
+    "createdAt": "2024-01-15T10:30:00Z"
+  },
+  {
+    "Id": 2,
+    "name": "Michael Chen",
+    "email": "m.chen@innovatetech.com",
+    "phone": "+1 (555) 234-5678",
+    "company": "InnovateTech",
+    "status": "contacted",
+    "source": "referral",
+    "priority": "medium",
+    "notes": "Referred by existing client. Needs demo scheduled",
+    "assignedTo": "Jane Smith",
+    "createdAt": "2024-01-14T14:20:00Z"
+  },
+  {
+    "Id": 3,
+    "name": "Emily Rodriguez",
+    "email": "emily.r@growthstartup.com",
+    "phone": "+1 (555) 345-6789",
+    "company": "Growth Startup",
+    "status": "qualified",
+    "source": "linkedin",
+    "priority": "high",
+    "notes": "Fast-growing startup, immediate need for CRM solution",
+    "assignedTo": "John Doe",
+    "createdAt": "2024-01-13T09:15:00Z"
+  },
+  {
+    "Id": 4,
+    "name": "David Wilson",
+    "email": "d.wilson@enterprises.com",
+    "phone": "+1 (555) 456-7890",
+    "company": "Wilson Enterprises",
+    "status": "nurturing",
+    "source": "trade_show",
+    "priority": "low",
+    "notes": "Met at trade show. Long-term opportunity",
+    "assignedTo": "Jane Smith",
+    "createdAt": "2024-01-12T16:45:00Z"
+  },
+  {
+    "Id": 5,
+    "name": "Lisa Thompson",
+    "email": "lisa.t@futuretech.com",
+    "phone": "+1 (555) 567-8901",
+    "company": "Future Tech",
+    "status": "converted",
+    "source": "email_campaign",
+    "priority": "medium",
+    "notes": "Converted to opportunity. Deal value $25K",
+    "assignedTo": "John Doe",
+    "createdAt": "2024-01-11T11:30:00Z"
+  },
+  {
+    "Id": 6,
+    "name": "Robert Kim",
+    "email": "r.kim@digitalworks.com",
+    "phone": "+1 (555) 678-9012",
+    "company": "Digital Works",
+    "status": "new",
+    "source": "social_media",
+    "priority": "medium",
+    "notes": "Found us on social media. Interested in pricing",
+    "assignedTo": "Jane Smith",
+    "createdAt": "2024-01-10T13:20:00Z"
+  }
+]

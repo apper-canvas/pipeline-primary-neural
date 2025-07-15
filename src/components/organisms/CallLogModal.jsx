@@ -245,13 +245,22 @@ const CallLogModal = ({ isOpen, onClose, onSuccess, userId }) => {
           >
             Cancel
           </Button>
-          <Button
+<Button
             type="submit"
-            loading={loading}
             disabled={loading || loadingContacts}
+            className={loading ? 'opacity-75 cursor-not-allowed' : ''}
           >
-            <ApperIcon name="Phone" size={16} className="mr-2" />
-            Log Call
+            {loading ? (
+              <>
+                <ApperIcon name="Loader2" size={16} className="mr-2 animate-spin" />
+                Logging Call...
+              </>
+            ) : (
+              <>
+                <ApperIcon name="Phone" size={16} className="mr-2" />
+                Log Call
+              </>
+            )}
           </Button>
         </div>
       </form>

@@ -1,42 +1,42 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Route, Router, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import { UserProvider } from "@/context/UserContext";
 import Header from "@/components/organisms/Header";
-import Dashboard from "@/components/pages/Dashboard";
-import Pipeline from "@/components/pages/Pipeline";
 import Contacts from "@/components/pages/Contacts";
+import Pipeline from "@/components/pages/Pipeline";
+import Dashboard from "@/components/pages/Dashboard";
 import Activities from "@/components/pages/Activities";
 
 function App() {
   return (
-    <Router>
-      <div className="min-h-screen bg-gray-50">
-        <Header />
-        <main className="max-w-7xl mx-auto">
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/pipeline" element={<Pipeline />} />
-            <Route path="/contacts" element={<Contacts />} />
-            <Route path="/activities" element={<Activities />} />
-          </Routes>
-        </main>
-        
-        <ToastContainer
-          position="top-right"
-          autoClose={3000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-          className="z-[9999]"
-        />
-      </div>
-    </Router>
-  );
+    <UserProvider>
+      <Router>
+        <div className="min-h-screen bg-gray-50">
+          <Header />
+          <main>
+            <Routes>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/pipeline" element={<Pipeline />} />
+              <Route path="/contacts" element={<Contacts />} />
+              <Route path="/activities" element={<Activities />} />
+            </Routes>
+          </main>
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+          />
+        </div>
+      </Router>
+    </UserProvider>
+);
 }
 
 export default App;

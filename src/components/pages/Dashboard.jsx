@@ -8,21 +8,27 @@ import Empty from "@/components/ui/Empty";
 import ApperIcon from "@/components/ApperIcon";
 import { dealService } from "@/services/api/dealService";
 import { activityService } from "@/services/api/activityService";
-
+import { useUser } from "@/context/UserContext";
 const Dashboard = () => {
+  const { user, isAuthenticated, canViewAllDeals } = useUser();
   const [deals, setDeals] = useState([]);
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const loadData = async () => {
+const loadData = async () => {
     try {
       setLoading(true);
       setError("");
       
+      if (!user) {
+        setError("User not authenticated");
+        return;
+      }
+      
       const [dealsData, activitiesData] = await Promise.all([
-        dealService.getAll(),
-        activityService.getAll()
+        dealService.getAll(user.Id),
+        activityService.getAll(user.Id)
       ]);
       
       setDeals(dealsData);
@@ -100,14 +106,33 @@ const Dashboard = () => {
     }).format(value);
   };
 
-  return (
+return (
     <div className="p-6 space-y-6">
       {/* Header */}
-      <div>
-        <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-          Sales Dashboard
-        </h1>
-        <p className="text-gray-600 mt-2">Overview of your sales pipeline and performance</p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+            {user?.name ? `Welcome back, ${user.name.split(' ')[0]}!` : 'Sales Dashboard'}
+          </h1>
+          <p className="text-gray-600 mt-2">
+            {canViewAllDeals() 
+              ? 'Overview of team sales pipeline and performance' 
+              : 'Your personal sales pipeline and performance'}
+          </p>
+        </div>
+        <div className="flex items-center space-x-3">
+          <div className="text-right">
+            <p className="text-sm font-medium text-gray-900">{user?.name}</p>
+            <p className="text-xs text-gray-500 capitalize">{user?.role?.replace('_', ' ')}</p>
+          </div>
+          {user?.avatar && (
+            <img 
+              src={user.avatar} 
+              alt={user.name}
+              className="w-10 h-10 rounded-full object-cover border-2 border-primary/20"
+            />
+          )}
+        </div>
       </div>
 
       {/* Stats Grid */}
@@ -213,7 +238,7 @@ const Dashboard = () => {
             Quick Actions
           </CardTitle>
         </CardHeader>
-        <CardContent>
+<CardContent>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <button className="flex flex-col items-center p-4 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-lg border-2 border-dashed border-primary/20 hover:border-primary/40 transition-all duration-200 group">
               <ApperIcon name="Plus" size={24} className="text-primary mb-2 group-hover:scale-110 transition-transform" />
@@ -231,6 +256,26 @@ const Dashboard = () => {
               <ApperIcon name="Calendar" size={24} className="text-primary mb-2 group-hover:scale-110 transition-transform" />
               <span className="text-sm font-medium text-gray-700">Schedule Meeting</span>
             </button>
+            {canViewAllDeals() && (
+              <>
+                <button className="flex flex-col items-center p-4 bg-gradient-to-br from-accent/10 to-primary/10 rounded-lg border-2 border-dashed border-accent/20 hover:border-accent/40 transition-all duration-200 group">
+                  <ApperIcon name="BarChart3" size={24} className="text-accent mb-2 group-hover:scale-110 transition-transform" />
+                  <span className="text-sm font-medium text-gray-700">Team Report</span>
+                </button>
+                <button className="flex flex-col items-center p-4 bg-gradient-to-br from-secondary/10 to-primary/10 rounded-lg border-2 border-dashed border-secondary/20 hover:border-secondary/40 transition-all duration-200 group">
+                  <ApperIcon name="Users" size={24} className="text-secondary mb-2 group-hover:scale-110 transition-transform" />
+                  <span className="text-sm font-medium text-gray-700">Manage Team</span>
+                </button>
+                <button className="flex flex-col items-center p-4 bg-gradient-to-br from-warning/10 to-primary/10 rounded-lg border-2 border-dashed border-warning/20 hover:border-warning/40 transition-all duration-200 group">
+                  <ApperIcon name="Settings" size={24} className="text-warning mb-2 group-hover:scale-110 transition-transform" />
+                  <span className="text-sm font-medium text-gray-700">Dashboard Settings</span>
+                </button>
+                <button className="flex flex-col items-center p-4 bg-gradient-to-br from-info/10 to-primary/10 rounded-lg border-2 border-dashed border-info/20 hover:border-info/40 transition-all duration-200 group">
+                  <ApperIcon name="Download" size={24} className="text-info mb-2 group-hover:scale-110 transition-transform" />
+                  <span className="text-sm font-medium text-gray-700">Export Data</span>
+                </button>
+              </>
+            )}
           </div>
         </CardContent>
       </Card>

@@ -304,9 +304,8 @@ const EmailFollowUpModal = ({ isOpen, onClose, dealId, onFollowUpScheduled }) =>
               >
                 Cancel
               </Button>
-              <Button
+<Button
                 type="submit"
-                loading={loading}
                 disabled={loading}
               >
                 <ApperIcon name="Send" size={16} className="mr-2" />

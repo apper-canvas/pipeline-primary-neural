@@ -187,8 +187,8 @@ const LeadModal = ({ isOpen, onClose, lead, onSave }) => {
         </Button>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+<form onSubmit={handleSubmit} className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-2 gap-4 lg:gap-6">
           <FormField
             label="Name"
             value={formData.name}
@@ -275,19 +275,20 @@ const LeadModal = ({ isOpen, onClose, lead, onSave }) => {
           />
         </div>
 
-        <div className="flex justify-end space-x-3 pt-4 border-t">
+<div className="flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-3 pt-4 border-t">
           <Button
             type="button"
             variant="outline"
             onClick={onClose}
             disabled={isSubmitting}
+            className="w-full sm:w-auto min-h-[44px] order-2 sm:order-1"
           >
             Cancel
           </Button>
-          <Button
+<Button
             type="submit"
             disabled={isSubmitting}
-            className="min-w-[120px]"
+            className="w-full sm:w-auto min-h-[44px] min-w-[120px] order-1 sm:order-2"
           >
             {isSubmitting ? (
               <div className="flex items-center space-x-2">

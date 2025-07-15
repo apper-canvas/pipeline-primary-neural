@@ -125,7 +125,7 @@ const activityTypes = [
 return (
     <div className="p-6 space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+<div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
             Activities
@@ -134,7 +134,8 @@ return (
         </div>
         <Button
           onClick={() => handleScheduleFollowUp(null)}
-          className="whitespace-nowrap"
+onClick={() => handleScheduleFollowUp(null)}
+          className="whitespace-nowrap w-full lg:w-auto"
         >
           <ApperIcon name="Send" size={16} className="mr-2" />
           Schedule Follow-up
@@ -263,12 +264,12 @@ return (
               Activity Summary
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+<CardContent>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-4">
               {activityTypes.slice(1).map(type => {
                 const count = activities.filter(a => a.type === type.value).length;
                 return (
-                  <div key={type.value} className="text-center">
+                  <div key={type.value} className="text-center p-4 bg-gray-50 rounded-lg">
                     <div className="text-2xl font-bold text-gray-900">{count}</div>
                     <div className="text-sm text-gray-600">{type.label}</div>
                   </div>

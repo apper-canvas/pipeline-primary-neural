@@ -117,8 +117,8 @@ const DealModal = ({ isOpen, onClose, deal, onSave, contacts }) => {
       title={deal ? "Edit Deal" : "Create New Deal"}
       size="lg"
     >
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+<form onSubmit={handleSubmit} className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-2 gap-4 lg:gap-6">
           <FormField
             label="Deal Title"
             placeholder="Enter deal title"
@@ -197,19 +197,21 @@ const DealModal = ({ isOpen, onClose, deal, onSave, contacts }) => {
           error={errors.notes}
         />
 
-        <div className="flex items-center justify-end space-x-4 pt-6 border-t border-gray-200">
+<div className="flex flex-col sm:flex-row items-center justify-end space-y-3 sm:space-y-0 sm:space-x-4 pt-6 border-t border-gray-200">
           <Button
             type="button"
             variant="secondary"
             onClick={onClose}
             disabled={loading}
+            className="w-full sm:w-auto min-h-[44px] order-2 sm:order-1"
           >
             Cancel
           </Button>
           <Button
             type="submit"
+type="submit"
             disabled={loading}
-            className="bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90"
+            className="w-full sm:w-auto min-h-[44px] min-w-[120px] bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 order-1 sm:order-2"
           >
             {loading ? (
               <>

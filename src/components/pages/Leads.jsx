@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { toast } from 'react-toastify';
-import ApperIcon from '@/components/ApperIcon';
-import Button from '@/components/atoms/Button';
-import Card from '@/components/atoms/Card';
-import Badge from '@/components/atoms/Badge';
-import SearchBar from '@/components/molecules/SearchBar';
-import FilterBar from '@/components/molecules/FilterBar';
-import Loading from '@/components/ui/Loading';
-import Error from '@/components/ui/Error';
-import Empty from '@/components/ui/Empty';
-import LeadModal from '@/components/organisms/LeadModal';
-import { leadService } from '@/services/api/leadService';
+import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import ApperIcon from "@/components/ApperIcon";
+import LeadModal from "@/components/organisms/LeadModal";
+import Badge from "@/components/atoms/Badge";
+import Button from "@/components/atoms/Button";
+import Card from "@/components/atoms/Card";
+import Empty from "@/components/ui/Empty";
+import Error from "@/components/ui/Error";
+import Loading from "@/components/ui/Loading";
+import FilterBar from "@/components/molecules/FilterBar";
+import SearchBar from "@/components/molecules/SearchBar";
+import leadService from "@/services/api/leadService";
 
 const Leads = () => {
   const [leads, setLeads] = useState([]);
@@ -201,33 +201,32 @@ const filteredLeads = leads.filter(lead => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
+<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-8">
           <div>
             <h1 className="text-3xl font-bold text-gray-900">Leads</h1>
             <p className="mt-2 text-gray-600">
               Manage and track your sales leads
             </p>
-          </div>
-          <div className="mt-4 sm:mt-0">
-            <Button onClick={handleAddLead} className="flex items-center space-x-2">
+</div>
+          <div className="w-full lg:w-auto">
+            <Button onClick={handleAddLead} className="flex items-center justify-center space-x-2 w-full lg:w-auto">
               <ApperIcon name="Plus" size={20} />
               <span>Add Lead</span>
             </Button>
           </div>
         </div>
-
-        <Card className="mb-6">
+<Card className="mb-6">
           <div className="p-6">
-            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
-              <div className="flex-1 max-w-md">
+            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0 gap-4">
+              <div className="flex-1 max-w-md lg:max-w-lg xl:max-w-xl">
                 <SearchBar
                   placeholder="Search leads..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
-              <div className="flex-shrink-0">
+              <div className="flex-shrink-0 w-full lg:w-auto">
                 <FilterBar filters={filterOptions} />
               </div>
             </div>
@@ -323,9 +322,9 @@ const filteredLeads = leads.filter(lead => {
                 <tbody className="bg-white divide-y divide-gray-200">
                   {sortedLeads.map((lead) => (
                     <tr key={lead.Id} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 whitespace-nowrap">
+<td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
-<div className="w-10 h-10 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center">
+                          <div className="w-10 h-10 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center">
                             <span className="text-white font-medium">
                               {lead.Name?.charAt(0).toUpperCase()}
                             </span>

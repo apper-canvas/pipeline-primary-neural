@@ -181,18 +181,17 @@ try {
 
   return (
     <div className="flex flex-col h-full">
-      {/* Header */}
-      <div className="p-6 border-b border-gray-200 bg-white">
-        <div className="flex items-center justify-between mb-4">
+<div className="p-6 border-b border-gray-200 bg-white">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-4">
           <div>
             <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
               Sales Pipeline
             </h1>
             <p className="text-gray-600 mt-2">Drag and drop deals between stages</p>
-          </div>
+</div>
           <Button
             onClick={handleCreateDeal}
-            className="bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-white shadow-lg hover:shadow-xl transform hover:scale-105"
+            className="bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-white shadow-lg hover:shadow-xl transform hover:scale-105 w-full lg:w-auto"
           >
             <ApperIcon name="Plus" size={16} className="mr-2" />
             New Deal
@@ -217,7 +216,7 @@ try {
             icon="GitBranch"
           />
         ) : (
-          <div className="flex gap-6 h-full min-w-[1500px]">
+<div className="flex gap-4 lg:gap-6 h-full min-w-[1200px] lg:min-w-[1500px]">
             {stages.map((stage) => {
               const stageDeals = getDealsByStage(stage.id);
               const stageTotal = getStageTotal(stage.id);
@@ -225,7 +224,7 @@ try {
               return (
                 <div
                   key={stage.id}
-                  className="flex-1 min-w-[300px] flex flex-col"
+                  className="flex-1 min-w-[280px] lg:min-w-[300px] flex flex-col"
                   onDragOver={handleDragOver}
                   onDrop={(e) => handleDrop(e, stage.id)}
                 >

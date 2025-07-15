@@ -254,79 +254,79 @@ return (
           </CardTitle>
         </CardHeader>
 <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4">
             <button 
               onClick={() => {
                 navigate('/pipeline');
                 toast.success('Redirecting to Pipeline to add new deal');
               }}
-              className="flex flex-col items-center p-4 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-lg border-2 border-dashed border-primary/20 hover:border-primary/40 transition-all duration-200 group"
+              className="flex flex-col items-center p-4 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-lg border-2 border-dashed border-primary/20 hover:border-primary/40 transition-all duration-200 group min-h-[100px] justify-center"
             >
               <ApperIcon name="Plus" size={24} className="text-primary mb-2 group-hover:scale-110 transition-transform" />
-              <span className="text-sm font-medium text-gray-700">Add Deal</span>
+<span className="text-sm font-medium text-gray-700 text-center">Add Deal</span>
             </button>
             <button 
               onClick={() => {
                 navigate('/contacts');
                 toast.success('Redirecting to Contacts to add new contact');
               }}
-              className="flex flex-col items-center p-4 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-lg border-2 border-dashed border-primary/20 hover:border-primary/40 transition-all duration-200 group"
+              className="flex flex-col items-center p-4 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-lg border-2 border-dashed border-primary/20 hover:border-primary/40 transition-all duration-200 group min-h-[100px] justify-center"
             >
               <ApperIcon name="UserPlus" size={24} className="text-primary mb-2 group-hover:scale-110 transition-transform" />
-              <span className="text-sm font-medium text-gray-700">Add Contact</span>
-            </button>
-<button 
-              onClick={() => setIsCallLogModalOpen(true)}
-              className="flex flex-col items-center p-4 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-lg border-2 border-dashed border-primary/20 hover:border-primary/40 transition-all duration-200 group"
-            >
-              <ApperIcon name="Phone" size={24} className="text-primary mb-2 group-hover:scale-110 transition-transform" />
-              <span className="text-sm font-medium text-gray-700">Log Call</span>
+              <span className="text-sm font-medium text-gray-700 text-center">Add Contact</span>
             </button>
             <button 
+              onClick={() => setIsCallLogModalOpen(true)}
+              className="flex flex-col items-center p-4 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-lg border-2 border-dashed border-primary/20 hover:border-primary/40 transition-all duration-200 group min-h-[100px] justify-center"
+            >
+              <ApperIcon name="Phone" size={24} className="text-primary mb-2 group-hover:scale-110 transition-transform" />
+              <span className="text-sm font-medium text-gray-700 text-center">Log Call</span>
+            </button>
+<button 
               onClick={() => setIsMeetingSchedulerModalOpen(true)}
-              className="flex flex-col items-center p-4 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-lg border-2 border-dashed border-primary/20 hover:border-primary/40 transition-all duration-200 group"
+              className="flex flex-col items-center p-4 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-lg border-2 border-dashed border-primary/20 hover:border-primary/40 transition-all duration-200 group min-h-[100px] justify-center"
             >
               <ApperIcon name="Calendar" size={24} className="text-primary mb-2 group-hover:scale-110 transition-transform" />
-              <span className="text-sm font-medium text-gray-700">Schedule Meeting</span>
+              <span className="text-sm font-medium text-gray-700 text-center">Schedule Meeting</span>
             </button>
             {canViewAllDeals() && (
               <>
-                <button 
+<button 
                   onClick={() => {
                     navigate('/activities');
                     toast.info('Viewing team activity reports');
                   }}
-                  className="flex flex-col items-center p-4 bg-gradient-to-br from-accent/10 to-primary/10 rounded-lg border-2 border-dashed border-accent/20 hover:border-accent/40 transition-all duration-200 group"
+                  className="flex flex-col items-center p-4 bg-gradient-to-br from-accent/10 to-primary/10 rounded-lg border-2 border-dashed border-accent/20 hover:border-accent/40 transition-all duration-200 group min-h-[100px] justify-center"
                 >
                   <ApperIcon name="BarChart3" size={24} className="text-accent mb-2 group-hover:scale-110 transition-transform" />
-                  <span className="text-sm font-medium text-gray-700">Team Report</span>
+                  <span className="text-sm font-medium text-gray-700 text-center">Team Report</span>
                 </button>
-                <button 
+<button 
                   onClick={() => {
                     toast.info('Team management features coming soon. Use contacts page to manage team members.');
                   }}
-                  className="flex flex-col items-center p-4 bg-gradient-to-br from-secondary/10 to-primary/10 rounded-lg border-2 border-dashed border-secondary/20 hover:border-secondary/40 transition-all duration-200 group"
+                  className="flex flex-col items-center p-4 bg-gradient-to-br from-secondary/10 to-primary/10 rounded-lg border-2 border-dashed border-secondary/20 hover:border-secondary/40 transition-all duration-200 group min-h-[100px] justify-center"
                 >
                   <ApperIcon name="Users" size={24} className="text-secondary mb-2 group-hover:scale-110 transition-transform" />
-                  <span className="text-sm font-medium text-gray-700">Manage Team</span>
+                  <span className="text-sm font-medium text-gray-700 text-center">Manage Team</span>
                 </button>
-                <button 
+<button 
                   onClick={() => {
                     toast.info('Dashboard settings panel coming soon. Current view optimized for your role.');
                   }}
-                  className="flex flex-col items-center p-4 bg-gradient-to-br from-warning/10 to-primary/10 rounded-lg border-2 border-dashed border-warning/20 hover:border-warning/40 transition-all duration-200 group"
+                  className="flex flex-col items-center p-4 bg-gradient-to-br from-warning/10 to-primary/10 rounded-lg border-2 border-dashed border-warning/20 hover:border-warning/40 transition-all duration-200 group min-h-[100px] justify-center"
                 >
                   <ApperIcon name="Settings" size={24} className="text-warning mb-2 group-hover:scale-110 transition-transform" />
-                  <span className="text-sm font-medium text-gray-700">Dashboard Settings</span>
+                  <span className="text-sm font-medium text-gray-700 text-center">Dashboard Settings</span>
                 </button>
-                <button 
+<button 
                   onClick={() => {
                     toast.success('Export feature ready! Visit pipeline or contacts pages to export specific data sets.');
                   }}
-                  className="flex flex-col items-center p-4 bg-gradient-to-br from-info/10 to-primary/10 rounded-lg border-2 border-dashed border-info/20 hover:border-info/40 transition-all duration-200 group"
+                  className="flex flex-col items-center p-4 bg-gradient-to-br from-info/10 to-primary/10 rounded-lg border-2 border-dashed border-info/20 hover:border-info/40 transition-all duration-200 group min-h-[100px] justify-center"
                 >
                   <ApperIcon name="Download" size={24} className="text-info mb-2 group-hover:scale-110 transition-transform" />
-                  <span className="text-sm font-medium text-gray-700">Export Data</span>
+                  <span className="text-sm font-medium text-gray-700 text-center">Export Data</span>
                 </button>
               </>
             )}

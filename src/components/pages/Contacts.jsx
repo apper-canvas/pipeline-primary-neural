@@ -171,7 +171,7 @@ const handleSaveContact = async (contactData) => {
   return (
     <div className="p-6 space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+<div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
             Contacts
@@ -180,7 +180,8 @@ const handleSaveContact = async (contactData) => {
         </div>
         <Button
           onClick={handleCreateContact}
-          className="bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-white shadow-lg hover:shadow-xl transform hover:scale-105"
+onClick={handleCreateContact}
+          className="bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-white shadow-lg hover:shadow-xl transform hover:scale-105 w-full lg:w-auto"
         >
           <ApperIcon name="UserPlus" size={16} className="mr-2" />
           New Contact
@@ -188,14 +189,14 @@ const handleSaveContact = async (contactData) => {
       </div>
 
       {/* Search */}
-      <div className="max-w-md">
+{/* Search */}
+      <div className="max-w-md lg:max-w-lg xl:max-w-xl">
         <SearchBar
           placeholder="Search contacts..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
       </div>
-
       {/* Contacts Table */}
       {contacts.length === 0 ? (
         <Empty

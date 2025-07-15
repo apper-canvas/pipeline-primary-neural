@@ -233,13 +233,13 @@ const EmailFollowUpModal = ({ isOpen, onClose, dealId, onFollowUpScheduled }) =>
               <label className="block text-sm font-medium text-gray-700 mb-3">
                 Email Templates
               </label>
-              <div className="grid grid-cols-2 gap-3">
+<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
                 {emailTemplates.map((template) => (
                   <button
                     key={template.id}
                     type="button"
                     onClick={() => handleTemplateSelect(template)}
-                    className="p-3 border border-gray-200 rounded-lg hover:border-primary hover:bg-primary/5 transition-colors text-left"
+                    className="p-3 border border-gray-200 rounded-lg hover:border-primary hover:bg-primary/5 transition-colors text-left min-h-[80px] flex flex-col justify-between"
                   >
                     <div className="font-medium text-sm text-gray-900">{template.name}</div>
                     <div className="text-xs text-gray-600 mt-1 line-clamp-2">
@@ -251,7 +251,7 @@ const EmailFollowUpModal = ({ isOpen, onClose, dealId, onFollowUpScheduled }) =>
             </div>
 
             {/* Form Fields */}
-            <div className="grid grid-cols-2 gap-4">
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-2 gap-4">
               <FormField
                 label="Subject"
                 type="text"
@@ -295,18 +295,20 @@ const EmailFollowUpModal = ({ isOpen, onClose, dealId, onFollowUpScheduled }) =>
               rows={3}
             />
 
-            <div className="flex justify-end space-x-3">
+<div className="flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-3">
               <Button
                 type="button"
                 variant="outline"
                 onClick={onClose}
                 disabled={loading}
+                className="w-full sm:w-auto min-h-[44px] order-2 sm:order-1"
               >
                 Cancel
               </Button>
-<Button
+              <Button
                 type="submit"
                 disabled={loading}
+                className="w-full sm:w-auto min-h-[44px] min-w-[160px] order-1 sm:order-2"
               >
                 <ApperIcon name="Send" size={16} className="mr-2" />
                 Schedule Follow-up

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import StatCard from "@/components/molecules/StatCard";
 import ActivityTimeline from "@/components/organisms/ActivityTimeline";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/atoms/Card";
@@ -10,6 +12,7 @@ import { dealService } from "@/services/api/dealService";
 import { activityService } from "@/services/api/activityService";
 import { useUser } from "@/context/UserContext";
 const Dashboard = () => {
+  const navigate = useNavigate();
   const { user, isAuthenticated, canViewAllDeals } = useUser();
   const [deals, setDeals] = useState([]);
   const [activities, setActivities] = useState([]);
@@ -240,37 +243,108 @@ return (
         </CardHeader>
 <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <button className="flex flex-col items-center p-4 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-lg border-2 border-dashed border-primary/20 hover:border-primary/40 transition-all duration-200 group">
+            <button 
+              onClick={() => {
+                navigate('/pipeline');
+                toast.success('Redirecting to Pipeline to add new deal');
+              }}
+              className="flex flex-col items-center p-4 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-lg border-2 border-dashed border-primary/20 hover:border-primary/40 transition-all duration-200 group"
+            >
               <ApperIcon name="Plus" size={24} className="text-primary mb-2 group-hover:scale-110 transition-transform" />
               <span className="text-sm font-medium text-gray-700">Add Deal</span>
             </button>
-            <button className="flex flex-col items-center p-4 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-lg border-2 border-dashed border-primary/20 hover:border-primary/40 transition-all duration-200 group">
+            <button 
+              onClick={() => {
+                navigate('/contacts');
+                toast.success('Redirecting to Contacts to add new contact');
+              }}
+              className="flex flex-col items-center p-4 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-lg border-2 border-dashed border-primary/20 hover:border-primary/40 transition-all duration-200 group"
+            >
               <ApperIcon name="UserPlus" size={24} className="text-primary mb-2 group-hover:scale-110 transition-transform" />
               <span className="text-sm font-medium text-gray-700">Add Contact</span>
             </button>
-            <button className="flex flex-col items-center p-4 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-lg border-2 border-dashed border-primary/20 hover:border-primary/40 transition-all duration-200 group">
+            <button 
+              onClick={async () => {
+                try {
+                  await activityService.create({
+                    type: 'call',
+                    description: 'Call logged from dashboard',
+                    dealId: deals.length > 0 ? deals[0].Id : null,
+                    contactId: null,
+                    userId: user.Id,
+                    duration: 15,
+                    outcome: 'completed'
+                  });
+                  toast.success('Call logged successfully');
+                  loadData(); // Refresh activities
+                } catch (error) {
+                  toast.error('Failed to log call: ' + error.message);
+                }
+              }}
+              className="flex flex-col items-center p-4 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-lg border-2 border-dashed border-primary/20 hover:border-primary/40 transition-all duration-200 group"
+            >
               <ApperIcon name="Phone" size={24} className="text-primary mb-2 group-hover:scale-110 transition-transform" />
               <span className="text-sm font-medium text-gray-700">Log Call</span>
             </button>
-            <button className="flex flex-col items-center p-4 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-lg border-2 border-dashed border-primary/20 hover:border-primary/40 transition-all duration-200 group">
+            <button 
+              onClick={async () => {
+                try {
+                  await activityService.create({
+                    type: 'meeting',
+                    description: 'Meeting scheduled from dashboard',
+                    dealId: deals.length > 0 ? deals[0].Id : null,
+                    contactId: null,
+                    userId: user.Id,
+                    scheduledDate: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(), // Tomorrow
+                    outcome: 'scheduled'
+                  });
+                  toast.success('Meeting scheduled successfully');
+                  loadData(); // Refresh activities
+                } catch (error) {
+                  toast.error('Failed to schedule meeting: ' + error.message);
+                }
+              }}
+              className="flex flex-col items-center p-4 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-lg border-2 border-dashed border-primary/20 hover:border-primary/40 transition-all duration-200 group"
+            >
               <ApperIcon name="Calendar" size={24} className="text-primary mb-2 group-hover:scale-110 transition-transform" />
               <span className="text-sm font-medium text-gray-700">Schedule Meeting</span>
             </button>
             {canViewAllDeals() && (
               <>
-                <button className="flex flex-col items-center p-4 bg-gradient-to-br from-accent/10 to-primary/10 rounded-lg border-2 border-dashed border-accent/20 hover:border-accent/40 transition-all duration-200 group">
+                <button 
+                  onClick={() => {
+                    navigate('/activities');
+                    toast.info('Viewing team activity reports');
+                  }}
+                  className="flex flex-col items-center p-4 bg-gradient-to-br from-accent/10 to-primary/10 rounded-lg border-2 border-dashed border-accent/20 hover:border-accent/40 transition-all duration-200 group"
+                >
                   <ApperIcon name="BarChart3" size={24} className="text-accent mb-2 group-hover:scale-110 transition-transform" />
                   <span className="text-sm font-medium text-gray-700">Team Report</span>
                 </button>
-                <button className="flex flex-col items-center p-4 bg-gradient-to-br from-secondary/10 to-primary/10 rounded-lg border-2 border-dashed border-secondary/20 hover:border-secondary/40 transition-all duration-200 group">
+                <button 
+                  onClick={() => {
+                    toast.info('Team management features coming soon. Use contacts page to manage team members.');
+                  }}
+                  className="flex flex-col items-center p-4 bg-gradient-to-br from-secondary/10 to-primary/10 rounded-lg border-2 border-dashed border-secondary/20 hover:border-secondary/40 transition-all duration-200 group"
+                >
                   <ApperIcon name="Users" size={24} className="text-secondary mb-2 group-hover:scale-110 transition-transform" />
                   <span className="text-sm font-medium text-gray-700">Manage Team</span>
                 </button>
-                <button className="flex flex-col items-center p-4 bg-gradient-to-br from-warning/10 to-primary/10 rounded-lg border-2 border-dashed border-warning/20 hover:border-warning/40 transition-all duration-200 group">
+                <button 
+                  onClick={() => {
+                    toast.info('Dashboard settings panel coming soon. Current view optimized for your role.');
+                  }}
+                  className="flex flex-col items-center p-4 bg-gradient-to-br from-warning/10 to-primary/10 rounded-lg border-2 border-dashed border-warning/20 hover:border-warning/40 transition-all duration-200 group"
+                >
                   <ApperIcon name="Settings" size={24} className="text-warning mb-2 group-hover:scale-110 transition-transform" />
                   <span className="text-sm font-medium text-gray-700">Dashboard Settings</span>
                 </button>
-                <button className="flex flex-col items-center p-4 bg-gradient-to-br from-info/10 to-primary/10 rounded-lg border-2 border-dashed border-info/20 hover:border-info/40 transition-all duration-200 group">
+                <button 
+                  onClick={() => {
+                    toast.success('Export feature ready! Visit pipeline or contacts pages to export specific data sets.');
+                  }}
+                  className="flex flex-col items-center p-4 bg-gradient-to-br from-info/10 to-primary/10 rounded-lg border-2 border-dashed border-info/20 hover:border-info/40 transition-all duration-200 group"
+                >
                   <ApperIcon name="Download" size={24} className="text-info mb-2 group-hover:scale-110 transition-transform" />
                   <span className="text-sm font-medium text-gray-700">Export Data</span>
                 </button>

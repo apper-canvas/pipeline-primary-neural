@@ -7,11 +7,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/atoms/Car
 import Empty from "@/components/ui/Empty";
 import Error from '@/components/ui/Error'
 import Loading from '@/components/ui/Loading'
-import EmailFollowUpModal from "@/components/organisms/EmailFollowUpModal";
-import { activityService } from '@/services/api/activityService'
+import EmailFollowUpModal from '@/components/organisms/EmailFollowUpModal'
+import activityService from '@/services/api/activityService'
 import { dealService } from '@/services/api/dealService'
 
-const Activities = () => {
+function Activities() {
   const [activities, setActivities] = useState([]);
   const [deals, setDeals] = useState([]);
   const [filteredActivities, setFilteredActivities] = useState([]);

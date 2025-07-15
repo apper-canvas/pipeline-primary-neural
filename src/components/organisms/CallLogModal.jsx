@@ -5,7 +5,7 @@ import FormField from '@/components/molecules/FormField';
 import ApperIcon from '@/components/ApperIcon';
 import { toast } from 'react-toastify';
 import { contactService } from '@/services/api/contactService';
-import { activityService } from '@/services/api/activityService';
+import activityService from '@/services/api/activityService';
 
 const CallLogModal = ({ isOpen, onClose, onSuccess, userId }) => {
   const [formData, setFormData] = useState({

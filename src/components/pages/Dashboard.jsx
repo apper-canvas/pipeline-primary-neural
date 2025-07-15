@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import StatCard from "@/components/molecules/StatCard";
 import ActivityTimeline from "@/components/organisms/ActivityTimeline";
+import CallLogModal from "@/components/organisms/CallLogModal";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/atoms/Card";
 import Loading from "@/components/ui/Loading";
 import Error from "@/components/ui/Error";
@@ -18,7 +19,7 @@ const Dashboard = () => {
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
+  const [isCallLogModalOpen, setIsCallLogModalOpen] = useState(false);
 const loadData = async () => {
     try {
       setLoading(true);
@@ -263,24 +264,8 @@ return (
               <ApperIcon name="UserPlus" size={24} className="text-primary mb-2 group-hover:scale-110 transition-transform" />
               <span className="text-sm font-medium text-gray-700">Add Contact</span>
             </button>
-            <button 
-              onClick={async () => {
-                try {
-                  await activityService.create({
-                    type: 'call',
-                    description: 'Call logged from dashboard',
-                    dealId: deals.length > 0 ? deals[0].Id : null,
-                    contactId: null,
-                    userId: user.Id,
-                    duration: 15,
-                    outcome: 'completed'
-                  });
-                  toast.success('Call logged successfully');
-                  loadData(); // Refresh activities
-                } catch (error) {
-                  toast.error('Failed to log call: ' + error.message);
-                }
-              }}
+<button 
+              onClick={() => setIsCallLogModalOpen(true)}
               className="flex flex-col items-center p-4 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-lg border-2 border-dashed border-primary/20 hover:border-primary/40 transition-all duration-200 group"
             >
               <ApperIcon name="Phone" size={24} className="text-primary mb-2 group-hover:scale-110 transition-transform" />
@@ -351,8 +336,16 @@ return (
               </>
             )}
           </div>
-        </CardContent>
+</CardContent>
       </Card>
+
+      {/* Call Log Modal */}
+      <CallLogModal
+        isOpen={isCallLogModalOpen}
+        onClose={() => setIsCallLogModalOpen(false)}
+        onSuccess={loadData}
+        userId={user?.Id}
+      />
     </div>
   );
 };

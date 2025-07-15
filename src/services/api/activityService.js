@@ -53,13 +53,18 @@ async getAll(userId = null) {
     return { ...activity };
   }
 
-  async create(activityData) {
+async create(activityData) {
     await new Promise(resolve => setTimeout(resolve, 300));
     
     const newActivity = {
       ...activityData,
       Id: Math.max(...this.activities.map(a => a.Id), 0) + 1,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
+      // Support for detailed call log fields
+      callType: activityData.callType || null,
+      followUpStatus: activityData.followUpStatus || null,
+      followUpDate: activityData.followUpDate || null,
+      notes: activityData.notes || null
     };
     
     this.activities.push(newActivity);

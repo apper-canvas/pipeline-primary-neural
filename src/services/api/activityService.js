@@ -222,6 +222,10 @@ this.activities.splice(index, 1);
     }
     
     this.emailFollowUps.splice(index, 1);
-    return true;
+return newFollowUp;
   }
 }
+
+// Create and export service instance
+const activityService = new ActivityService();
+export default activityService;

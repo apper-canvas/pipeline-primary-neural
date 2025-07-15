@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
-import Modal from "@/components/atoms/Modal";
-import Button from "@/components/atoms/Button";
-import FormField from "@/components/molecules/FormField";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/atoms/Card";
-import Badge from "@/components/atoms/Badge";
-import ApperIcon from "@/components/ApperIcon";
-import { activityService } from "@/services/api/activityService";
-import { dealService } from "@/services/api/dealService";
-import { contactService } from "@/services/api/contactService";
+import React, { useEffect, useState } from "react";
+import activityService from "@/services/api/activityService";
 import { toast } from "react-toastify";
-import { format, addDays } from "date-fns";
+import { addDays, format } from "date-fns";
+import ApperIcon from "@/components/ApperIcon";
+import Badge from "@/components/atoms/Badge";
+import Button from "@/components/atoms/Button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/atoms/Card";
+import Modal from "@/components/atoms/Modal";
+import FormField from "@/components/molecules/FormField";
+import { contactService } from "@/services/api/contactService";
+import { dealService } from "@/services/api/dealService";
 
 const EmailFollowUpModal = ({ isOpen, onClose, dealId, onFollowUpScheduled }) => {
   const [formData, setFormData] = useState({

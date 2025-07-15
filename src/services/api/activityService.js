@@ -1,9 +1,6 @@
 import mockActivities from "@/services/mockData/activities.json";
 
 class ActivityService {
-  constructor() {
-    this.activities = [...mockActivities];
-  }
 
 async getAll(userId = null) {
     // Simulate API delay
@@ -109,8 +106,6 @@ async create(activityData) {
     if (index === -1) {
       throw new Error("Activity not found");
     }
-    
-    this.activities.splice(index, 1);
 this.activities.splice(index, 1);
     return true;
   }

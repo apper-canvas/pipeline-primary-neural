@@ -118,7 +118,7 @@ const DealModal = ({ isOpen, onClose, deal, onSave, contacts }) => {
       size="lg"
     >
 <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-2 gap-4 lg:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
           <FormField
             label="Deal Title"
             placeholder="Enter deal title"
@@ -207,9 +207,8 @@ const DealModal = ({ isOpen, onClose, deal, onSave, contacts }) => {
           >
             Cancel
           </Button>
-          <Button
+<Button
             type="submit"
-type="submit"
             disabled={loading}
             className="w-full sm:w-auto min-h-[44px] min-w-[120px] bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 order-1 sm:order-2"
           >

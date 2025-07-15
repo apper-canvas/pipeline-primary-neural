@@ -160,8 +160,8 @@ const CallLogModal = ({ isOpen, onClose, onSuccess, userId }) => {
       title="Log Call"
       size="lg"
     >
-      <form onSubmit={handleSubmit} className="space-y-6">
-<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+<form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <FormField
             label="Contact"
             type="select"
@@ -185,8 +185,7 @@ const CallLogModal = ({ isOpen, onClose, onSuccess, userId }) => {
             required
           />
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <FormField
             label="Call Type"
             type="select"
@@ -205,7 +204,6 @@ const CallLogModal = ({ isOpen, onClose, onSuccess, userId }) => {
             required
           />
         </div>
-
         <FormField
           label="Notes"
           type="textarea"
@@ -214,8 +212,7 @@ const CallLogModal = ({ isOpen, onClose, onSuccess, userId }) => {
           placeholder="Call summary, key points discussed, next steps..."
           rows={4}
         />
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <FormField
             label="Follow-up Status"
             type="select"
@@ -235,20 +232,20 @@ const CallLogModal = ({ isOpen, onClose, onSuccess, userId }) => {
             />
           )}
         </div>
-
-        <div className="flex justify-end space-x-3 pt-4 border-t">
+<div className="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-3 pt-4 border-t">
           <Button
             type="button"
             variant="outline"
             onClick={handleClose}
             disabled={loading}
+            className="w-full sm:w-auto min-h-[44px]"
           >
             Cancel
           </Button>
-<Button
+          <Button
             type="submit"
             disabled={loading || loadingContacts}
-            className={loading ? 'opacity-75 cursor-not-allowed' : ''}
+            className={`w-full sm:w-auto min-h-[44px] ${loading ? 'opacity-75 cursor-not-allowed' : ''}`}
           >
             {loading ? (
               <>

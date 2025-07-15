@@ -187,8 +187,8 @@ const MeetingSchedulerModal = ({ isOpen, onClose, onSuccess, userId }) => {
       title="Schedule Meeting"
       size="lg"
     >
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+<form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <FormField
             label="Meeting Title"
             value={formData.title}
@@ -212,8 +212,7 @@ const MeetingSchedulerModal = ({ isOpen, onClose, onSuccess, userId }) => {
             ))}
           </FormField>
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <FormField
             label="Date"
             type="date"
@@ -257,25 +256,27 @@ const MeetingSchedulerModal = ({ isOpen, onClose, onSuccess, userId }) => {
           required={formData.meetingType === 'in-person'}
         />
 
-        <div className="space-y-2">
+<div className="space-y-2">
           <label className="block text-sm font-medium text-gray-700">
             Participants <span className="text-red-500">*</span>
           </label>
-          <div className="border border-gray-300 rounded-md p-3 max-h-40 overflow-y-auto">
+          <div className="border border-gray-300 rounded-md p-3 max-h-40 sm:max-h-48 overflow-y-auto">
             {contacts.length === 0 ? (
               <p className="text-gray-500 text-sm">Loading contacts...</p>
             ) : (
               <div className="space-y-2">
                 {contacts.map(contact => (
-                  <label key={contact.Id} className="flex items-center space-x-2 cursor-pointer hover:bg-gray-50 p-1 rounded">
+                  <label key={contact.Id} className="flex items-center space-x-3 cursor-pointer hover:bg-gray-50 p-2 rounded min-h-[44px] transition-colors">
                     <input
                       type="checkbox"
                       checked={formData.participants.includes(contact.Id)}
                       onChange={() => handleParticipantChange(contact.Id)}
-                      className="rounded border-gray-300 text-primary focus:ring-primary"
+                      className="rounded border-gray-300 text-primary focus:ring-primary w-4 h-4 flex-shrink-0"
                     />
-                    <span className="text-sm font-medium text-gray-700">{contact.name}</span>
-                    <span className="text-xs text-gray-500">({contact.email})</span>
+                    <div className="flex-1 min-w-0">
+                      <span className="text-sm font-medium text-gray-700 block truncate">{contact.name}</span>
+                      <span className="text-xs text-gray-500 block truncate">({contact.email})</span>
+                    </div>
                   </label>
                 ))}
               </div>
@@ -297,19 +298,20 @@ const MeetingSchedulerModal = ({ isOpen, onClose, onSuccess, userId }) => {
           className="min-h-[100px]"
         />
 
-        <div className="flex items-center justify-end space-x-3 pt-4 border-t">
+<div className="flex flex-col sm:flex-row items-center justify-end space-y-2 sm:space-y-0 sm:space-x-3 pt-4 border-t">
           <Button
             type="button"
             variant="secondary"
             onClick={handleClose}
             disabled={loading}
+            className="w-full sm:w-auto min-h-[44px]"
           >
             Cancel
           </Button>
           <Button
             type="submit"
             disabled={loading}
-            className="min-w-[120px]"
+            className="w-full sm:w-auto min-w-[120px] min-h-[44px]"
           >
             {loading ? (
               <>

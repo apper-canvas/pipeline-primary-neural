@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import ApperIcon from "@/components/ApperIcon";
+import DealModal from "@/components/organisms/DealModal";
 import CallLogModal from "@/components/organisms/CallLogModal";
 import ActivityTimeline from "@/components/organisms/ActivityTimeline";
 import MeetingSchedulerModal from "@/components/organisms/MeetingSchedulerModal";
@@ -16,6 +17,7 @@ import dealsData from "@/services/mockData/deals.json";
 import leadsData from "@/services/mockData/leads.json";
 import contactsData from "@/services/mockData/contacts.json";
 import activitiesData from "@/services/mockData/activities.json";
+import { contactService } from "@/services/api/contactService";
 import { activityService } from "@/services/api/activityService";
 import { dealService } from "@/services/api/dealService";
 const Dashboard = () => {
@@ -25,13 +27,17 @@ const Dashboard = () => {
   const canViewAllDeals = () => {
     return user?.role === 'admin' || user?.role === 'manager';
   };
-  const [deals, setDeals] = useState([]);
+const [deals, setDeals] = useState([]);
   const [activities, setActivities] = useState([]);
+  const [contacts, setContacts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [contactsLoading, setContactsLoading] = useState(false);
   const [error, setError] = useState("");
-const [isCallLogModalOpen, setIsCallLogModalOpen] = useState(false);
+  const [isCallLogModalOpen, setIsCallLogModalOpen] = useState(false);
   const [isMeetingSchedulerModalOpen, setIsMeetingSchedulerModalOpen] = useState(false);
-const loadData = async () => {
+  const [isDealModalOpen, setIsDealModalOpen] = useState(false);
+  
+  const loadData = async () => {
     try {
       setLoading(true);
       setError("");
@@ -41,13 +47,15 @@ if (!user) {
         return;
       }
       
-      const [dealsData, activitiesData] = await Promise.all([
+const [dealsData, activitiesData, contactsData] = await Promise.all([
         dealService.getAll(),
-        activityService.getAll()
+        activityService.getAll(),
+        contactService.getAll()
       ]);
       
       setDeals(dealsData);
       setActivities(activitiesData.slice(0, 10)); // Show only latest 10 activities
+      setContacts(contactsData);
     } catch (err) {
       setError("Failed to load dashboard data");
     } finally {
@@ -121,7 +129,22 @@ if (!user) {
     }).format(value);
   };
 
-return (
+const handleDealSave = async (dealData) => {
+    try {
+      const newDeal = await dealService.create(dealData);
+      if (newDeal) {
+        // Refresh dashboard data after successful deal creation
+        loadData();
+        setIsDealModalOpen(false);
+        toast.success('Deal created successfully!');
+      }
+    } catch (error) {
+      console.error('Error creating deal:', error);
+      toast.error('Failed to create deal. Please try again.');
+    }
+  };
+
+  return (
     <div className="p-6 space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
@@ -255,15 +278,12 @@ return (
         </CardHeader>
 <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4">
-            <button 
-              onClick={() => {
-                navigate('/pipeline');
-                toast.success('Redirecting to Pipeline to add new deal');
-              }}
+<button 
+              onClick={() => setIsDealModalOpen(true)}
               className="flex flex-col items-center p-4 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-lg border-2 border-dashed border-primary/20 hover:border-primary/40 transition-all duration-200 group min-h-[100px] justify-center"
             >
               <ApperIcon name="Plus" size={24} className="text-primary mb-2 group-hover:scale-110 transition-transform" />
-<span className="text-sm font-medium text-gray-700 text-center">Add Deal</span>
+              <span className="text-sm font-medium text-gray-700 text-center">Add Deal</span>
             </button>
             <button 
               onClick={() => {
@@ -348,6 +368,14 @@ return (
         onClose={() => setIsMeetingSchedulerModalOpen(false)}
         onSuccess={loadData}
         userId={user?.userId}
+/>
+
+      {/* Deal Modal */}
+      <DealModal
+        isOpen={isDealModalOpen}
+        onClose={() => setIsDealModalOpen(false)}
+        onSave={handleDealSave}
+        contacts={contacts}
       />
     </div>
   );

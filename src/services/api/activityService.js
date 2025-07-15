@@ -73,7 +73,11 @@ async create(activityData) {
       duration: activityData.duration || null,
       meetingType: activityData.meetingType || null,
       calendarEventId: activityData.calendarEventId || null,
-      invitationsSent: activityData.invitationsSent || false
+      invitationsSent: activityData.invitationsSent || false,
+      // Support for email follow-up fields
+      emailFollowUpId: activityData.emailFollowUpId || null,
+      followUpPriority: activityData.followUpPriority || null,
+      followUpTemplate: activityData.followUpTemplate || null
     };
     
     this.activities.push(newActivity);
@@ -107,8 +111,122 @@ async create(activityData) {
     }
     
     this.activities.splice(index, 1);
+this.activities.splice(index, 1);
+    return true;
+  }
+
+  // Email Follow-up Management
+  constructor() {
+    this.activities = [...mockActivities];
+    this.emailFollowUps = []; // Store email follow-ups separately
+  }
+
+  async createEmailFollowUp(followUpData) {
+    await new Promise(resolve => setTimeout(resolve, 300));
+    
+    const newFollowUp = {
+      ...followUpData,
+      Id: Math.max(...this.emailFollowUps.map(f => f.Id), 0) + 1,
+      createdDate: new Date().toISOString(),
+      status: followUpData.status || "scheduled"
+    };
+    
+    this.emailFollowUps.push(newFollowUp);
+    
+    // Create activity record for the follow-up
+    const activityData = {
+      type: "email_followup",
+      dealId: followUpData.dealId,
+      description: `Email follow-up scheduled: ${followUpData.subject}`,
+      emailFollowUpId: newFollowUp.Id,
+      followUpPriority: followUpData.priority,
+      followUpTemplate: followUpData.template
+    };
+    
+    await this.create(activityData);
+    return { ...newFollowUp };
+  }
+
+  async getFollowUpsByDeal(dealId) {
+    await new Promise(resolve => setTimeout(resolve, 200));
+    
+    const followUps = this.emailFollowUps.filter(f => f.dealId === parseInt(dealId));
+    
+    // Update overdue status
+    const now = new Date();
+    followUps.forEach(followUp => {
+      if (followUp.status === "scheduled" && new Date(followUp.scheduledDate) < now) {
+        followUp.status = "overdue";
+      }
+    });
+    
+    return followUps.sort((a, b) => new Date(b.scheduledDate) - new Date(a.scheduledDate));
+  }
+
+  async updateFollowUpStatus(followUpId, status) {
+    await new Promise(resolve => setTimeout(resolve, 200));
+    
+    const followUp = this.emailFollowUps.find(f => f.Id === parseInt(followUpId));
+    if (!followUp) {
+      throw new Error("Follow-up not found");
+    }
+    
+    followUp.status = status;
+    
+    if (status === "sent") {
+      // Create activity record when follow-up is sent
+      const activityData = {
+        type: "email",
+        dealId: followUp.dealId,
+        description: `Email follow-up sent: ${followUp.subject}`,
+        emailFollowUpId: followUp.Id
+      };
+      
+      await this.create(activityData);
+    }
+    
+    return { ...followUp };
+  }
+
+  async getAllFollowUps() {
+    await new Promise(resolve => setTimeout(resolve, 200));
+    
+    // Update overdue status
+    const now = new Date();
+    this.emailFollowUps.forEach(followUp => {
+      if (followUp.status === "scheduled" && new Date(followUp.scheduledDate) < now) {
+        followUp.status = "overdue";
+      }
+    });
+    
+    return [...this.emailFollowUps];
+  }
+
+  async getOverdueFollowUps() {
+    await new Promise(resolve => setTimeout(resolve, 200));
+    
+    const now = new Date();
+    const overdueFollowUps = this.emailFollowUps.filter(followUp => 
+      followUp.status === "scheduled" && new Date(followUp.scheduledDate) < now
+    );
+    
+    // Update their status to overdue
+    overdueFollowUps.forEach(followUp => {
+      followUp.status = "overdue";
+    });
+    
+    return overdueFollowUps;
+  }
+
+  async deleteFollowUp(followUpId) {
+    await new Promise(resolve => setTimeout(resolve, 200));
+    
+    const index = this.emailFollowUps.findIndex(f => f.Id === parseInt(followUpId));
+    if (index === -1) {
+      throw new Error("Follow-up not found");
+    }
+    
+    this.emailFollowUps.splice(index, 1);
     return true;
   }
 }
-
-export const activityService = new ActivityService();

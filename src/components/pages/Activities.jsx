@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/atoms/Card";
-import Button from "@/components/atoms/Button";
-import Badge from "@/components/atoms/Badge";
-import Loading from "@/components/ui/Loading";
-import Error from "@/components/ui/Error";
-import Empty from "@/components/ui/Empty";
+import React, { useEffect, useState } from "react";
+import { format } from "date-fns";
 import ApperIcon from "@/components/ApperIcon";
+import Badge from "@/components/atoms/Badge";
+import Button from "@/components/atoms/Button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/atoms/Card";
+import Empty from "@/components/ui/Empty";
+import Error from "@/components/ui/Error";
+import Loading from "@/components/ui/Loading";
+import EmailFollowUpModal from "@/components/modals/EmailFollowUpModal";
 import { activityService } from "@/services/api/activityService";
 import { dealService } from "@/services/api/dealService";
-import { format } from "date-fns";
 
 const Activities = () => {
   const [activities, setActivities] = useState([]);
@@ -18,7 +19,7 @@ const Activities = () => {
   const [error, setError] = useState("");
   const [filterType, setFilterType] = useState("all");
   const [sortOrder, setSortOrder] = useState("desc");
-
+  const [emailFollowUpModal, setEmailFollowUpModal] = useState({ isOpen: false, dealId: null });
   const loadData = async () => {
     try {
       setLoading(true);
@@ -87,14 +88,23 @@ const Activities = () => {
     return colors[type] || "default";
   };
 
-  const activityTypes = [
+const activityTypes = [
     { value: "all", label: "All Activities" },
     { value: "call", label: "Calls" },
     { value: "email", label: "Emails" },
     { value: "meeting", label: "Meetings" },
     { value: "note", label: "Notes" },
-    { value: "task", label: "Tasks" }
+    { value: "task", label: "Tasks" },
+    { value: "email_followup", label: "Email Follow-ups" }
   ];
+
+  const handleScheduleFollowUp = (dealId) => {
+    setEmailFollowUpModal({ isOpen: true, dealId });
+  };
+
+  const handleFollowUpScheduled = () => {
+    loadData();
+  };
 
   if (loading) {
     return (
@@ -112,7 +122,7 @@ const Activities = () => {
     );
   }
 
-  return (
+return (
     <div className="p-6 space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -122,8 +132,14 @@ const Activities = () => {
           </h1>
           <p className="text-gray-600 mt-2">Track all your sales activities and interactions</p>
         </div>
+        <Button
+          onClick={() => handleScheduleFollowUp(null)}
+          className="whitespace-nowrap"
+        >
+          <ApperIcon name="Send" size={16} className="mr-2" />
+          Schedule Follow-up
+        </Button>
       </div>
-
       {/* Filters */}
       <Card>
         <CardContent className="p-4">
@@ -179,11 +195,12 @@ const Activities = () => {
             <Card key={activity.Id} className="hover:shadow-md transition-shadow duration-200">
               <CardContent className="p-6">
                 <div className="flex items-start space-x-4">
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+<div className={`w-10 h-10 rounded-full flex items-center justify-center ${
                     activity.type === "call" ? "bg-blue-100 text-blue-600" :
                     activity.type === "email" ? "bg-green-100 text-green-600" :
                     activity.type === "meeting" ? "bg-purple-100 text-purple-600" :
                     activity.type === "note" ? "bg-yellow-100 text-yellow-600" :
+                    activity.type === "email_followup" ? "bg-indigo-100 text-indigo-600" :
                     "bg-red-100 text-red-600"
                   }`}>
                     <ApperIcon name={getActivityIcon(activity.type)} size={20} />
@@ -203,10 +220,22 @@ const Activities = () => {
                         {format(new Date(activity.timestamp), "MMM d, yyyy 'at' h:mm a")}
                       </span>
                     </div>
-                    
-                    <p className="text-gray-900 leading-relaxed">
+<p className="text-gray-900 leading-relaxed">
                       {activity.description}
                     </p>
+                    
+                    {(activity.type === "call" || activity.type === "meeting") && (
+                      <div className="mt-3">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => handleScheduleFollowUp(activity.dealId)}
+                        >
+                          <ApperIcon name="Send" size={14} className="mr-1" />
+                          Schedule Email Follow-up
+                        </Button>
+                      </div>
+                    )}
                   </div>
                 </div>
               </CardContent>
@@ -247,8 +276,15 @@ const Activities = () => {
               })}
             </div>
           </CardContent>
-        </Card>
+</Card>
       )}
+      
+      <EmailFollowUpModal
+        isOpen={emailFollowUpModal.isOpen}
+        onClose={() => setEmailFollowUpModal({ isOpen: false, dealId: null })}
+        dealId={emailFollowUpModal.dealId}
+        onFollowUpScheduled={handleFollowUpScheduled}
+      />
     </div>
   );
 };

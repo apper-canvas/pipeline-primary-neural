@@ -277,9 +277,11 @@ const handleSaveContact = async (contactData) => {
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-900">{contact.company}</div>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
+<td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-900">{contact.email}</div>
-                          <div className="text-sm text-gray-500">{contact.phone}</div>
+                          <div className="text-sm text-gray-500 capitalize">
+                            {contact.phone ? `${contact.phone} contact` : 'No contact type'}
+                          </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-900">{contactDeals.length}</div>

@@ -1,7 +1,7 @@
-import React from "react";
-import { Route, Router, Routes } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
-import { UserProvider } from "@/context/UserContext";
+import React from 'react'
+import { Route, BrowserRouter, Routes } from "react-router-dom";
+import { ToastContainer } from 'react-toastify'
+import { UserProvider } from '@/context/UserContext'
 import Header from "@/components/organisms/Header";
 import Contacts from "@/components/pages/Contacts";
 import Pipeline from "@/components/pages/Pipeline";
@@ -9,9 +9,9 @@ import Dashboard from "@/components/pages/Dashboard";
 import Activities from "@/components/pages/Activities";
 
 function App() {
-  return (
+return (
     <UserProvider>
-      <Router>
+      <BrowserRouter>
         <div className="min-h-screen bg-gray-50">
           <Header />
           <main>
@@ -34,9 +34,9 @@ function App() {
             pauseOnHover
           />
         </div>
-      </Router>
+      </BrowserRouter>
     </UserProvider>
-);
+  )
 }
 
 export default App;

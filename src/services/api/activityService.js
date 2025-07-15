@@ -64,7 +64,16 @@ async create(activityData) {
       callType: activityData.callType || null,
       followUpStatus: activityData.followUpStatus || null,
       followUpDate: activityData.followUpDate || null,
-      notes: activityData.notes || null
+      notes: activityData.notes || null,
+      // Support for meeting scheduler fields
+      title: activityData.title || null,
+      participants: activityData.participants || [],
+      location: activityData.location || null,
+      agenda: activityData.agenda || null,
+      duration: activityData.duration || null,
+      meetingType: activityData.meetingType || null,
+      calendarEventId: activityData.calendarEventId || null,
+      invitationsSent: activityData.invitationsSent || false
     };
     
     this.activities.push(newActivity);

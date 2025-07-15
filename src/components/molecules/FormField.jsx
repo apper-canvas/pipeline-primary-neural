@@ -21,7 +21,7 @@ const FormField = ({
       return <Select {...props} />;
     }
 
-    if (type === "textarea") {
+if (type === "textarea") {
       return (
         <textarea
           className={cn(
@@ -29,6 +29,16 @@ const FormField = ({
             error && "border-error focus:ring-error"
           )}
           {...props}
+        />
+      );
+    }
+
+    if (type === "date" || type === "time" || type === "datetime-local") {
+      return (
+        <Input 
+          type={type} 
+          className={error && "border-error focus:ring-error"} 
+          {...props} 
         />
       );
     }

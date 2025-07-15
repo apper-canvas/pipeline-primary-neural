@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import StatCard from "@/components/molecules/StatCard";
 import ActivityTimeline from "@/components/organisms/ActivityTimeline";
 import CallLogModal from "@/components/organisms/CallLogModal";
+import MeetingSchedulerModal from "@/components/organisms/MeetingSchedulerModal";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/atoms/Card";
 import Loading from "@/components/ui/Loading";
 import Error from "@/components/ui/Error";
@@ -19,7 +20,8 @@ const Dashboard = () => {
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [isCallLogModalOpen, setIsCallLogModalOpen] = useState(false);
+const [isCallLogModalOpen, setIsCallLogModalOpen] = useState(false);
+  const [isMeetingSchedulerModalOpen, setIsMeetingSchedulerModalOpen] = useState(false);
 const loadData = async () => {
     try {
       setLoading(true);
@@ -272,23 +274,7 @@ return (
               <span className="text-sm font-medium text-gray-700">Log Call</span>
             </button>
             <button 
-              onClick={async () => {
-                try {
-                  await activityService.create({
-                    type: 'meeting',
-                    description: 'Meeting scheduled from dashboard',
-                    dealId: deals.length > 0 ? deals[0].Id : null,
-                    contactId: null,
-                    userId: user.Id,
-                    scheduledDate: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(), // Tomorrow
-                    outcome: 'scheduled'
-                  });
-                  toast.success('Meeting scheduled successfully');
-                  loadData(); // Refresh activities
-                } catch (error) {
-                  toast.error('Failed to schedule meeting: ' + error.message);
-                }
-              }}
+              onClick={() => setIsMeetingSchedulerModalOpen(true)}
               className="flex flex-col items-center p-4 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-lg border-2 border-dashed border-primary/20 hover:border-primary/40 transition-all duration-200 group"
             >
               <ApperIcon name="Calendar" size={24} className="text-primary mb-2 group-hover:scale-110 transition-transform" />
@@ -339,10 +325,18 @@ return (
 </CardContent>
       </Card>
 
-      {/* Call Log Modal */}
+{/* Call Log Modal */}
       <CallLogModal
         isOpen={isCallLogModalOpen}
         onClose={() => setIsCallLogModalOpen(false)}
+        onSuccess={loadData}
+        userId={user?.Id}
+      />
+
+      {/* Meeting Scheduler Modal */}
+      <MeetingSchedulerModal
+        isOpen={isMeetingSchedulerModalOpen}
+        onClose={() => setIsMeetingSchedulerModalOpen(false)}
         onSuccess={loadData}
         userId={user?.Id}
       />

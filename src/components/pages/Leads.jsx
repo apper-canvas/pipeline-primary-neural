@@ -65,17 +65,13 @@ const Leads = () => {
     }
   };
 
-  const handleSaveLead = async (leadData) => {
-    try {
-      if (selectedLead) {
-        const updatedLead = await leadService.update(selectedLead.Id, leadData);
-        setLeads(prev => prev.map(l => l.Id === selectedLead.Id ? updatedLead : l));
-      } else {
-        const newLead = await leadService.create(leadData);
-        setLeads(prev => [newLead, ...prev]);
-      }
-    } catch (error) {
-      throw error;
+const handleSaveLead = async (leadData) => {
+    if (selectedLead) {
+      const updatedLead = await leadService.update(selectedLead.Id, leadData);
+      setLeads(prev => prev.map(l => l.Id === selectedLead.Id ? updatedLead : l));
+    } else {
+      const newLead = await leadService.create(leadData);
+      setLeads(prev => [newLead, ...prev]);
     }
   };
 

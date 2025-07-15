@@ -111,14 +111,17 @@ const ContactModal = ({ isOpen, onClose, contact, onSave }) => {
             error={errors.email}
           />
 
-          <FormField
-            label="Phone Number"
-            type="tel"
-            placeholder="Enter phone number"
+<FormField
+            label="Contact Type"
+            type="select"
             value={formData.phone}
             onChange={(e) => handleChange("phone", e.target.value)}
             error={errors.phone}
-          />
+          >
+            <option value="">Select contact type</option>
+            <option value="office">Office</option>
+            <option value="personal">Personal</option>
+          </FormField>
 
           <FormField
             label="Company"

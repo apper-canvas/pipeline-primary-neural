@@ -88,9 +88,9 @@ const DealCard = ({ deal, onClick, onDragStart, onDragEnd, isDragging }) => {
           )}
 
           <div className="flex items-center justify-between pt-2 border-t border-gray-100">
-            <div className="flex items-center text-xs text-gray-500">
+<div className="flex items-center text-xs text-gray-500">
               <ApperIcon name="User" size={12} className="mr-1" />
-              <span>Contact ID: {deal.contactId}</span>
+              <span>Contact: {deal.contactId?.Name || deal.contactId || 'No contact'}</span>
             </div>
             <div className="flex items-center space-x-1">
               <ApperIcon name="MoreHorizontal" size={14} className="text-gray-400" />

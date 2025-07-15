@@ -1,8 +1,13 @@
 import mockActivities from "@/services/mockData/activities.json";
+import { userService } from "@/services/api/userService";
 
 class ActivityService {
+  constructor() {
+    this.activities = [...mockActivities];
+    this.emailFollowUps = [];
+  }
 
-async getAll(userId = null) {
+  async getAll(userId = null) {
     // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 200));
     
@@ -111,11 +116,6 @@ this.activities.splice(index, 1);
   }
 
   // Email Follow-up Management
-  constructor() {
-    this.activities = [...mockActivities];
-    this.emailFollowUps = []; // Store email follow-ups separately
-  }
-
   async createEmailFollowUp(followUpData) {
     await new Promise(resolve => setTimeout(resolve, 300));
     
@@ -142,10 +142,12 @@ this.activities.splice(index, 1);
     return { ...newFollowUp };
   }
 
-  async getFollowUpsByDeal(dealId) {
+async getFollowUpsByDeal(dealId) {
     await new Promise(resolve => setTimeout(resolve, 200));
     
-    const followUps = this.emailFollowUps.filter(f => f.dealId === parseInt(dealId));
+    const followUps = this.emailFollowUps.filter(followUp => 
+      followUp.dealId === parseInt(dealId)
+    );
     
     // Update overdue status
     const now = new Date();
@@ -157,7 +159,6 @@ this.activities.splice(index, 1);
     
     return followUps.sort((a, b) => new Date(b.scheduledDate) - new Date(a.scheduledDate));
   }
-
   async updateFollowUpStatus(followUpId, status) {
     await new Promise(resolve => setTimeout(resolve, 200));
     
@@ -216,8 +217,8 @@ this.activities.splice(index, 1);
   async deleteFollowUp(followUpId) {
     await new Promise(resolve => setTimeout(resolve, 200));
     
-    const index = this.emailFollowUps.findIndex(f => f.Id === parseInt(followUpId));
-if (index === -1) {
+const index = this.emailFollowUps.findIndex(f => f.Id === parseInt(followUpId));
+    if (index === -1) {
       throw new Error("Follow-up not found");
     }
     
@@ -228,4 +229,5 @@ if (index === -1) {
 
 // Create and export service instance
 const activityService = new ActivityService();
+export { activityService };
 export default activityService;

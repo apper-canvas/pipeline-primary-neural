@@ -8,7 +8,7 @@ import Empty from "@/components/ui/Empty";
 import Error from '@/components/ui/Error'
 import Loading from '@/components/ui/Loading'
 import EmailFollowUpModal from '@/components/organisms/EmailFollowUpModal'
-import activityService from '@/services/api/activityService'
+import { activityService } from '@/services/api/activityService'
 import { dealService } from '@/services/api/dealService'
 
 function Activities() {

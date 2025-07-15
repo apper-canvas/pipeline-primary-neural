@@ -1,21 +1,30 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import StatCard from "@/components/molecules/StatCard";
-import ActivityTimeline from "@/components/organisms/ActivityTimeline";
-import CallLogModal from "@/components/organisms/CallLogModal";
-import MeetingSchedulerModal from "@/components/organisms/MeetingSchedulerModal";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/atoms/Card";
-import Loading from "@/components/ui/Loading";
-import Error from "@/components/ui/Error";
-import Empty from "@/components/ui/Empty";
+import { useSelector } from "react-redux";
 import ApperIcon from "@/components/ApperIcon";
-import { dealService } from "@/services/api/dealService";
+import CallLogModal from "@/components/organisms/CallLogModal";
+import ActivityTimeline from "@/components/organisms/ActivityTimeline";
+import MeetingSchedulerModal from "@/components/organisms/MeetingSchedulerModal";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/atoms/Card";
+import Empty from "@/components/ui/Empty";
+import Error from "@/components/ui/Error";
+import Loading from "@/components/ui/Loading";
+import Pipeline from "@/components/pages/Pipeline";
+import StatCard from "@/components/molecules/StatCard";
+import dealsData from "@/services/mockData/deals.json";
+import leadsData from "@/services/mockData/leads.json";
+import contactsData from "@/services/mockData/contacts.json";
+import activitiesData from "@/services/mockData/activities.json";
 import { activityService } from "@/services/api/activityService";
-import { useUser } from "@/context/UserContext";
+import { dealService } from "@/services/api/dealService";
 const Dashboard = () => {
   const navigate = useNavigate();
-  const { user, isAuthenticated, canViewAllDeals } = useUser();
+  const { user, isAuthenticated } = useSelector((state) => state.user);
+  
+  const canViewAllDeals = () => {
+    return user?.role === 'admin' || user?.role === 'manager';
+  };
   const [deals, setDeals] = useState([]);
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -27,14 +36,14 @@ const loadData = async () => {
       setLoading(true);
       setError("");
       
-      if (!user) {
+if (!user) {
         setError("User not authenticated");
         return;
       }
       
       const [dealsData, activitiesData] = await Promise.all([
-        dealService.getAll(user.Id),
-        activityService.getAll(user.Id)
+        dealService.getAll(),
+        activityService.getAll()
       ]);
       
       setDeals(dealsData);
@@ -118,7 +127,7 @@ return (
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-            {user?.name ? `Welcome back, ${user.name.split(' ')[0]}!` : 'Sales Dashboard'}
+{user?.firstName ? `Welcome back, ${user.firstName}!` : 'Sales Dashboard'}
           </h1>
           <p className="text-gray-600 mt-2">
             {canViewAllDeals() 
@@ -128,13 +137,13 @@ return (
         </div>
         <div className="flex items-center space-x-3">
           <div className="text-right">
-            <p className="text-sm font-medium text-gray-900">{user?.name}</p>
-            <p className="text-xs text-gray-500 capitalize">{user?.role?.replace('_', ' ')}</p>
+<p className="text-sm font-medium text-gray-900">{user?.firstName} {user?.lastName}</p>
+            <p className="text-xs text-gray-500">{user?.emailAddress}</p>
           </div>
-          {user?.avatar && (
+{user?.profilePicture && (
             <img 
-              src={user.avatar} 
-              alt={user.name}
+              src={user.profilePicture} 
+              alt={user.firstName}
               className="w-10 h-10 rounded-full object-cover border-2 border-primary/20"
             />
           )}
@@ -330,7 +339,7 @@ return (
         isOpen={isCallLogModalOpen}
         onClose={() => setIsCallLogModalOpen(false)}
         onSuccess={loadData}
-        userId={user?.Id}
+        userId={user?.userId}
       />
 
       {/* Meeting Scheduler Modal */}
@@ -338,7 +347,7 @@ return (
         isOpen={isMeetingSchedulerModalOpen}
         onClose={() => setIsMeetingSchedulerModalOpen(false)}
         onSuccess={loadData}
-        userId={user?.Id}
+        userId={user?.userId}
       />
     </div>
   );

@@ -1,13 +1,18 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { AuthContext } from "@/App";
 import ApperIcon from "@/components/ApperIcon";
-import SearchBar from "@/components/molecules/SearchBar";
 import Button from "@/components/atoms/Button";
+import Pipeline from "@/components/pages/Pipeline";
+import SearchBar from "@/components/molecules/SearchBar";
 
 const Header = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const { logout } = useContext(AuthContext);
+  const { user } = useSelector((state) => state.user);
 
 const navigationItems = [
     { name: "Dashboard", path: "/", icon: "LayoutDashboard" },
@@ -57,14 +62,39 @@ const navigationItems = [
               </Link>
             ))}
           </nav>
-
-          {/* Search Bar */}
+{/* Search Bar */}
           <div className="hidden md:block flex-1 max-w-md mx-8">
             <SearchBar
               placeholder="Search deals, contacts..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
+          </div>
+
+          {/* User Menu */}
+          <div className="hidden md:flex items-center space-x-4">
+            <div className="flex items-center space-x-3">
+              <div className="text-right">
+                <p className="text-sm font-medium text-gray-900">{user?.firstName} {user?.lastName}</p>
+                <p className="text-xs text-gray-500">{user?.emailAddress}</p>
+              </div>
+              {user?.profilePicture && (
+                <img 
+                  src={user.profilePicture} 
+                  alt={user.firstName}
+                  className="w-8 h-8 rounded-full object-cover border-2 border-primary/20"
+                />
+              )}
+            </div>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={logout}
+              className="text-gray-700 hover:text-red-600"
+            >
+              <ApperIcon name="LogOut" size={16} className="mr-2" />
+              Logout
+            </Button>
           </div>
 
           {/* Mobile menu button */}
@@ -77,7 +107,7 @@ const navigationItems = [
             >
               <ApperIcon name={isMobileMenuOpen ? "X" : "Menu"} size={20} />
             </Button>
-          </div>
+</div>
         </div>
 
         {/* Mobile Navigation */}
@@ -100,12 +130,23 @@ const navigationItems = [
                 </Link>
               ))}
             </div>
-            <div className="mt-4 px-3">
+<div className="mt-4 px-3">
               <SearchBar
                 placeholder="Search deals, contacts..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
+            </div>
+            <div className="mt-4 px-3 pt-4 border-t border-gray-200">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={logout}
+                className="w-full text-left justify-start text-gray-700 hover:text-red-600"
+              >
+                <ApperIcon name="LogOut" size={16} className="mr-2" />
+                Logout
+              </Button>
             </div>
           </div>
         )}

@@ -52,10 +52,10 @@ const Contacts = () => {
 
     // Search filter
     if (searchQuery) {
-      filtered = filtered.filter(contact =>
-        contact.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        contact.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        contact.company.toLowerCase().includes(searchQuery.toLowerCase())
+filtered = filtered.filter(contact =>
+        contact.Name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        contact.email?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        contact.company?.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
 
@@ -98,13 +98,22 @@ const Contacts = () => {
     setIsContactModalOpen(true);
   };
 
-  const handleSaveContact = async (contactData) => {
-    if (selectedContact) {
-      const updatedContact = await contactService.update(selectedContact.Id, contactData);
-      setContacts(prev => prev.map(c => c.Id === selectedContact.Id ? updatedContact : c));
-    } else {
-      const newContact = await contactService.create(contactData);
-      setContacts(prev => [...prev, newContact]);
+const handleSaveContact = async (contactData) => {
+    try {
+      if (selectedContact) {
+        const updatedContact = await contactService.update(selectedContact.Id, contactData);
+        if (updatedContact) {
+          setContacts(prev => prev.map(c => c.Id === selectedContact.Id ? updatedContact : c));
+        }
+      } else {
+        const newContact = await contactService.create(contactData);
+        if (newContact) {
+          setContacts(prev => [...prev, newContact]);
+        }
+      }
+      setIsContactModalOpen(false);
+    } catch (error) {
+      console.error('Error saving contact:', error);
     }
   };
 
@@ -253,14 +262,14 @@ const Contacts = () => {
                       <tr key={contact.Id} className="hover:bg-gray-50">
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center">
-                            <div className="w-10 h-10 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full flex items-center justify-center">
+<div className="w-10 h-10 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full flex items-center justify-center">
                               <span className="text-sm font-medium text-primary">
-                                {contact.name.charAt(0).toUpperCase()}
+                                {contact.Name?.charAt(0).toUpperCase()}
                               </span>
                             </div>
                             <div className="ml-4">
                               <div className="text-sm font-medium text-gray-900">
-                                {contact.name}
+                                {contact.Name}
                               </div>
                             </div>
                           </div>
@@ -280,8 +289,8 @@ const Contacts = () => {
                             {formatCurrency(totalValue)}
                           </div>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {format(new Date(contact.createdAt), "MMM d, yyyy")}
+<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          {format(new Date(contact.createdAt || contact.CreatedOn), "MMM d, yyyy")}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                           <div className="flex items-center justify-end space-x-2">

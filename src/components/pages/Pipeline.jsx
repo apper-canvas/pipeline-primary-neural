@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
-import DealCard from "@/components/organisms/DealCard";
-import DealModal from "@/components/organisms/DealModal";
-import FilterBar from "@/components/molecules/FilterBar";
-import Button from "@/components/atoms/Button";
-import Loading from "@/components/ui/Loading";
-import Error from "@/components/ui/Error";
-import Empty from "@/components/ui/Empty";
-import ApperIcon from "@/components/ApperIcon";
-import { dealService } from "@/services/api/dealService";
-import { contactService } from "@/services/api/contactService";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import ApperIcon from "@/components/ApperIcon";
+import DealModal from "@/components/organisms/DealModal";
+import DealCard from "@/components/organisms/DealCard";
+import Button from "@/components/atoms/Button";
+import Empty from "@/components/ui/Empty";
+import Error from "@/components/ui/Error";
+import Loading from "@/components/ui/Loading";
+import FilterBar from "@/components/molecules/FilterBar";
+import { contactService } from "@/services/api/contactService";
+import { dealService } from "@/services/api/dealService";
 
 const Pipeline = () => {
   const [deals, setDeals] = useState([]);
@@ -94,13 +94,22 @@ const Pipeline = () => {
     setIsDealModalOpen(true);
   };
 
-  const handleSaveDeal = async (dealData) => {
-    if (selectedDeal) {
-      const updatedDeal = await dealService.update(selectedDeal.Id, dealData);
-      setDeals(prev => prev.map(d => d.Id === selectedDeal.Id ? updatedDeal : d));
-    } else {
-      const newDeal = await dealService.create(dealData);
-      setDeals(prev => [...prev, newDeal]);
+const handleSaveDeal = async (dealData) => {
+    try {
+      if (selectedDeal) {
+        const updatedDeal = await dealService.update(selectedDeal.Id, dealData);
+        if (updatedDeal) {
+          setDeals(prev => prev.map(d => d.Id === selectedDeal.Id ? updatedDeal : d));
+        }
+      } else {
+        const newDeal = await dealService.create(dealData);
+        if (newDeal) {
+          setDeals(prev => [...prev, newDeal]);
+        }
+      }
+      setIsDealModalOpen(false);
+    } catch (error) {
+      console.error('Error saving deal:', error);
     }
   };
 
@@ -123,19 +132,19 @@ const Pipeline = () => {
       return;
     }
 
-    try {
+try {
       const updatedDeal = await dealService.update(draggedDeal.Id, {
-        ...draggedDeal,
         stage: newStage
       });
       
-      setDeals(prev => prev.map(d => d.Id === draggedDeal.Id ? updatedDeal : d));
-      toast.success(`Deal moved to ${newStage.replace("-", " ")}`);
+      if (updatedDeal) {
+        setDeals(prev => prev.map(d => d.Id === draggedDeal.Id ? updatedDeal : d));
+        toast.success(`Deal moved to ${newStage.replace("-", " ")}`);
+      }
     } catch (err) {
       toast.error("Failed to update deal stage");
     }
   };
-
   const getDealsByStage = (stageId) => {
     return filteredDeals.filter(deal => deal.stage === stageId);
   };

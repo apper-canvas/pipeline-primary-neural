@@ -66,22 +66,30 @@ const Leads = () => {
   };
 
 const handleSaveLead = async (leadData) => {
-    if (selectedLead) {
-      const updatedLead = await leadService.update(selectedLead.Id, leadData);
-      setLeads(prev => prev.map(l => l.Id === selectedLead.Id ? updatedLead : l));
-    } else {
-      const newLead = await leadService.create(leadData);
-      setLeads(prev => [newLead, ...prev]);
+    try {
+      if (selectedLead) {
+        const updatedLead = await leadService.update(selectedLead.Id, leadData);
+        if (updatedLead) {
+          setLeads(prev => prev.map(l => l.Id === selectedLead.Id ? updatedLead : l));
+        }
+      } else {
+        const newLead = await leadService.create(leadData);
+        if (newLead) {
+          setLeads(prev => [newLead, ...prev]);
+        }
+      }
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error('Error saving lead:', error);
     }
   };
 
-  const filteredLeads = leads.filter(lead => {
+const filteredLeads = leads.filter(lead => {
     const matchesSearch = !searchQuery || 
-      lead.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      lead.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      lead.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      lead.phone.includes(searchQuery);
-    
+      lead.Name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      lead.email?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      lead.company?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      lead.phone?.includes(searchQuery);
     const matchesStatus = !selectedStatus || lead.status === selectedStatus;
     const matchesPriority = !selectedPriority || lead.priority === selectedPriority;
     
@@ -317,14 +325,14 @@ const handleSaveLead = async (leadData) => {
                     <tr key={lead.Id} className="hover:bg-gray-50">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
-                          <div className="w-10 h-10 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center">
+<div className="w-10 h-10 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center">
                             <span className="text-white font-medium">
-                              {lead.name.charAt(0).toUpperCase()}
+                              {lead.Name?.charAt(0).toUpperCase()}
                             </span>
                           </div>
                           <div className="ml-4">
                             <div className="text-sm font-medium text-gray-900">
-                              {lead.name}
+                              {lead.Name}
                             </div>
                             <div className="text-sm text-gray-500">
                               {lead.source}

@@ -1,0 +1,107 @@
+[
+  {
+    "Id": 1,
+    "dealId": "1",
+    "type": "call",
+    "description": "Discovery call with Sarah Johnson to discuss enterprise requirements and timeline",
+    "timestamp": "2024-01-30T10:30:00.000Z"
+  },
+  {
+    "Id": 2,
+    "dealId": "2",
+    "type": "email",
+    "description": "Sent detailed proposal document to Michael Chen with pricing and implementation timeline",
+    "timestamp": "2024-01-29T14:15:00.000Z"
+  },
+  {
+    "Id": 3,
+    "dealId": "3",
+    "type": "meeting",
+    "description": "Contract signing meeting with Emily Rodriguez - deal closed successfully",
+    "timestamp": "2024-01-28T11:00:00.000Z"
+  },
+  {
+    "Id": 4,
+    "dealId": "4",
+    "type": "call",
+    "description": "Technical requirements gathering call with David Thompson's team",
+    "timestamp": "2024-01-27T15:45:00.000Z"
+  },
+  {
+    "Id": 5,
+    "dealId": "5",
+    "type": "email",
+    "description": "Initial outreach email to Lisa Park following up on referral from marketing conference",
+    "timestamp": "2024-01-26T09:20:00.000Z"
+  },
+  {
+    "Id": 6,
+    "dealId": "6",
+    "type": "meeting",
+    "description": "Security compliance review meeting with Robert Wilson and legal team",
+    "timestamp": "2024-01-25T13:30:00.000Z"
+  },
+  {
+    "Id": 7,
+    "dealId": "7",
+    "type": "call",
+    "description": "Pricing negotiation call with Amanda Foster - discussing volume discounts",
+    "timestamp": "2024-01-24T16:00:00.000Z"
+  },
+  {
+    "Id": 8,
+    "dealId": "8",
+    "type": "email",
+    "description": "Follow-up email to James Martinez after losing deal - maintaining relationship for future opportunities",
+    "timestamp": "2024-01-23T10:45:00.000Z"
+  },
+  {
+    "Id": 9,
+    "dealId": "9",
+    "type": "meeting",
+    "description": "Product demo session with Jennifer Lee's e-commerce team",
+    "timestamp": "2024-01-22T14:20:00.000Z"
+  },
+  {
+    "Id": 10,
+    "dealId": "10",
+    "type": "call",
+    "description": "Initial qualification call with Daniel Brown to understand integration needs",
+    "timestamp": "2024-01-21T11:15:00.000Z"
+  },
+  {
+    "Id": 11,
+    "dealId": "1",
+    "type": "note",
+    "description": "Added note: CFO approval still pending, following up next week on budget confirmation",
+    "timestamp": "2024-01-20T08:30:00.000Z"
+  },
+  {
+    "Id": 12,
+    "dealId": "2",
+    "type": "task",
+    "description": "Completed technical architecture review for cloud migration proposal",
+    "timestamp": "2024-01-19T17:00:00.000Z"
+  },
+  {
+    "Id": 13,
+    "dealId": "4",
+    "type": "email",
+    "description": "Sent integration timeline and resource requirements to David Thompson",
+    "timestamp": "2024-01-18T12:40:00.000Z"
+  },
+  {
+    "Id": 14,
+    "dealId": "7",
+    "type": "meeting",
+    "description": "Technical deep-dive session with GrowthLabs analytics team",
+    "timestamp": "2024-01-17T15:30:00.000Z"
+  },
+  {
+    "Id": 15,
+    "dealId": "6",
+    "type": "call",
+    "description": "Security audit scope discussion with Robert Wilson",
+    "timestamp": "2024-01-16T09:45:00.000Z"
+  }
+]

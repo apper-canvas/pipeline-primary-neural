@@ -1,0 +1,122 @@
+[
+  {
+    "Id": 1,
+    "title": "Enterprise Software License - TechCorp",
+    "value": 150000,
+    "stage": "negotiation",
+    "probability": 85,
+    "closeDate": "2024-02-15T00:00:00.000Z",
+    "contactId": "1",
+    "notes": "High-priority deal with strong buying signals. CFO approval pending.",
+    "createdAt": "2024-01-10T09:30:00.000Z",
+    "updatedAt": "2024-01-28T14:20:00.000Z"
+  },
+  {
+    "Id": 2,
+    "title": "Cloud Migration Services - StartupXYZ",
+    "value": 75000,
+    "stage": "proposal",
+    "probability": 60,
+    "closeDate": "2024-03-01T00:00:00.000Z",
+    "contactId": "2",
+    "notes": "Proposal submitted. Waiting for technical review and budget approval.",
+    "createdAt": "2024-01-15T11:45:00.000Z",
+    "updatedAt": "2024-01-25T16:30:00.000Z"
+  },
+  {
+    "Id": 3,
+    "title": "Annual Support Contract - MegaCorp",
+    "value": 45000,
+    "stage": "closed-won",
+    "probability": 100,
+    "closeDate": "2024-01-20T00:00:00.000Z",
+    "contactId": "3",
+    "notes": "Contract signed and executed. Great renewal opportunity next year.",
+    "createdAt": "2024-01-08T08:15:00.000Z",
+    "updatedAt": "2024-01-20T10:45:00.000Z"
+  },
+  {
+    "Id": 4,
+    "title": "Custom Integration Project - InnovateInc",
+    "value": 120000,
+    "stage": "qualified",
+    "probability": 40,
+    "closeDate": "2024-04-15T00:00:00.000Z",
+    "contactId": "4",
+    "notes": "Initial requirements gathering complete. Need to schedule demo.",
+    "createdAt": "2024-01-20T13:20:00.000Z",
+    "updatedAt": "2024-01-30T09:10:00.000Z"
+  },
+  {
+    "Id": 5,
+    "title": "Mobile App Development - RetailPlus",
+    "value": 95000,
+    "stage": "new",
+    "probability": 20,
+    "closeDate": "2024-05-01T00:00:00.000Z",
+    "contactId": "5",
+    "notes": "Initial inquiry received. Scheduling discovery call next week.",
+    "createdAt": "2024-01-25T15:30:00.000Z",
+    "updatedAt": "2024-01-25T15:30:00.000Z"
+  },
+  {
+    "Id": 6,
+    "title": "Security Audit Services - FinanceFlow",
+    "value": 35000,
+    "stage": "proposal",
+    "probability": 70,
+    "closeDate": "2024-02-28T00:00:00.000Z",
+    "contactId": "6",
+    "notes": "Proposal well-received. Compliance requirements being reviewed.",
+    "createdAt": "2024-01-12T10:00:00.000Z",
+    "updatedAt": "2024-01-29T12:15:00.000Z"
+  },
+  {
+    "Id": 7,
+    "title": "Data Analytics Platform - GrowthLabs",
+    "value": 85000,
+    "stage": "negotiation",
+    "probability": 75,
+    "closeDate": "2024-03-15T00:00:00.000Z",
+    "contactId": "7",
+    "notes": "Pricing negotiations in progress. Strong technical fit confirmed.",
+    "createdAt": "2024-01-18T14:45:00.000Z",
+    "updatedAt": "2024-01-31T11:30:00.000Z"
+  },
+  {
+    "Id": 8,
+    "title": "Training and Certification - EduTech Solutions",
+    "value": 25000,
+    "stage": "closed-lost",
+    "probability": 0,
+    "closeDate": "2024-01-25T00:00:00.000Z",
+    "contactId": "8",
+    "notes": "Lost to competitor due to pricing. Follow up in Q3 for next opportunity.",
+    "createdAt": "2024-01-05T09:20:00.000Z",
+    "updatedAt": "2024-01-25T17:00:00.000Z"
+  },
+  {
+    "Id": 9,
+    "title": "E-commerce Platform Upgrade - ShopSmart",
+    "value": 110000,
+    "stage": "qualified",
+    "probability": 55,
+    "closeDate": "2024-04-30T00:00:00.000Z",
+    "contactId": "9",
+    "notes": "Technical requirements defined. Preparing detailed proposal.",
+    "createdAt": "2024-01-22T16:10:00.000Z",
+    "updatedAt": "2024-02-01T08:45:00.000Z"
+  },
+  {
+    "Id": 10,
+    "title": "API Integration Services - ConnectCorp",
+    "value": 65000,
+    "stage": "new",
+    "probability": 25,
+    "closeDate": "2024-05-15T00:00:00.000Z",
+    "contactId": "10",
+    "notes": "Warm lead from referral. Initial conversation scheduled for next week.",
+    "createdAt": "2024-01-28T11:55:00.000Z",
+    "updatedAt": "2024-01-28T11:55:00.000Z"
+  }
+]

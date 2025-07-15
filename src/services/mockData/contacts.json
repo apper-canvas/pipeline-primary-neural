@@ -1,0 +1,92 @@
+[
+  {
+    "Id": 1,
+    "name": "Sarah Johnson",
+    "email": "sarah.johnson@techcorp.com",
+    "phone": "+1 (555) 123-4567",
+    "company": "TechCorp Industries",
+    "notes": "CTO at TechCorp. Very technical, prefers detailed demos. Key decision maker for enterprise deals.",
+    "createdAt": "2024-01-05T09:00:00.000Z"
+  },
+  {
+    "Id": 2,
+    "name": "Michael Chen",
+    "email": "mchen@startupxyz.io",
+    "phone": "+1 (555) 234-5678",
+    "company": "StartupXYZ",
+    "notes": "Founder & CEO. Fast-moving startup, budget-conscious but values innovation.",
+    "createdAt": "2024-01-08T14:30:00.000Z"
+  },
+  {
+    "Id": 3,
+    "name": "Emily Rodriguez",
+    "email": "emily.r@megacorp.com",
+    "phone": "+1 (555) 345-6789",
+    "company": "MegaCorp Solutions",
+    "notes": "VP of Operations. Focused on efficiency and ROI. Great long-term relationship potential.",
+    "createdAt": "2024-01-02T11:15:00.000Z"
+  },
+  {
+    "Id": 4,
+    "name": "David Thompson",
+    "email": "dthompson@innovateinc.com",
+    "phone": "+1 (555) 456-7890",
+    "company": "InnovateInc",
+    "notes": "Head of Digital Transformation. Looking for cutting-edge solutions to modernize legacy systems.",
+    "createdAt": "2024-01-12T16:45:00.000Z"
+  },
+  {
+    "Id": 5,
+    "name": "Lisa Park",
+    "email": "lisa.park@retailplus.com",
+    "phone": "+1 (555) 567-8901",
+    "company": "RetailPlus",
+    "notes": "Marketing Director. Needs mobile-first solutions to engage younger demographics.",
+    "createdAt": "2024-01-18T10:20:00.000Z"
+  },
+  {
+    "Id": 6,
+    "name": "Robert Wilson",
+    "email": "rwilson@financeflow.com",
+    "phone": "+1 (555) 678-9012",
+    "company": "FinanceFlow",
+    "notes": "Chief Security Officer. Compliance-focused, needs detailed security documentation.",
+    "createdAt": "2024-01-09T13:30:00.000Z"
+  },
+  {
+    "Id": 7,
+    "name": "Amanda Foster",
+    "email": "afoster@growthlabs.com",
+    "phone": "+1 (555) 789-0123",
+    "company": "GrowthLabs",
+    "notes": "Data Science Lead. Highly analytical, appreciates technical depth and data-driven demos.",
+    "createdAt": "2024-01-15T09:45:00.000Z"
+  },
+  {
+    "Id": 8,
+    "name": "James Martinez",
+    "email": "jmartinez@edutech.com",
+    "phone": "+1 (555) 890-1234",
+    "company": "EduTech Solutions",
+    "notes": "Learning & Development Director. Budget constraints but values quality training programs.",
+    "createdAt": "2024-01-03T15:20:00.000Z"
+  },
+  {
+    "Id": 9,
+    "name": "Jennifer Lee",
+    "email": "jennifer.lee@shopsmart.com",
+    "phone": "+1 (555) 901-2345",
+    "company": "ShopSmart",
+    "notes": "E-commerce Manager. Needs scalable platform for growing online business.",
+    "createdAt": "2024-01-20T12:10:00.000Z"
+  },
+  {
+    "Id": 10,
+    "name": "Daniel Brown",
+    "email": "dbrown@connectcorp.com",
+    "phone": "+1 (555) 012-3456",
+    "company": "ConnectCorp",
+    "notes": "Integration Architect. Technical expert, values clean API design and documentation.",
+    "createdAt": "2024-01-25T08:30:00.000Z"
+  }
+]

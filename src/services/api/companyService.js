@@ -1,10 +1,10 @@
 import { toast } from 'react-toastify';
-import companiesData from '../mockData/companies.json';
+import { toast } from 'react-toastify';
 
 class CompanyService {
   constructor() {
     this.tableName = 'company';
-    this.companies = [...companiesData];
+this.tableName = 'company_c';
   }
 
   // Utility function to simulate API delay
@@ -12,11 +12,15 @@ class CompanyService {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  async getAll() {
+async getAll() {
     try {
-      await this.delay();
+      const { ApperClient } = window.ApperSDK;
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      });
       
-const params = {
+      const params = {
         fields: [
           { field: { Name: "Id" } },
           { field: { Name: "Name_c" } },
@@ -27,20 +31,43 @@ const params = {
           { field: { Name: "Address_c" } },
           { field: { Name: "Description_c" } },
           { field: { Name: "lead_lookup_c" } }
+        ],
+        orderBy: [
+          {
+            fieldName: "Id",
+            sorttype: "DESC"
+          }
         ]
       };
 
-      return [...this.companies];
+      const response = await apperClient.fetchRecords(this.tableName, params);
+      
+      if (!response.success) {
+        console.error(response.message);
+        toast.error(response.message);
+        return [];
+      }
+      
+      return response.data || [];
     } catch (error) {
-      console.error("Error fetching companies:", error);
-      throw new Error("Failed to fetch companies");
+      if (error?.response?.data?.message) {
+        console.error("Error fetching companies:", error?.response?.data?.message);
+      } else {
+        console.error(error.message);
+      }
+      return [];
     }
   }
 
-  async getById(id) {
+async getById(id) {
     try {
-      await this.delay();
-const params = {
+      const { ApperClient } = window.ApperSDK;
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      });
+      
+      const params = {
         fields: [
           { field: { Name: "Id" } },
           { field: { Name: "Name_c" } },
@@ -54,16 +81,22 @@ const params = {
         ]
       };
 
-const company = this.companies.find(c => c.Id === parseInt(id));
+      const response = await apperClient.getRecordById(this.tableName, id, params);
       
-      if (!company) {
-        throw new Error(`Company with ID ${id} not found`);
+      if (!response.success) {
+        console.error(response.message);
+        toast.error(response.message);
+        return null;
       }
       
-      return { ...company };
+      return response.data;
     } catch (error) {
-      console.error(`Error fetching company ${id}:`, error);
-      throw error;
+      if (error?.response?.data?.message) {
+        console.error(`Error fetching company ${id}:`, error?.response?.data?.message);
+      } else {
+        console.error(error.message);
+      }
+      return null;
     }
   }
 

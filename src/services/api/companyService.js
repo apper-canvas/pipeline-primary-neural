@@ -1,9 +1,7 @@
 import { toast } from 'react-toastify';
-import { toast } from 'react-toastify';
 
 class CompanyService {
   constructor() {
-    this.tableName = 'company';
 this.tableName = 'company_c';
   }
 
@@ -100,16 +98,15 @@ async getById(id) {
     }
   }
 
-  async create(companyData) {
+async create(companyData) {
     try {
-      await this.delay();
+      const { ApperClient } = window.ApperSDK;
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      });
       
-      // Validate required fields
-      if (!companyData.name || !companyData.industry || !companyData.email) {
-        throw new Error("Name, industry, and email are required");
-      }
-
-const params = {
+      const params = {
         records: [
           {
             Name_c: companyData.name,
@@ -123,107 +120,153 @@ const params = {
           }
         ]
       };
-
-      const newCompany = {
-        Id: Math.max(...this.companies.map(c => c.Id), 0) + 1,
-        name: companyData.name,
-        industry: companyData.industry,
-        size: companyData.size || "Small",
-        website: companyData.website || "",
-        phone: companyData.phone || "",
-        email: companyData.email,
-        address: companyData.address || "",
-        description: companyData.description || "",
-        foundedYear: companyData.foundedYear || new Date().getFullYear(),
-        revenue: companyData.revenue || 0,
-        employees: companyData.employees || 1,
-        createdAt: new Date().toISOString()
-      };
-
-      this.companies.push(newCompany);
       
-      return { ...newCompany };
+      const response = await apperClient.createRecord(this.tableName, params);
+      
+      if (!response.success) {
+        console.error(response.message);
+        toast.error(response.message);
+        return null;
+      }
+      
+      if (response.results) {
+        const successfulRecords = response.results.filter(result => result.success);
+        const failedRecords = response.results.filter(result => !result.success);
+        
+        if (failedRecords.length > 0) {
+          console.error(`Failed to create ${failedRecords.length} records:${JSON.stringify(failedRecords)}`);
+          failedRecords.forEach(record => {
+            record.errors?.forEach(error => {
+              toast.error(`${error.fieldLabel}: ${error.message}`);
+            });
+            if (record.message) toast.error(record.message);
+          });
+        }
+        
+        if (successfulRecords.length > 0) {
+          toast.success('Company created successfully');
+          return successfulRecords[0].data;
+        }
+      }
+      
+      return null;
     } catch (error) {
-      console.error("Error creating company:", error);
-      throw error;
+      if (error?.response?.data?.message) {
+        console.error("Error creating company:", error?.response?.data?.message);
+      } else {
+        console.error(error.message);
+      }
+      return null;
     }
   }
 
-  async update(id, companyData) {
+async update(id, companyData) {
     try {
-      await this.delay();
+      const { ApperClient } = window.ApperSDK;
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      });
       
-      const companyIndex = this.companies.findIndex(c => c.Id === parseInt(id));
-      
-      if (companyIndex === -1) {
-        throw new Error(`Company with ID ${id} not found`);
-      }
-
-      // Validate required fields
-      if (!companyData.name || !companyData.industry || !companyData.email) {
-        throw new Error("Name, industry, and email are required");
-      }
-
-const params = {
-        records: [
-          {
-            Id: parseInt(id),
-            Name_c: companyData.name,
-            Industry_c: companyData.industry,
-            Website_c: companyData.website || "",
-            Address_c: companyData.address || "",
-            Description_c: companyData.description || "",
-            NumberOfEmployees_c: companyData.employees || 1,
-            AnnualRevenue_c: companyData.revenue || 0,
-            lead_lookup_c: companyData.lead_lookup_c ? parseInt(companyData.lead_lookup_c) : null
-          }
-        ]
+      const updateData = {
+        Id: parseInt(id)
       };
-
-      const updatedCompany = {
-        ...this.companies[companyIndex],
-        name: companyData.name,
-        industry: companyData.industry,
-        size: companyData.size || this.companies[companyIndex].size,
-        website: companyData.website || this.companies[companyIndex].website,
-        phone: companyData.phone || this.companies[companyIndex].phone,
-        email: companyData.email,
-        address: companyData.address || this.companies[companyIndex].address,
-        description: companyData.description || this.companies[companyIndex].description,
-        foundedYear: companyData.foundedYear || this.companies[companyIndex].foundedYear,
-        revenue: companyData.revenue || this.companies[companyIndex].revenue,
-        employees: companyData.employees || this.companies[companyIndex].employees
-      };
-
-      this.companies[companyIndex] = updatedCompany;
       
-      return { ...updatedCompany };
+      // Only include fields that are being updated
+      if (companyData.name !== undefined) updateData.Name_c = companyData.name;
+      if (companyData.industry !== undefined) updateData.Industry_c = companyData.industry;
+      if (companyData.website !== undefined) updateData.Website_c = companyData.website;
+      if (companyData.address !== undefined) updateData.Address_c = companyData.address;
+      if (companyData.description !== undefined) updateData.Description_c = companyData.description;
+      if (companyData.employees !== undefined) updateData.NumberOfEmployees_c = companyData.employees;
+      if (companyData.revenue !== undefined) updateData.AnnualRevenue_c = companyData.revenue;
+      if (companyData.lead_lookup_c !== undefined) updateData.lead_lookup_c = companyData.lead_lookup_c ? parseInt(companyData.lead_lookup_c) : null;
+      
+      const params = {
+        records: [updateData]
+      };
+      
+      const response = await apperClient.updateRecord(this.tableName, params);
+      
+      if (!response.success) {
+        console.error(response.message);
+        toast.error(response.message);
+        return null;
+      }
+      
+      if (response.results) {
+        const successfulUpdates = response.results.filter(result => result.success);
+        const failedUpdates = response.results.filter(result => !result.success);
+        
+        if (failedUpdates.length > 0) {
+          console.error(`Failed to update ${failedUpdates.length} records:${JSON.stringify(failedUpdates)}`);
+          failedUpdates.forEach(record => {
+            record.errors?.forEach(error => {
+              toast.error(`${error.fieldLabel}: ${error.message}`);
+            });
+            if (record.message) toast.error(record.message);
+          });
+        }
+        
+        if (successfulUpdates.length > 0) {
+          toast.success('Company updated successfully');
+          return successfulUpdates[0].data;
+        }
+      }
+      
+      return null;
     } catch (error) {
-      console.error(`Error updating company ${id}:`, error);
-      throw error;
+      if (error?.response?.data?.message) {
+        console.error("Error updating company:", error?.response?.data?.message);
+      } else {
+        console.error(error.message);
+      }
+      return null;
     }
   }
 
-  async delete(id) {
+async delete(id) {
     try {
-      await this.delay();
+      const { ApperClient } = window.ApperSDK;
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      });
       
-      const companyIndex = this.companies.findIndex(c => c.Id === parseInt(id));
-      
-      if (companyIndex === -1) {
-        throw new Error(`Company with ID ${id} not found`);
-      }
-
-      const params = { 
+      const params = {
         RecordIds: [parseInt(id)]
       };
-
-      this.companies.splice(companyIndex, 1);
       
-      return true;
+      const response = await apperClient.deleteRecord(this.tableName, params);
+      
+      if (!response.success) {
+        console.error(response.message);
+        toast.error(response.message);
+        return false;
+      }
+      
+      if (response.results) {
+        const successfulDeletions = response.results.filter(result => result.success);
+        const failedDeletions = response.results.filter(result => !result.success);
+        
+        if (failedDeletions.length > 0) {
+          console.error(`Failed to delete ${failedDeletions.length} records:${JSON.stringify(failedDeletions)}`);
+          failedDeletions.forEach(record => {
+            if (record.message) toast.error(record.message);
+          });
+        }
+        
+        return successfulDeletions.length > 0;
+      }
+      
+      return false;
     } catch (error) {
-      console.error(`Error deleting company ${id}:`, error);
-      throw error;
+      if (error?.response?.data?.message) {
+        console.error("Error deleting company:", error?.response?.data?.message);
+      } else {
+        console.error(error.message);
+      }
+      return false;
     }
   }
 }

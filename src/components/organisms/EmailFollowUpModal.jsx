@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
-import activityService from "@/services/api/activityService";
 import { toast } from "react-toastify";
 import { addDays, format } from "date-fns";
-import ApperIcon from "@/components/ApperIcon";
-import Badge from "@/components/atoms/Badge";
-import Button from "@/components/atoms/Button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/atoms/Card";
-import Modal from "@/components/atoms/Modal";
-import FormField from "@/components/molecules/FormField";
 import { contactService } from "@/services/api/contactService";
 import { dealService } from "@/services/api/dealService";
+import activityService from "@/services/api/activityService";
+import ApperIcon from "@/components/ApperIcon";
+import FormField from "@/components/molecules/FormField";
+import Modal from "@/components/atoms/Modal";
+import Badge from "@/components/atoms/Badge";
+import Button from "@/components/atoms/Button";
+import Card, { CardContent, CardHeader, CardTitle } from "@/components/atoms/Card";
 
 const EmailFollowUpModal = ({ isOpen, onClose, dealId, onFollowUpScheduled }) => {
-  const [formData, setFormData] = useState({
+const [formData, setFormData] = useState({
     subject: "",
     template: "",
     scheduledDate: "",
@@ -24,6 +24,8 @@ const EmailFollowUpModal = ({ isOpen, onClose, dealId, onFollowUpScheduled }) =>
   const [loading, setLoading] = useState(false);
   const [followUps, setFollowUps] = useState([]);
   const [activeTab, setActiveTab] = useState("schedule");
+  const [deals, setDeals] = useState([]);
+  const [selectedDealId, setSelectedDealId] = useState(null);
 
   const emailTemplates = [
     {
@@ -58,32 +60,39 @@ const EmailFollowUpModal = ({ isOpen, onClose, dealId, onFollowUpScheduled }) =>
     { value: "high", label: "High", color: "bg-red-100 text-red-800" }
   ];
 
-  const loadData = async () => {
-    if (!dealId) return;
-    
+const loadData = async () => {
     try {
       setLoading(true);
-      const [dealData, followUpsData] = await Promise.all([
-        dealService.getById(dealId),
-        activityService.getFollowUpsByDeal(dealId)
-      ]);
       
-      setDeal(dealData);
-      setFollowUps(followUpsData);
-      
-      if (dealData.contactId) {
-        const contactData = await contactService.getById(dealData.contactId);
-        setContact(contactData);
+      if (dealId) {
+        // Load specific deal and its follow-ups
+        const [dealData, followUpsData] = await Promise.all([
+          dealService.getById(dealId),
+          activityService.getFollowUpsByDeal(dealId)
+        ]);
+        
+        setDeal(dealData);
+        setFollowUps(followUpsData);
+        setSelectedDealId(dealId);
+        
+        if (dealData.contactId) {
+          const contactData = await contactService.getById(dealData.contactId);
+          setContact(contactData);
+        }
+      } else {
+        // Load all available deals for selection
+        const dealsData = await dealService.getAll();
+        setDeals(dealsData);
       }
     } catch (error) {
-      toast.error("Failed to load deal information");
+      toast.error("Failed to load data");
     } finally {
       setLoading(false);
     }
   };
 
-  useEffect(() => {
-    if (isOpen && dealId) {
+useEffect(() => {
+    if (isOpen) {
       loadData();
       // Set default scheduled date to tomorrow
       const tomorrow = new Date();
@@ -95,6 +104,31 @@ const EmailFollowUpModal = ({ isOpen, onClose, dealId, onFollowUpScheduled }) =>
     }
   }, [isOpen, dealId]);
 
+const handleDealSelect = async (selectedDealId) => {
+    if (!selectedDealId) return;
+    
+    try {
+      setLoading(true);
+      const [selectedDeal, followUpsData] = await Promise.all([
+        dealService.getById(selectedDealId),
+        activityService.getFollowUpsByDeal(selectedDealId)
+      ]);
+      
+      setDeal(selectedDeal);
+      setSelectedDealId(selectedDealId);
+      setFollowUps(followUpsData);
+      
+      if (selectedDeal.contactId) {
+        const contactData = await contactService.getById(selectedDeal.contactId);
+        setContact(contactData);
+      }
+    } catch (error) {
+      toast.error("Failed to load deal information");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleTemplateSelect = (template) => {
     const personalizedSubject = template.subject
       .replace("{{contactName}}", contact?.name || "")
@@ -104,14 +138,20 @@ const EmailFollowUpModal = ({ isOpen, onClose, dealId, onFollowUpScheduled }) =>
       ...prev,
       subject: personalizedSubject,
       template: template.body
-    }));
+}));
   };
-
-  const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    const activeDealId = dealId || selectedDealId;
     
     if (!formData.subject || !formData.scheduledDate) {
       toast.error("Please fill in all required fields");
+      return;
+    }
+    
+    if (!activeDealId) {
+      toast.error("Please select a deal for this follow-up");
       return;
     }
 
@@ -119,7 +159,7 @@ const EmailFollowUpModal = ({ isOpen, onClose, dealId, onFollowUpScheduled }) =>
       setLoading(true);
       
       await activityService.createEmailFollowUp({
-        dealId: parseInt(dealId),
+        dealId: parseInt(activeDealId),
         contactId: contact?.Id,
         subject: formData.subject,
         template: formData.template,
@@ -208,6 +248,25 @@ const EmailFollowUpModal = ({ isOpen, onClose, dealId, onFollowUpScheduled }) =>
         </div>
 
         {/* Deal Information */}
+{!dealId && !deal && deals.length > 0 && (
+          <div className="mb-6">
+            <FormField
+              label="Select Deal"
+              type="select"
+              value={selectedDealId || ""}
+              onChange={(e) => handleDealSelect(e.target.value)}
+              required
+              options={[
+                { value: "", label: "Choose a deal..." },
+                ...deals.map(d => ({
+                  value: d.Id,
+                  label: `${d.title} - ${d.value ? `$${d.value.toLocaleString()}` : 'No value'}`
+                }))
+              ]}
+            />
+          </div>
+        )}
+
         {deal && (
           <Card>
             <CardContent className="p-4">
@@ -251,23 +310,25 @@ const EmailFollowUpModal = ({ isOpen, onClose, dealId, onFollowUpScheduled }) =>
             </div>
 
             {/* Form Fields */}
-<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-2 gap-4">
-              <FormField
-                label="Subject"
-                type="text"
-                value={formData.subject}
-                onChange={(e) => setFormData(prev => ({ ...prev, subject: e.target.value }))}
-                required
-                placeholder="Email subject line"
-              />
-              <FormField
-                label="Scheduled Date"
-                type="date"
-                value={formData.scheduledDate}
-                onChange={(e) => setFormData(prev => ({ ...prev, scheduledDate: e.target.value }))}
-                required
-              />
-            </div>
+{(deal || (!dealId && selectedDealId)) && (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-2 gap-4">
+                <FormField
+                  label="Subject"
+                  type="text"
+                  value={formData.subject}
+                  onChange={(e) => setFormData(prev => ({ ...prev, subject: e.target.value }))}
+                  required
+                  placeholder="Email subject line"
+                />
+                <FormField
+                  label="Scheduled Date"
+                  type="date"
+                  value={formData.scheduledDate}
+                  onChange={(e) => setFormData(prev => ({ ...prev, scheduledDate: e.target.value }))}
+                  required
+                />
+              </div>
+            )}
 
             <FormField
               label="Priority"

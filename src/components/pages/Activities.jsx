@@ -133,7 +133,6 @@ return (
           <p className="text-gray-600 mt-2">Track all your sales activities and interactions</p>
         </div>
         <Button
-          onClick={() => handleScheduleFollowUp(null)}
 onClick={() => handleScheduleFollowUp(null)}
           className="whitespace-nowrap w-full lg:w-auto"
         >

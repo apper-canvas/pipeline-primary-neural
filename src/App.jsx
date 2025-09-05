@@ -12,6 +12,7 @@ import Companies from "@/components/pages/Companies";
 import Pipeline from "@/components/pages/Pipeline";
 import Dashboard from "@/components/pages/Dashboard";
 import Activities from "@/components/pages/Activities";
+import CompanyDetail from "@/components/pages/CompanyDetail";
 import Leads from "@/components/pages/Leads";
 import Login from '@/components/pages/Login';
 import Signup from '@/components/pages/Signup';
@@ -144,8 +145,9 @@ function AppRouter() {
             <Route path="/reset-password/:appId/:fields" element={<ResetPassword />} />
 <Route path="/" element={<Dashboard />} />
             <Route path="/pipeline" element={<Pipeline />} />
-            <Route path="/contacts" element={<Contacts />} />
+<Route path="/contacts" element={<Contacts />} />
             <Route path="/companies" element={<Companies />} />
+            <Route path="/companies/:id" element={<CompanyDetail />} />
             <Route path="/leads" element={<Leads />} />
             <Route path="/activities" element={<Activities />} />
           </Routes>

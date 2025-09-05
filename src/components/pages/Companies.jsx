@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import CompanyModal from '@/components/organisms/CompanyModal';
-import SearchBar from '@/components/molecules/SearchBar';
-import Button from '@/components/atoms/Button';
-import { Card, CardContent } from '@/components/atoms/Card';
-import Loading from '@/components/ui/Loading';
-import Error from '@/components/ui/Error';
-import Empty from '@/components/ui/Empty';
-import ApperIcon from '@/components/ApperIcon';
-import { companyService } from '@/services/api/companyService';
-import { format } from 'date-fns';
-import { toast } from 'react-toastify';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { format } from "date-fns";
+import { toast } from "react-toastify";
+import companyService from "@/services/api/companyService";
+import ApperIcon from "@/components/ApperIcon";
+import CompanyModal from "@/components/organisms/CompanyModal";
+import SearchBar from "@/components/molecules/SearchBar";
+import Error from "@/components/ui/Error";
+import Empty from "@/components/ui/Empty";
+import Loading from "@/components/ui/Loading";
+import Button from "@/components/atoms/Button";
+import Card, { CardContent } from "@/components/atoms/Card";
 
 function Companies() {
   const [companies, setCompanies] = useState([]);
@@ -250,7 +251,7 @@ function Companies() {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {filteredCompanies.map((company) => (
+{filteredCompanies.map((company) => (
                     <tr key={company.Id} className="hover:bg-gray-50">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
@@ -260,7 +261,12 @@ function Companies() {
                             </div>
                           </div>
                           <div className="ml-4">
-                            <div className="text-sm font-medium text-gray-900">{company.name}</div>
+                            <Link 
+                              to={`/companies/${company.Id}`}
+                              className="text-sm font-medium text-gray-900 hover:text-primary transition-colors"
+                            >
+                              {company.name}
+                            </Link>
                             <div className="text-sm text-gray-500">{company.email}</div>
                           </div>
                         </div>

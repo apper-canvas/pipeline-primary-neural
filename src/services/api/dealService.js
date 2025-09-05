@@ -14,7 +14,7 @@ class DealService {
       });
       
       const params = {
-        fields: [
+fields: [
           { field: { Name: "Name" } },
           { field: { Name: "title" } },
           { field: { Name: "value" } },
@@ -27,7 +27,8 @@ class DealService {
           { field: { Name: "Owner" } },
           { field: { Name: "CreatedOn" } },
           { field: { Name: "createdAt" } },
-          { field: { Name: "updatedAt" } }
+          { field: { Name: "updatedAt" } },
+          { field: { Name: "company_lookup_c" } }
         ],
         orderBy: [
           {
@@ -65,7 +66,7 @@ class DealService {
       });
       
       const params = {
-        fields: [
+fields: [
           { field: { Name: "Name" } },
           { field: { Name: "title" } },
           { field: { Name: "value" } },
@@ -78,7 +79,8 @@ class DealService {
           { field: { Name: "Owner" } },
           { field: { Name: "CreatedOn" } },
           { field: { Name: "createdAt" } },
-          { field: { Name: "updatedAt" } }
+          { field: { Name: "updatedAt" } },
+          { field: { Name: "company_lookup_c" } }
         ]
       };
       

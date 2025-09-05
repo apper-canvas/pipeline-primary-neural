@@ -44,11 +44,12 @@ function Companies() {
   let filteredCompanies = [...companies];
 
   // Apply search filter
-  if (searchQuery.trim()) {
+if (searchQuery.trim()) {
     filteredCompanies = filteredCompanies.filter(company =>
       company.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       company.industry?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      company.website?.toLowerCase().includes(searchQuery.toLowerCase())
+      company.website?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      company.deal_lookup_c?.Name?.toLowerCase().includes(searchQuery.toLowerCase())
     );
   }
 
@@ -267,9 +268,11 @@ function Companies() {
                             >
                               {company.name}
                             </Link>
-                            <div className="text-sm text-gray-500">
+<div className="text-sm text-gray-500">
                               {company.lead_lookup_c?.Name ? (
                                 <span className="text-primary">Lead: {company.lead_lookup_c.Name}</span>
+                              ) : company.deal_lookup_c?.Name ? (
+                                <span className="text-secondary">Deal: {company.deal_lookup_c.Name}</span>
                               ) : (
                                 company.email
                               )}

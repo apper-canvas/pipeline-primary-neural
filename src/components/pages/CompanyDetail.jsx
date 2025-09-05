@@ -183,6 +183,13 @@ function CompanyDetail() {
                   <p className="text-base text-primary font-medium mt-1">{company.lead_lookup_c.Name}</p>
                 </div>
               )}
+
+              {company.deal_lookup_c && (
+                <div>
+                  <label className="text-sm font-medium text-gray-500">Associated Deal</label>
+                  <p className="text-base text-secondary font-medium mt-1">{company.deal_lookup_c.Name}</p>
+                </div>
+              )}
               {company.description && (
                 <div>
                   <label className="text-sm font-medium text-gray-500">Description</label>

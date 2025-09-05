@@ -6,7 +6,7 @@ import Select from '@/components/atoms/Select';
 import ApperIcon from '@/components/ApperIcon';
 import { toast } from 'react-toastify';
 import leadService from '@/services/api/leadService';
-
+import { dealService } from '@/services/api/dealService';
 function CompanyModal({ isOpen, onClose, company, onSave }) {
 const [formData, setFormData] = useState({
     name: "",
@@ -20,20 +20,23 @@ const [formData, setFormData] = useState({
     foundedYear: new Date().getFullYear(),
     revenue: "",
     employees: "",
-    lead_lookup_c: ""
+    lead_lookup_c: "",
+    deal_lookup_c: ""
   });
 
   const [errors, setErrors] = useState({});
-  const [loading, setLoading] = useState(false);
+const [loading, setLoading] = useState(false);
   const [leads, setLeads] = useState([]);
+  const [deals, setDeals] = useState([]);
   const [loadingLeads, setLoadingLeads] = useState(false);
-
+  const [loadingDeals, setLoadingDeals] = useState(false);
 useEffect(() => {
     loadLeads();
+    loadDeals();
   }, []);
 
   useEffect(() => {
-    if (company) {
+if (company) {
       setFormData({
         name: company.name || "",
         industry: company.industry || "",
@@ -46,7 +49,8 @@ useEffect(() => {
         foundedYear: company.foundedYear || new Date().getFullYear(),
         revenue: company.revenue || "",
         employees: company.employees || "",
-        lead_lookup_c: company.lead_lookup_c?.Id || ""
+        lead_lookup_c: company.lead_lookup_c?.Id || "",
+        deal_lookup_c: company.deal_lookup_c?.Id || ""
       });
     } else {
       setFormData({
@@ -61,13 +65,14 @@ useEffect(() => {
         foundedYear: new Date().getFullYear(),
         revenue: "",
         employees: "",
-        lead_lookup_c: ""
+        lead_lookup_c: "",
+        deal_lookup_c: ""
       });
     }
     setErrors({});
   }, [company, isOpen]);
 
-  const loadLeads = async () => {
+const loadLeads = async () => {
     try {
       setLoadingLeads(true);
       const leadsData = await leadService.getAll();
@@ -77,6 +82,19 @@ useEffect(() => {
       toast.error("Failed to load leads");
     } finally {
       setLoadingLeads(false);
+    }
+  };
+
+  const loadDeals = async () => {
+    try {
+      setLoadingDeals(true);
+      const dealsData = await dealService.getAll();
+      setDeals(dealsData);
+    } catch (error) {
+      console.error("Error loading deals:", error);
+      toast.error("Failed to load deals");
+    } finally {
+      setLoadingDeals(false);
     }
   };
 
@@ -140,7 +158,8 @@ const companyData = {
         foundedYear: parseInt(formData.foundedYear) || new Date().getFullYear(),
         revenue: parseFloat(formData.revenue) || 0,
         employees: parseInt(formData.employees) || 1,
-        lead_lookup_c: formData.lead_lookup_c ? parseInt(formData.lead_lookup_c) : null
+        lead_lookup_c: formData.lead_lookup_c ? parseInt(formData.lead_lookup_c) : null,
+        deal_lookup_c: formData.deal_lookup_c ? parseInt(formData.deal_lookup_c) : null
       };
 
       await onSave(companyData);
@@ -256,18 +275,40 @@ const companyData = {
               <label className="block text-sm font-medium text-gray-700 mb-2">Associated Lead</label>
               <Select
                 value={formData.lead_lookup_c}
-                onChange={(value) => handleChange("lead_lookup_c", value)}
-                options={[
-                  { value: "", label: "No Lead Selected" },
-                  ...leads.map(lead => ({
-                    value: lead.Id.toString(),
-                    label: lead.Name
-                  }))
-                ]}
-                placeholder={loadingLeads ? "Loading leads..." : "Select a lead"}
+                onChange={(e) => handleChange("lead_lookup_c", e.target.value)}
                 disabled={loadingLeads}
-                error={errors.lead_lookup_c}
-              />
+                className={errors.lead_lookup_c ? "border-red-300" : ""}
+              >
+                <option value="">No Lead Selected</option>
+                {leads.map(lead => (
+                  <option key={lead.Id} value={lead.Id.toString()}>
+                    {lead.Name}
+                  </option>
+                ))}
+              </Select>
+              {errors.lead_lookup_c && (
+                <p className="mt-1 text-sm text-red-600">{errors.lead_lookup_c}</p>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Associated Deal</label>
+              <Select
+                value={formData.deal_lookup_c}
+                onChange={(e) => handleChange("deal_lookup_c", e.target.value)}
+                disabled={loadingDeals}
+                className={errors.deal_lookup_c ? "border-red-300" : ""}
+              >
+                <option value="">No Deal Selected</option>
+                {deals.map(deal => (
+                  <option key={deal.Id} value={deal.Id.toString()}>
+                    {deal.title} - ${deal.value?.toLocaleString() || 0}
+                  </option>
+                ))}
+              </Select>
+              {errors.deal_lookup_c && (
+                <p className="mt-1 text-sm text-red-600">{errors.deal_lookup_c}</p>
+              )}
             </div>
           </div>
 

@@ -118,7 +118,8 @@ async create(companyData) {
             Description_c: companyData.description || "",
             NumberOfEmployees_c: companyData.employees || 1,
             AnnualRevenue_c: companyData.revenue || 0,
-            lead_lookup_c: companyData.lead_lookup_c ? parseInt(companyData.lead_lookup_c) : null
+lead_lookup_c: companyData.lead_lookup_c ? parseInt(companyData.lead_lookup_c) : null,
+            deal_lookup_c: companyData.deal_lookup_c ? parseInt(companyData.deal_lookup_c) : null
           }
         ]
       };
@@ -182,8 +183,8 @@ async update(id, companyData) {
       if (companyData.description !== undefined) updateData.Description_c = companyData.description;
       if (companyData.employees !== undefined) updateData.NumberOfEmployees_c = companyData.employees;
       if (companyData.revenue !== undefined) updateData.AnnualRevenue_c = companyData.revenue;
-      if (companyData.lead_lookup_c !== undefined) updateData.lead_lookup_c = companyData.lead_lookup_c ? parseInt(companyData.lead_lookup_c) : null;
-      
+if (companyData.lead_lookup_c !== undefined) updateData.lead_lookup_c = companyData.lead_lookup_c ? parseInt(companyData.lead_lookup_c) : null;
+      if (companyData.deal_lookup_c !== undefined) updateData.deal_lookup_c = companyData.deal_lookup_c ? parseInt(companyData.deal_lookup_c) : null;
       const params = {
         records: [updateData]
       };

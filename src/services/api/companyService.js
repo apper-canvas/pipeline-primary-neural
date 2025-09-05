@@ -19,7 +19,7 @@ async getAll() {
       });
       
       const params = {
-        fields: [
+fields: [
           { field: { Name: "Id" } },
           { field: { Name: "Name_c" } },
           { field: { Name: "Website_c" } },
@@ -28,7 +28,8 @@ async getAll() {
           { field: { Name: "AnnualRevenue_c" } },
           { field: { Name: "Address_c" } },
           { field: { Name: "Description_c" } },
-          { field: { Name: "lead_lookup_c" } }
+          { field: { Name: "lead_lookup_c" } },
+          { field: { Name: "deal_lookup_c" } }
         ],
         orderBy: [
           {
@@ -66,7 +67,7 @@ async getById(id) {
       });
       
       const params = {
-        fields: [
+fields: [
           { field: { Name: "Id" } },
           { field: { Name: "Name_c" } },
           { field: { Name: "Website_c" } },
@@ -75,7 +76,8 @@ async getById(id) {
           { field: { Name: "AnnualRevenue_c" } },
           { field: { Name: "Address_c" } },
           { field: { Name: "Description_c" } },
-          { field: { Name: "lead_lookup_c" } }
+          { field: { Name: "lead_lookup_c" } },
+          { field: { Name: "deal_lookup_c" } }
         ]
       };
 

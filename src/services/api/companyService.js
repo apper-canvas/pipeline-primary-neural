@@ -16,21 +16,17 @@ class CompanyService {
     try {
       await this.delay();
       
-      const params = {
+const params = {
         fields: [
           { field: { Name: "Id" } },
-          { field: { Name: "name" } },
-          { field: { Name: "industry" } },
-          { field: { Name: "size" } },
-          { field: { Name: "website" } },
-          { field: { Name: "phone" } },
-          { field: { Name: "email" } },
-          { field: { Name: "address" } },
-          { field: { Name: "description" } },
-          { field: { Name: "foundedYear" } },
-          { field: { Name: "revenue" } },
-          { field: { Name: "employees" } },
-          { field: { Name: "createdAt" } }
+          { field: { Name: "Name_c" } },
+          { field: { Name: "Website_c" } },
+          { field: { Name: "Industry_c" } },
+          { field: { Name: "NumberOfEmployees_c" } },
+          { field: { Name: "AnnualRevenue_c" } },
+          { field: { Name: "Address_c" } },
+          { field: { Name: "Description_c" } },
+          { field: { Name: "lead_lookup_c" } }
         ]
       };
 
@@ -44,25 +40,21 @@ class CompanyService {
   async getById(id) {
     try {
       await this.delay();
-      
-      const params = {
+const params = {
         fields: [
           { field: { Name: "Id" } },
-          { field: { Name: "name" } },
-          { field: { Name: "industry" } },
-          { field: { Name: "size" } },
-          { field: { Name: "website" } },
-          { field: { Name: "phone" } },
-          { field: { Name: "email" } },
-          { field: { Name: "address" } },
-          { field: { Name: "description" } },
-          { field: { Name: "foundedYear" } },
-          { field: { Name: "revenue" } },
-          { field: { Name: "employees" } },
-          { field: { Name: "createdAt" } }
+          { field: { Name: "Name_c" } },
+          { field: { Name: "Website_c" } },
+          { field: { Name: "Industry_c" } },
+          { field: { Name: "NumberOfEmployees_c" } },
+          { field: { Name: "AnnualRevenue_c" } },
+          { field: { Name: "Address_c" } },
+          { field: { Name: "Description_c" } },
+          { field: { Name: "lead_lookup_c" } }
         ]
       };
 
+      const company = this.companies.find(c => c.Id === parseInt(id));
       const company = this.companies.find(c => c.Id === parseInt(id));
       
       if (!company) {
@@ -85,21 +77,17 @@ class CompanyService {
         throw new Error("Name, industry, and email are required");
       }
 
-      const params = {
+const params = {
         records: [
           {
-            name: companyData.name,
-            industry: companyData.industry,
-            size: companyData.size || "Small",
-            website: companyData.website || "",
-            phone: companyData.phone || "",
-            email: companyData.email,
-            address: companyData.address || "",
-            description: companyData.description || "",
-            foundedYear: companyData.foundedYear || new Date().getFullYear(),
-            revenue: companyData.revenue || 0,
-            employees: companyData.employees || 1,
-            createdAt: new Date().toISOString()
+            Name_c: companyData.name,
+            Industry_c: companyData.industry,
+            Website_c: companyData.website || "",
+            Address_c: companyData.address || "",
+            Description_c: companyData.description || "",
+            NumberOfEmployees_c: companyData.employees || 1,
+            AnnualRevenue_c: companyData.revenue || 0,
+            lead_lookup_c: companyData.lead_lookup_c ? parseInt(companyData.lead_lookup_c) : null
           }
         ]
       };
@@ -144,21 +132,18 @@ class CompanyService {
         throw new Error("Name, industry, and email are required");
       }
 
-      const params = {
+const params = {
         records: [
           {
             Id: parseInt(id),
-            name: companyData.name,
-            industry: companyData.industry,
-            size: companyData.size || "Small",
-            website: companyData.website || "",
-            phone: companyData.phone || "",
-            email: companyData.email,
-            address: companyData.address || "",
-            description: companyData.description || "",
-            foundedYear: companyData.foundedYear || new Date().getFullYear(),
-            revenue: companyData.revenue || 0,
-            employees: companyData.employees || 1
+            Name_c: companyData.name,
+            Industry_c: companyData.industry,
+            Website_c: companyData.website || "",
+            Address_c: companyData.address || "",
+            Description_c: companyData.description || "",
+            NumberOfEmployees_c: companyData.employees || 1,
+            AnnualRevenue_c: companyData.revenue || 0,
+            lead_lookup_c: companyData.lead_lookup_c ? parseInt(companyData.lead_lookup_c) : null
           }
         ]
       };

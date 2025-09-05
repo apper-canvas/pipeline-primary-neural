@@ -177,6 +177,12 @@ function CompanyDetail() {
                   <p className="text-base text-gray-900">{formatNumber(company.employees)}</p>
                 </div>
               </div>
+{company.lead_lookup_c && (
+                <div>
+                  <label className="text-sm font-medium text-gray-500">Associated Lead</label>
+                  <p className="text-base text-primary font-medium mt-1">{company.lead_lookup_c.Name}</p>
+                </div>
+              )}
               {company.description && (
                 <div>
                   <label className="text-sm font-medium text-gray-500">Description</label>

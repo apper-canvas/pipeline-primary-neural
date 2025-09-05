@@ -267,7 +267,13 @@ function Companies() {
                             >
                               {company.name}
                             </Link>
-                            <div className="text-sm text-gray-500">{company.email}</div>
+                            <div className="text-sm text-gray-500">
+                              {company.lead_lookup_c?.Name ? (
+                                <span className="text-primary">Lead: {company.lead_lookup_c.Name}</span>
+                              ) : (
+                                company.email
+                              )}
+                            </div>
                           </div>
                         </div>
                       </td>

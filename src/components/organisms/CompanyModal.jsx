@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import Modal from '@/components/atoms/Modal';
 import Button from '@/components/atoms/Button';
 import FormField from '@/components/molecules/FormField';
+import Select from '@/components/atoms/Select';
 import ApperIcon from '@/components/ApperIcon';
 import { toast } from 'react-toastify';
+import leadService from '@/services/api/leadService';
 
 function CompanyModal({ isOpen, onClose, company, onSave }) {
-  const [formData, setFormData] = useState({
+const [formData, setFormData] = useState({
     name: "",
     industry: "",
     size: "Small",
@@ -17,11 +19,18 @@ function CompanyModal({ isOpen, onClose, company, onSave }) {
     description: "",
     foundedYear: new Date().getFullYear(),
     revenue: "",
-    employees: ""
+    employees: "",
+    lead_lookup_c: ""
   });
 
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const [leads, setLeads] = useState([]);
+  const [loadingLeads, setLoadingLeads] = useState(false);
+
+useEffect(() => {
+    loadLeads();
+  }, []);
 
   useEffect(() => {
     if (company) {
@@ -36,7 +45,8 @@ function CompanyModal({ isOpen, onClose, company, onSave }) {
         description: company.description || "",
         foundedYear: company.foundedYear || new Date().getFullYear(),
         revenue: company.revenue || "",
-        employees: company.employees || ""
+        employees: company.employees || "",
+        lead_lookup_c: company.lead_lookup_c?.Id || ""
       });
     } else {
       setFormData({
@@ -50,11 +60,25 @@ function CompanyModal({ isOpen, onClose, company, onSave }) {
         description: "",
         foundedYear: new Date().getFullYear(),
         revenue: "",
-        employees: ""
+        employees: "",
+        lead_lookup_c: ""
       });
     }
     setErrors({});
   }, [company, isOpen]);
+
+  const loadLeads = async () => {
+    try {
+      setLoadingLeads(true);
+      const leadsData = await leadService.getAll();
+      setLeads(leadsData);
+    } catch (error) {
+      console.error("Error loading leads:", error);
+      toast.error("Failed to load leads");
+    } finally {
+      setLoadingLeads(false);
+    }
+  };
 
   const handleChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -111,11 +135,12 @@ function CompanyModal({ isOpen, onClose, company, onSave }) {
 
     setLoading(true);
     try {
-      const companyData = {
+const companyData = {
         ...formData,
         foundedYear: parseInt(formData.foundedYear) || new Date().getFullYear(),
         revenue: parseFloat(formData.revenue) || 0,
-        employees: parseInt(formData.employees) || 1
+        employees: parseInt(formData.employees) || 1,
+        lead_lookup_c: formData.lead_lookup_c ? parseInt(formData.lead_lookup_c) : null
       };
 
       await onSave(companyData);
@@ -227,6 +252,23 @@ function CompanyModal({ isOpen, onClose, company, onSave }) {
               onChange={(e) => handleChange("revenue", e.target.value)}
               error={errors.revenue}
             />
+<div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Associated Lead</label>
+              <Select
+                value={formData.lead_lookup_c}
+                onChange={(value) => handleChange("lead_lookup_c", value)}
+                options={[
+                  { value: "", label: "No Lead Selected" },
+                  ...leads.map(lead => ({
+                    value: lead.Id.toString(),
+                    label: lead.Name
+                  }))
+                ]}
+                placeholder={loadingLeads ? "Loading leads..." : "Select a lead"}
+                disabled={loadingLeads}
+                error={errors.lead_lookup_c}
+              />
+            </div>
           </div>
 
           <FormField
@@ -245,7 +287,6 @@ function CompanyModal({ isOpen, onClose, company, onSave }) {
             onChange={(e) => handleChange("description", e.target.value)}
             error={errors.description}
           />
-
           <div className="flex justify-end space-x-3 pt-4 border-t">
             <Button
               type="button"

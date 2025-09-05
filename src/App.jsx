@@ -8,6 +8,7 @@ import { setUser, clearUser } from '@/store/userSlice';
 import userReducer from '@/store/userSlice';
 import Header from "@/components/organisms/Header";
 import Contacts from "@/components/pages/Contacts";
+import Companies from "@/components/pages/Companies";
 import Pipeline from "@/components/pages/Pipeline";
 import Dashboard from "@/components/pages/Dashboard";
 import Activities from "@/components/pages/Activities";
@@ -141,9 +142,10 @@ function AppRouter() {
             <Route path="/error" element={<ErrorPage />} />
             <Route path="/prompt-password/:appId/:emailAddress/:provider" element={<PromptPassword />} />
             <Route path="/reset-password/:appId/:fields" element={<ResetPassword />} />
-            <Route path="/" element={<Dashboard />} />
+<Route path="/" element={<Dashboard />} />
             <Route path="/pipeline" element={<Pipeline />} />
             <Route path="/contacts" element={<Contacts />} />
+            <Route path="/companies" element={<Companies />} />
             <Route path="/leads" element={<Leads />} />
             <Route path="/activities" element={<Activities />} />
           </Routes>

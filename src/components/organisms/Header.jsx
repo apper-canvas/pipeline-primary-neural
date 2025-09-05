@@ -3,9 +3,10 @@ import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { AuthContext } from "@/App";
 import ApperIcon from "@/components/ApperIcon";
-import Button from "@/components/atoms/Button";
-import Pipeline from "@/components/pages/Pipeline";
 import SearchBar from "@/components/molecules/SearchBar";
+import Contacts from "@/components/pages/Contacts";
+import Pipeline from "@/components/pages/Pipeline";
+import Button from "@/components/atoms/Button";
 
 const Header = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -78,11 +79,11 @@ const navigationItems = [
                 <p className="text-sm font-medium text-gray-900">{user?.firstName} {user?.lastName}</p>
                 <p className="text-xs text-gray-500">{user?.emailAddress}</p>
               </div>
-              {user?.profilePicture && (
+{user?.profilePicture && (
                 <img 
                   src={user.profilePicture} 
                   alt={user.firstName}
-                  className="w-8 h-8 rounded-full object-cover border-2 border-primary/20"
+                  className="w-8 h-8 rounded-full"
                 />
               )}
             </div>
@@ -107,7 +108,7 @@ const navigationItems = [
             >
               <ApperIcon name={isMobileMenuOpen ? "X" : "Menu"} size={20} />
             </Button>
-</div>
+          </div>
         </div>
 
         {/* Mobile Navigation */}

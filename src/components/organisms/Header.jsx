@@ -19,6 +19,7 @@ const navigationItems = [
     { name: "Dashboard", path: "/", icon: "LayoutDashboard" },
     { name: "Pipeline", path: "/pipeline", icon: "GitBranch" },
     { name: "Contacts", path: "/contacts", icon: "Users" },
+    { name: "Companies", path: "/companies", icon: "Building2" },
     { name: "Leads", path: "/leads", icon: "UserPlus" },
     { name: "Activities", path: "/activities", icon: "Activity" }
   ];

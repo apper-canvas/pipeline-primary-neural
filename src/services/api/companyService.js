@@ -54,8 +54,7 @@ const params = {
         ]
       };
 
-      const company = this.companies.find(c => c.Id === parseInt(id));
-      const company = this.companies.find(c => c.Id === parseInt(id));
+const company = this.companies.find(c => c.Id === parseInt(id));
       
       if (!company) {
         throw new Error(`Company with ID ${id} not found`);

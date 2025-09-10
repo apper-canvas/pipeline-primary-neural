@@ -2,7 +2,7 @@ import React, { forwardRef } from "react";
 import { cn } from "@/utils/cn";
 import ApperIcon from "@/components/ApperIcon";
 
-const Select = forwardRef(({ className, children, multiple, options, ...props }, ref) => {
+const Select = forwardRef(({ className, children, multiple, options, onChange, ...props }, ref) => {
   return (
     <div className="relative">
       <select
@@ -13,6 +13,7 @@ const Select = forwardRef(({ className, children, multiple, options, ...props },
         )}
         ref={ref}
         multiple={multiple}
+        onChange={onChange ? (e) => onChange(e.target.value) : undefined}
         {...props}
       >
         {children || (options && options.map((option) => (

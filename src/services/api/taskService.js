@@ -231,7 +231,7 @@ async create(taskData) {
           Name: sanitizedData.subject || sanitizedData.Name || 'New Task',
           subject_c: sanitizedData.subject || '',
           description_c: sanitizedData.description || '',
-          status_c: sanitizedData.status || 'New',
+status_c: sanitizedData.status_c || 'New',
           priority_c: sanitizedData.priority || 'Medium',
           dueDate_c: sanitizedData.dueDate || null,
           startDate_c: sanitizedData.startDate || null,
@@ -260,7 +260,7 @@ async create(taskData) {
         if (failed.length > 0) {
           console.error(`Failed to create ${failed.length} tasks:${JSON.stringify(failed)}`);
           failed.forEach(record => {
-            record.errors?.forEach(error => toast.error(`${error.fieldLabel}: ${error}`));
+record.errors?.forEach(error => toast.error(`${error.fieldLabel}: ${error.message}`));
             if (record.message) toast.error(record.message);
           });
         }
@@ -291,7 +291,7 @@ async update(id, taskData) {
           Name: sanitizedData.subject || sanitizedData.Name || 'Updated Task',
           subject_c: sanitizedData.subject || '',
           description_c: sanitizedData.description || '',
-          status_c: sanitizedData.status || 'New',
+status_c: sanitizedData.status_c || 'New',
           priority_c: sanitizedData.priority || 'Medium',
           dueDate_c: sanitizedData.dueDate || null,
           startDate_c: sanitizedData.startDate || null,
@@ -320,7 +320,7 @@ async update(id, taskData) {
         if (failed.length > 0) {
           console.error(`Failed to update ${failed.length} tasks:${JSON.stringify(failed)}`);
           failed.forEach(record => {
-            record.errors?.forEach(error => toast.error(`${error.fieldLabel}: ${error}`));
+record.errors?.forEach(error => toast.error(`${error.fieldLabel}: ${error.message}`));
             if (record.message) toast.error(record.message);
           });
         }

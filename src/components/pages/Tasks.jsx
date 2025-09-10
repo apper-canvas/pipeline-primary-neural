@@ -316,7 +316,7 @@ if (contactFilter) filters.contactId = contactFilter;
                         <h3 className="text-lg font-medium text-gray-900 truncate">
                           {task.subject_c || 'Untitled Task'}
 </h3>
-                        <div className="flex items-center gap-2 mt-1">
+<div className="flex items-center gap-2 mt-1">
                           {getStatusBadge(task.status_c)}
                           {getPriorityBadge(task.priority_c)}
                           {task.isRecurring_c && (
@@ -331,18 +331,6 @@ if (contactFilter) filters.contactId = contactFilter;
                             </Badge>
                           )}
                         </div>
-                        {task.isRecurring_c && (
-                          <Badge className="bg-purple-100 text-purple-800 px-2 py-1 text-xs">
-                            <ApperIcon name="Repeat" size={12} className="mr-1" />
-                            Recurring
-                          </Badge>
-                        )}
-                        {task.reminderSet_c && (
-                          <Badge className="bg-orange-100 text-orange-800 px-2 py-1 text-xs">
-                            <ApperIcon name="Bell" size={12} className="mr-1" />
-                            Reminder
-                          </Badge>
-                        )}
                       </div>
                       
                       {task.description_c && (
@@ -357,7 +345,7 @@ if (contactFilter) filters.contactId = contactFilter;
                           <span>{getContactName(task.contactId_c)}</span>
                         </div>
                         
-<div className="space-y-1">
+                        <div className="space-y-1">
                           {task.category_c && (
                             <div className="flex items-center gap-1 text-sm text-gray-600">
                               <ApperIcon name="Tag" size={12} />
@@ -377,7 +365,6 @@ if (contactFilter) filters.contactId = contactFilter;
                             </div>
                           )}
                         </div>
-                        )}
                         
                         <div className="flex items-center gap-1">
                           <ApperIcon name="Calendar" size={14} />
@@ -391,8 +378,7 @@ if (contactFilter) filters.contactId = contactFilter;
                             Due: {formatDate(task.dueDate_c)}
                           </span>
                         </div>
-<div className="flex items-center justify-between mt-3 pt-3 border-t">
-                          <div className="flex items-center gap-1">
+<div className="flex items-center gap-1">
                           <ApperIcon name="Clock" size={14} />
                           <span>Created: {formatDate(task.CreatedOn)}</span>
                         </div>

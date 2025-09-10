@@ -49,13 +49,14 @@ const [formData, setFormData] = useState({
     { value: 'Daily', label: 'Daily' },
     { value: 'Weekly', label: 'Weekly' },
     { value: 'Monthly', label: 'Monthly' },
+{ value: 'Monthly', label: 'Monthly' },
     { value: 'Quarterly', label: 'Quarterly' },
     { value: 'Yearly', label: 'Yearly' },
-{ value: 'Yearly', label: 'Yearly' },
     { value: 'Custom', label: 'Custom' }
   ];
 
-// State for contact options
+  // State for contact options
+  const [contactOptions, setContactOptions] = useState([
     { value: '', label: 'Select Contact' }
   ]);
 

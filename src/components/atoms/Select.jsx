@@ -16,7 +16,7 @@ const Select = forwardRef(({ className, children, multiple, options, onChange, .
         onChange={onChange ? (e) => onChange(e.target.value) : undefined}
         {...props}
       >
-        {children || (options && options.map((option) => (
+{children || (options && options.map((option) => (
           <option key={option.value} value={option.value}>
             {option.label}
           </option>

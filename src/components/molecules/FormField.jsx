@@ -13,12 +13,12 @@ const FormField = ({
   ...props 
 }) => {
   const renderInput = () => {
-    if (children) {
-      return children;
+if (type === "select") {
+      return <Select {...props}>{children}</Select>;
     }
 
-    if (type === "select") {
-      return <Select {...props} />;
+    if (children) {
+      return children;
     }
 
 if (type === "textarea") {

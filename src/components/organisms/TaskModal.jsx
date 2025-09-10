@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import Modal from '@/components/atoms/Modal';
-import Button from '@/components/atoms/Button';
-import Input from '@/components/atoms/Input';
-import Label from '@/components/atoms/Label';
-import Select from '@/components/atoms/Select';
-import ApperIcon from '@/components/ApperIcon';
-import { toast } from 'react-toastify';
+import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import ApperIcon from "@/components/ApperIcon";
+import Modal from "@/components/atoms/Modal";
+import Input from "@/components/atoms/Input";
+import Select from "@/components/atoms/Select";
+import Button from "@/components/atoms/Button";
+import Label from "@/components/atoms/Label";
 
 const TaskModal = ({ isOpen, onClose, task, onSave, contacts = [] }) => {
-  const [formData, setFormData] = useState({
+const [formData, setFormData] = useState({
     subject: '',
     description: '',
     status: 'New',
@@ -36,7 +36,7 @@ const TaskModal = ({ isOpen, onClose, task, onSave, contacts = [] }) => {
     { value: 'Canceled', label: 'Canceled' }
   ];
 
-  // Priority options
+// Priority options
   const priorityOptions = [
     { value: 'High', label: 'High Priority' },
     { value: 'Medium', label: 'Medium Priority' },
@@ -45,11 +45,12 @@ const TaskModal = ({ isOpen, onClose, task, onSave, contacts = [] }) => {
 
   // Recurrence pattern options
   const recurrenceOptions = [
-    { value: '', label: 'No Recurrence' },
     { value: 'Daily', label: 'Daily' },
     { value: 'Weekly', label: 'Weekly' },
     { value: 'Monthly', label: 'Monthly' },
-    { value: 'Yearly', label: 'Yearly' }
+    { value: 'Quarterly', label: 'Quarterly' },
+    { value: 'Yearly', label: 'Yearly' },
+    { value: 'Custom', label: 'Custom' }
   ];
 
   // Contact options
@@ -66,7 +67,7 @@ const TaskModal = ({ isOpen, onClose, task, onSave, contacts = [] }) => {
     if (isOpen) {
       if (task) {
         // Edit mode - populate with existing data
-        setFormData({
+setFormData({
           subject: task.subject_c || '',
           description: task.description_c || '',
           status: task.status_c || 'New',
@@ -117,12 +118,18 @@ const TaskModal = ({ isOpen, onClose, task, onSave, contacts = [] }) => {
         [field]: null
       }));
     }
-
-    // Handle dependent fields
+// Handle dependent fields
     if (field === 'status' && value === 'Completed' && !formData.completedDate) {
       setFormData(prev => ({
         ...prev,
         completedDate: new Date().toISOString().split('T')[0]
+      }));
+    }
+
+    if (field === 'status' && value !== 'Completed') {
+      setFormData(prev => ({
+        ...prev,
+        completedDate: ''
       }));
     }
 
@@ -148,13 +155,20 @@ const TaskModal = ({ isOpen, onClose, task, onSave, contacts = [] }) => {
     if (!formData.subject.trim()) {
       newErrors.subject = 'Subject is required';
     }
-    
+// Date validation
     if (formData.dueDate && formData.startDate) {
       if (new Date(formData.dueDate) < new Date(formData.startDate)) {
         newErrors.dueDate = 'Due date cannot be before start date';
       }
     }
+
+    if (formData.reminderTime && formData.startDate) {
+      if (new Date(formData.reminderTime) < new Date(formData.startDate)) {
+        newErrors.reminderTime = 'Reminder time cannot be before start date';
+      }
+    }
     
+    // Conditional field validation
     if (formData.isRecurring && !formData.recurrencePattern) {
       newErrors.recurrencePattern = 'Recurrence pattern is required for recurring tasks';
     }
@@ -166,7 +180,12 @@ const TaskModal = ({ isOpen, onClose, task, onSave, contacts = [] }) => {
     if (formData.status === 'Completed' && !formData.completedDate) {
       newErrors.completedDate = 'Completed date is required for completed tasks';
     }
-    
+
+    if (formData.completedDate && formData.startDate) {
+      if (new Date(formData.completedDate) < new Date(formData.startDate)) {
+        newErrors.completedDate = 'Completed date cannot be before start date';
+      }
+    }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -190,11 +209,11 @@ const TaskModal = ({ isOpen, onClose, task, onSave, contacts = [] }) => {
         status: formData.status,
         priority: formData.priority,
         dueDate: formData.dueDate ? new Date(formData.dueDate).toISOString() : null,
-        startDate: formData.startDate ? new Date(formData.startDate).toISOString() : null,
+startDate: formData.startDate ? new Date(formData.startDate).toISOString() : null,
         contactId: formData.contactId ? parseInt(formData.contactId) : null,
         category: formData.category.trim(),
         isRecurring: formData.isRecurring,
-        recurrencePattern: formData.recurrencePattern,
+        recurrencePattern: formData.recurrencePattern.trim(),
         completedDate: formData.completedDate ? new Date(formData.completedDate).toISOString() : null,
         reminderSet: formData.reminderSet,
         reminderTime: formData.reminderTime ? new Date(formData.reminderTime).toISOString() : null
@@ -283,8 +302,8 @@ const TaskModal = ({ isOpen, onClose, task, onSave, contacts = [] }) => {
               />
             </div>
 
-            <div>
-              <Label htmlFor="contactId">Assigned To</Label>
+<div>
+              <Label htmlFor="contactId">Assigned To (Contact)</Label>
               <Select
                 id="contactId"
                 value={formData.contactId}
@@ -332,7 +351,7 @@ const TaskModal = ({ isOpen, onClose, task, onSave, contacts = [] }) => {
               />
             </div>
 
-            {formData.status === 'Completed' && (
+{formData.status === 'Completed' && (
               <div>
                 <Label htmlFor="completedDate">Completed Date</Label>
                 <Input
@@ -347,7 +366,7 @@ const TaskModal = ({ isOpen, onClose, task, onSave, contacts = [] }) => {
             )}
           </div>
 
-          {/* Recurring Task Settings */}
+{/* Recurring Task Settings */}
           <div className="border-t pt-4">
             <div className="flex items-center gap-2 mb-4">
               <input
@@ -371,10 +390,11 @@ const TaskModal = ({ isOpen, onClose, task, onSave, contacts = [] }) => {
                   options={recurrenceOptions}
                   error={errors.recurrencePattern}
                   disabled={loading}
+                  placeholder="Select recurrence pattern"
                 />
               </div>
             )}
-          </div>
+</div>
 
           {/* Reminder Settings */}
           <div className="border-t pt-4">
@@ -401,6 +421,9 @@ const TaskModal = ({ isOpen, onClose, task, onSave, contacts = [] }) => {
                   error={errors.reminderTime}
                   disabled={loading}
                 />
+                <p className="text-xs text-gray-500 mt-1">
+                  Set when you want to be reminded about this task
+                </p>
               </div>
             )}
           </div>

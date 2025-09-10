@@ -1,18 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { toast } from 'react-toastify';
-import ApperIcon from '@/components/ApperIcon';
-import Button from '@/components/atoms/Button';
-import Card from '@/components/atoms/Card';
-import Badge from '@/components/atoms/Badge';
-import Select from '@/components/atoms/Select';
-import Input from '@/components/atoms/Input';
-import Loading from '@/components/ui/Loading';
-import Empty from '@/components/ui/Empty';
-import Error from '@/components/ui/Error';
-import TaskModal from '@/components/organisms/TaskModal';
-import { taskService } from '@/services/api/taskService';
-import { contactService } from '@/services/api/contactService';
-
+import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { contactService } from "@/services/api/contactService";
+import ApperIcon from "@/components/ApperIcon";
+import Error from "@/components/ui/Error";
+import Empty from "@/components/ui/Empty";
+import Loading from "@/components/ui/Loading";
+import Input from "@/components/atoms/Input";
+import Badge from "@/components/atoms/Badge";
+import Select from "@/components/atoms/Select";
+import Card from "@/components/atoms/Card";
+import Button from "@/components/atoms/Button";
+import TaskModal from "@/components/organisms/TaskModal";
+import taskService from "@/services/api/taskService";
 const Tasks = () => {
   const [tasks, setTasks] = useState([]);
   const [contacts, setContacts] = useState([]);
@@ -24,8 +23,9 @@ const Tasks = () => {
   const [contactFilter, setContactFilter] = useState('');
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
-  const [sortBy, setSortBy] = useState('CreatedOn');
+const [sortBy, setSortBy] = useState('CreatedOn');
   const [sortOrder, setSortOrder] = useState('desc');
+  const [assignedFilter, setAssignedFilter] = useState('');
 
   // Status and Priority options
   const statusOptions = [
@@ -47,8 +47,7 @@ const Tasks = () => {
   // Load data
   useEffect(() => {
     loadData();
-  }, [statusFilter, priorityFilter, contactFilter]);
-
+}, [statusFilter, priorityFilter, contactFilter, assignedFilter]);
   const loadData = async () => {
     setLoading(true);
     setError(null);
@@ -58,8 +57,8 @@ const Tasks = () => {
       const filters = {};
       if (statusFilter) filters.status = statusFilter;
       if (priorityFilter) filters.priority = priorityFilter;
-      if (contactFilter) filters.contactId = contactFilter;
-      
+if (contactFilter) filters.contactId = contactFilter;
+      if (assignedFilter) filters.contactId = assignedFilter;
       const [tasksData, contactsData] = await Promise.all([
         taskService.getAll(filters),
         contactService.getAll()
@@ -77,11 +76,12 @@ const Tasks = () => {
 
   // Filter and sort tasks
   const filteredTasks = tasks
-    .filter(task => 
+.filter(task => 
       !searchTerm || 
       task.subject_c?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       task.description_c?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      task.category_c?.toLowerCase().includes(searchTerm.toLowerCase())
+      task.category_c?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      getContactName(task.contactId_c)?.toLowerCase().includes(searchTerm.toLowerCase())
     )
     .sort((a, b) => {
       let aVal = a[sortBy];
@@ -239,7 +239,7 @@ const Tasks = () => {
 
       {/* Filters */}
       <Card className="p-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
           <div>
             <Input
               type="text"
@@ -315,9 +315,22 @@ const Tasks = () => {
                       <div className="flex items-center gap-2 mb-2">
                         <h3 className="text-lg font-medium text-gray-900 truncate">
                           {task.subject_c || 'Untitled Task'}
-                        </h3>
-                        {getStatusBadge(task.status_c)}
-                        {getPriorityBadge(task.priority_c)}
+</h3>
+                        <div className="flex items-center gap-2 mt-1">
+                          {getStatusBadge(task.status_c)}
+                          {getPriorityBadge(task.priority_c)}
+                          {task.isRecurring_c && (
+                            <Badge variant="secondary" className="text-xs">
+                              Recurring
+                            </Badge>
+                          )}
+                          {task.reminderSet_c && (
+                            <Badge variant="outline" className="text-xs">
+                              <ApperIcon name="Bell" size={10} className="mr-1" />
+                              Reminder
+                            </Badge>
+                          )}
+                        </div>
                         {task.isRecurring_c && (
                           <Badge className="bg-purple-100 text-purple-800 px-2 py-1 text-xs">
                             <ApperIcon name="Repeat" size={12} className="mr-1" />
@@ -344,11 +357,26 @@ const Tasks = () => {
                           <span>{getContactName(task.contactId_c)}</span>
                         </div>
                         
-                        {task.category_c && (
-                          <div className="flex items-center gap-1">
-                            <ApperIcon name="Tag" size={14} />
-                            <span>{task.category_c}</span>
-                          </div>
+<div className="space-y-1">
+                          {task.category_c && (
+                            <div className="flex items-center gap-1 text-sm text-gray-600">
+                              <ApperIcon name="Tag" size={12} />
+                              <span>{task.category_c}</span>
+                            </div>
+                          )}
+                          {task.contactId_c && (
+                            <div className="flex items-center gap-1 text-sm text-gray-600">
+                              <ApperIcon name="User" size={12} />
+                              <span>Assigned: {getContactName(task.contactId_c)}</span>
+                            </div>
+                          )}
+                          {task.recurrencePattern_c && (
+                            <div className="flex items-center gap-1 text-sm text-gray-600">
+                              <ApperIcon name="Repeat" size={12} />
+                              <span>{task.recurrencePattern_c}</span>
+                            </div>
+                          )}
+                        </div>
                         )}
                         
                         <div className="flex items-center gap-1">
@@ -363,8 +391,8 @@ const Tasks = () => {
                             Due: {formatDate(task.dueDate_c)}
                           </span>
                         </div>
-                        
-                        <div className="flex items-center gap-1">
+<div className="flex items-center justify-between mt-3 pt-3 border-t">
+                          <div className="flex items-center gap-1">
                           <ApperIcon name="Clock" size={14} />
                           <span>Created: {formatDate(task.CreatedOn)}</span>
                         </div>

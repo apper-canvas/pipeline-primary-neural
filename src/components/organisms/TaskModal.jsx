@@ -84,7 +84,7 @@ const [formData, setFormData] = useState({
       loadContacts();
       if (task) {
         // Edit mode - populate with existing data
-        setFormData({
+setFormData({
           subject: task.subject_c || '',
           description: task.description_c || '',
           status: task.status_c || 'New',
@@ -298,12 +298,18 @@ startDate: formData.startDate ? new Date(formData.startDate).toISOString() : nul
             </div>
 
             <div>
-              <Label htmlFor="status">Status</Label>
+<Label htmlFor="status">Status</Label>
               <Select
                 id="status"
                 value={formData.status}
-onChange={(value) => handleChange('status', value)}
-                options={statusOptions}
+                onChange={(value) => handleChange('status', value)}
+                options={[
+                  { value: 'New', label: 'New' },
+                  { value: 'In Progress', label: 'In Progress' },
+                  { value: 'Completed', label: 'Completed' },
+                  { value: 'On Hold', label: 'On Hold' },
+                  { value: 'Canceled', label: 'Canceled' }
+                ]}
                 disabled={loading}
               />
             </div>
@@ -320,7 +326,7 @@ onChange={(value) => handleChange('status', value)}
           </div>
 
 <div>
-            <Label htmlFor="contactId">Assigned To (Contact)</Label>
+<Label htmlFor="contactId">Assigned To (Contact)</Label>
             <Select
               id="contactId"
               value={formData.contactId}

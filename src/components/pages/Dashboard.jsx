@@ -20,6 +20,7 @@ import activitiesData from "@/services/mockData/activities.json";
 import { contactService } from "@/services/api/contactService";
 import { activityService } from "@/services/api/activityService";
 import { dealService } from "@/services/api/dealService";
+import { taskService } from "@/services/api/taskService";
 const Dashboard = () => {
   const navigate = useNavigate();
   const { user, isAuthenticated } = useSelector((state) => state.user);
@@ -277,7 +278,7 @@ const handleDealSave = async (dealData) => {
           </CardTitle>
         </CardHeader>
 <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4">
+<div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4">
 <button 
               onClick={() => setIsDealModalOpen(true)}
               className="flex flex-col items-center p-4 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-lg border-2 border-dashed border-primary/20 hover:border-primary/40 transition-all duration-200 group min-h-[100px] justify-center"
@@ -294,6 +295,16 @@ const handleDealSave = async (dealData) => {
             >
               <ApperIcon name="UserPlus" size={24} className="text-primary mb-2 group-hover:scale-110 transition-transform" />
               <span className="text-sm font-medium text-gray-700 text-center">Add Contact</span>
+            </button>
+            <button 
+              onClick={() => {
+                navigate('/tasks');
+                toast.success('Redirecting to Tasks to create new task');
+              }}
+              className="flex flex-col items-center p-4 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-lg border-2 border-dashed border-primary/20 hover:border-primary/40 transition-all duration-200 group min-h-[100px] justify-center"
+            >
+              <ApperIcon name="CheckSquare" size={24} className="text-primary mb-2 group-hover:scale-110 transition-transform" />
+              <span className="text-sm font-medium text-gray-700 text-center">Add Task</span>
             </button>
             <button 
               onClick={() => setIsCallLogModalOpen(true)}

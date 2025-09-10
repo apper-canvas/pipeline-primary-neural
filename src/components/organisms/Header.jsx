@@ -22,6 +22,7 @@ const navigationItems = [
     { name: "Contacts", path: "/contacts", icon: "Users" },
     { name: "Companies", path: "/companies", icon: "Building2" },
     { name: "Leads", path: "/leads", icon: "UserPlus" },
+    { name: "Tasks", path: "/tasks", icon: "CheckSquare" },
     { name: "Activities", path: "/activities", icon: "Activity" }
   ];
 

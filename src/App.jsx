@@ -15,6 +15,7 @@ import Dashboard from "@/components/pages/Dashboard";
 import Activities from "@/components/pages/Activities";
 import CompanyDetail from "@/components/pages/CompanyDetail";
 import Leads from "@/components/pages/Leads";
+import Tasks from "@/components/pages/Tasks";
 import Login from '@/components/pages/Login';
 import Signup from '@/components/pages/Signup';
 import Callback from '@/components/pages/Callback';
@@ -151,6 +152,7 @@ function AppRouter() {
             <Route path="/companies" element={<Companies />} />
             <Route path="/companies/:id" element={<CompanyDetail />} />
             <Route path="/leads" element={<Leads />} />
+            <Route path="/tasks" element={<Tasks />} />
             <Route path="/activities" element={<Activities />} />
           </Routes>
         </main>

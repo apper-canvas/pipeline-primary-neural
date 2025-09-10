@@ -55,7 +55,7 @@ const Contacts = () => {
 filtered = filtered.filter(contact =>
         contact.Name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
         contact.email?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        contact.company?.toLowerCase().includes(searchQuery.toLowerCase())
+(contact.company?.Name_c || contact.company || "").toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
 
@@ -276,7 +276,7 @@ onClick={handleCreateContact}
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-900">{contact.company}</div>
+<div className="text-sm text-gray-900">{contact.company?.Name_c || contact.company || 'N/A'}</div>
                         </td>
 <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-900">{contact.email}</div>

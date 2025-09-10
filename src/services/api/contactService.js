@@ -14,7 +14,7 @@ class ContactService {
       });
       
       const params = {
-        fields: [
+fields: [
           { field: { Name: "Name" } },
           { field: { Name: "email" } },
           { field: { Name: "phone" } },
@@ -61,7 +61,7 @@ class ContactService {
       });
       
       const params = {
-        fields: [
+fields: [
           { field: { Name: "Name" } },
           { field: { Name: "email" } },
           { field: { Name: "phone" } },
@@ -106,8 +106,8 @@ class ContactService {
           {
             Name: contactData.name,
             email: contactData.email,
-            phone: contactData.phone || "",
-            company: contactData.company || "",
+phone: contactData.phone || "",
+            company: contactData.company ? parseInt(contactData.company) : null,
             notes: contactData.notes || "",
             Tags: contactData.tags || "",
             createdAt: new Date().toISOString()
@@ -168,8 +168,8 @@ class ContactService {
             Id: parseInt(id),
             Name: contactData.name,
             email: contactData.email,
-            phone: contactData.phone || "",
-            company: contactData.company || "",
+phone: contactData.phone || "",
+            company: contactData.company ? parseInt(contactData.company) : null,
             notes: contactData.notes || "",
             Tags: contactData.tags || ""
           }

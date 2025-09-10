@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
-import Modal from "@/components/atoms/Modal";
-import Button from "@/components/atoms/Button";
-import FormField from "@/components/molecules/FormField";
-import ApperIcon from "@/components/ApperIcon";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import ApperIcon from "@/components/ApperIcon";
+import FormField from "@/components/molecules/FormField";
+import Modal from "@/components/atoms/Modal";
+import Select from "@/components/atoms/Select";
+import Button from "@/components/atoms/Button";
+import companyService from "@/services/api/companyService";
 
 const ContactModal = ({ isOpen, onClose, contact, onSave }) => {
   const [formData, setFormData] = useState({
@@ -13,16 +15,19 @@ const ContactModal = ({ isOpen, onClose, contact, onSave }) => {
     company: "",
     notes: ""
   });
+
+  const [companies, setCompanies] = useState([]);
+  const [loadingCompanies, setLoadingCompanies] = useState(false);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (contact) {
       setFormData({
-        name: contact.name || "",
+name: contact.name || "",
         email: contact.email || "",
         phone: contact.phone || "",
-        company: contact.company || "",
+        company: contact.company?.Id || contact.company || "",
         notes: contact.notes || ""
       });
     } else {
@@ -34,10 +39,29 @@ const ContactModal = ({ isOpen, onClose, contact, onSave }) => {
         notes: ""
       });
     }
-    setErrors({});
   }, [contact, isOpen]);
 
-  const handleChange = (field, value) => {
+  // Fetch companies when modal opens
+  useEffect(() => {
+    if (isOpen) {
+      loadCompanies();
+    }
+  }, [isOpen]);
+
+  const loadCompanies = async () => {
+    setLoadingCompanies(true);
+    try {
+      const companiesData = await companyService.getAll();
+      setCompanies(companiesData);
+    } catch (error) {
+      console.error("Error loading companies:", error);
+      toast.error("Failed to load companies");
+    } finally {
+      setLoadingCompanies(false);
+}
+  };
+
+const handleChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: "" }));
@@ -56,8 +80,7 @@ const ContactModal = ({ isOpen, onClose, contact, onSave }) => {
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = "Email is invalid";
     }
-
-    if (!formData.company.trim()) {
+if (!formData.company) {
       newErrors.company = "Company is required";
     }
 
@@ -111,24 +134,28 @@ const ContactModal = ({ isOpen, onClose, contact, onSave }) => {
           />
 
 <FormField
-            label="Contact Type"
-            type="select"
+            label="Phone"
+            placeholder="Enter phone number"
             value={formData.phone}
             onChange={(e) => handleChange("phone", e.target.value)}
             error={errors.phone}
-          >
-            <option value="">Select contact type</option>
-            <option value="office">Office</option>
-            <option value="personal">Personal</option>
-          </FormField>
+          />
 
-          <FormField
+<FormField
             label="Company"
-            placeholder="Enter company name"
+            type="select"
             value={formData.company}
             onChange={(e) => handleChange("company", e.target.value)}
             error={errors.company}
-          />
+            disabled={loadingCompanies}
+          >
+            <option value="">Select a company</option>
+            {companies.map((company) => (
+              <option key={company.Id} value={company.Id}>
+                {company.Name_c || company.Name}
+              </option>
+            ))}
+          </FormField>
         </div>
 
         <FormField

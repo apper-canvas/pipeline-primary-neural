@@ -179,7 +179,6 @@ const handleSaveContact = async (contactData) => {
           <p className="text-gray-600 mt-2">Manage your sales contacts and relationships</p>
         </div>
         <Button
-          onClick={handleCreateContact}
 onClick={handleCreateContact}
           className="bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-white shadow-lg hover:shadow-xl transform hover:scale-105 w-full lg:w-auto"
         >
@@ -188,7 +187,6 @@ onClick={handleCreateContact}
         </Button>
       </div>
 
-      {/* Search */}
 {/* Search */}
       <div className="max-w-md lg:max-w-lg xl:max-w-xl">
         <SearchBar

@@ -106,9 +106,9 @@ fields: [
       const params = {
         records: [
           {
-            Name: contactData.name,
+Name: contactData.name,
             email: contactData.email,
-phone: contactData.phone || "",
+            phone: contactData.phone || "",
             company: contactData.company ? parseInt(contactData.company) : null,
             notes: contactData.notes || "",
             Tags: contactData.tags || "",
@@ -169,8 +169,8 @@ phone: contactData.phone || "",
           {
             Id: parseInt(id),
             Name: contactData.name,
-            email: contactData.email,
-phone: contactData.phone || "",
+email: contactData.email,
+            phone: contactData.phone || "",
             company: contactData.company ? parseInt(contactData.company) : null,
             notes: contactData.notes || "",
             Tags: contactData.tags || ""

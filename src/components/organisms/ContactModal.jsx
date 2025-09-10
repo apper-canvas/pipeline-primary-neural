@@ -134,12 +134,16 @@ if (!formData.company) {
           />
 
 <FormField
-            label="Phone"
-            placeholder="Enter phone number"
+            label="Contact Type"
+            type="select"
             value={formData.phone}
-            onChange={(e) => handleChange("phone", e.target.value)}
+            onChange={(value) => handleChange("phone", value)}
             error={errors.phone}
-          />
+          >
+            <option value="">Select contact type</option>
+            <option value="office">Office</option>
+            <option value="personal">Personal</option>
+          </FormField>
 
 <FormField
             label="Company"

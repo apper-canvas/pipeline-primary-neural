@@ -1,14 +1,102 @@
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
+import React from "react";
 
 class TaskService {
   constructor() {
-    // Initialize ApperClient
-    const { ApperClient } = window.ApperSDK;
-    this.apperClient = new ApperClient({
-      apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
-      apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
-    });
     this.tableName = 'task_c';
+    this.apperClient = null;
+    this.initializeClient();
+  }
+
+  initializeClient() {
+    if (typeof window !== 'undefined' && window.ApperSDK) {
+      const { ApperClient } = window.ApperSDK;
+      this.apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      });
+    }
+  }
+
+  // Sanitize task data to prevent circular structure errors
+  sanitizeTaskData(taskData) {
+    if (!taskData) return {};
+    
+    // Create a clean object with only primitive values
+    const sanitized = {};
+    
+    // Extract string values safely
+    if (taskData.subject !== undefined) sanitized.subject = String(taskData.subject || '');
+    if (taskData.Name !== undefined) sanitized.Name = String(taskData.Name || '');
+    if (taskData.description !== undefined) sanitized.description = String(taskData.description || '');
+    if (taskData.status !== undefined) sanitized.status = String(taskData.status || '');
+    if (taskData.priority !== undefined) sanitized.priority = String(taskData.priority || '');
+    if (taskData.category !== undefined) sanitized.category = String(taskData.category || '');
+    if (taskData.recurrencePattern !== undefined) sanitized.recurrencePattern = String(taskData.recurrencePattern || '');
+    
+    // Handle date fields - ensure they're clean strings or null
+    if (taskData.dueDate !== undefined) {
+      if (taskData.dueDate && typeof taskData.dueDate === 'string') {
+        sanitized.dueDate = taskData.dueDate;
+      } else if (taskData.dueDate instanceof Date) {
+        sanitized.dueDate = taskData.dueDate.toISOString();
+      } else {
+        sanitized.dueDate = null;
+      }
+    }
+    
+    if (taskData.startDate !== undefined) {
+      if (taskData.startDate && typeof taskData.startDate === 'string') {
+        sanitized.startDate = taskData.startDate;
+      } else if (taskData.startDate instanceof Date) {
+        sanitized.startDate = taskData.startDate.toISOString();
+      } else {
+        sanitized.startDate = null;
+      }
+    }
+    
+    if (taskData.completedDate !== undefined) {
+      if (taskData.completedDate && typeof taskData.completedDate === 'string') {
+        sanitized.completedDate = taskData.completedDate;
+      } else if (taskData.completedDate instanceof Date) {
+        sanitized.completedDate = taskData.completedDate.toISOString();
+      } else {
+        sanitized.completedDate = null;
+      }
+    }
+    
+    if (taskData.reminderTime !== undefined) {
+      if (taskData.reminderTime && typeof taskData.reminderTime === 'string') {
+        sanitized.reminderTime = taskData.reminderTime;
+      } else if (taskData.reminderTime instanceof Date) {
+        sanitized.reminderTime = taskData.reminderTime.toISOString();
+      } else {
+        sanitized.reminderTime = null;
+      }
+    }
+    
+    // Handle lookup fields - extract only the ID value
+    if (taskData.contactId !== undefined) {
+      if (typeof taskData.contactId === 'string' || typeof taskData.contactId === 'number') {
+        sanitized.contactId = taskData.contactId;
+      } else if (taskData.contactId && typeof taskData.contactId === 'object') {
+        // Extract ID from object if it exists
+        sanitized.contactId = taskData.contactId.Id || taskData.contactId.id || null;
+      } else {
+        sanitized.contactId = null;
+      }
+    }
+    
+    // Handle boolean fields
+    if (taskData.isRecurring !== undefined) {
+      sanitized.isRecurring = Boolean(taskData.isRecurring);
+    }
+    
+    if (taskData.reminderSet !== undefined) {
+      sanitized.reminderSet = Boolean(taskData.reminderSet);
+    }
+    
+    return sanitized;
   }
 
   // Get all tasks with optional filtering and sorting
@@ -133,28 +221,31 @@ class TaskService {
   }
 
   // Create new task
-  async create(taskData) {
+async create(taskData) {
     try {
+      // Sanitize task data to prevent circular structure errors
+      const sanitizedData = this.sanitizeTaskData(taskData);
+      
       // Only include Updateable fields
       const params = {
         records: [{
-          Name: taskData.subject || taskData.Name || 'New Task',
-          subject_c: taskData.subject || '',
-          description_c: taskData.description || '',
-          status_c: taskData.status || 'New',
-          priority_c: taskData.priority || 'Medium',
-          dueDate_c: taskData.dueDate || null,
-          startDate_c: taskData.startDate || null,
-          contactId_c: taskData.contactId ? parseInt(taskData.contactId) : null,
-          category_c: taskData.category || '',
-          isRecurring_c: taskData.isRecurring || false,
-          recurrencePattern_c: taskData.recurrencePattern || '',
-          completedDate_c: taskData.completedDate || null,
-          reminderSet_c: taskData.reminderSet || false,
-          reminderTime_c: taskData.reminderTime || null
+          Name: sanitizedData.subject || sanitizedData.Name || 'New Task',
+          subject_c: sanitizedData.subject || '',
+          description_c: sanitizedData.description || '',
+          status_c: sanitizedData.status || 'New',
+          priority_c: sanitizedData.priority || 'Medium',
+          dueDate_c: sanitizedData.dueDate || null,
+          startDate_c: sanitizedData.startDate || null,
+          contactId_c: sanitizedData.contactId ? parseInt(sanitizedData.contactId) : null,
+          category_c: sanitizedData.category || '',
+          isRecurring_c: Boolean(sanitizedData.isRecurring) || false,
+          recurrencePattern_c: sanitizedData.recurrencePattern || '',
+          completedDate_c: sanitizedData.completedDate || null,
+          reminderSet_c: Boolean(sanitizedData.reminderSet) || false,
+          reminderTime_c: sanitizedData.reminderTime || null
         }]
       };
-
+      
       const response = await this.apperClient.createRecord(this.tableName, params);
 
       if (!response.success) {
@@ -190,26 +281,28 @@ class TaskService {
   }
 
   // Update task
-  async update(id, taskData) {
+async update(id, taskData) {
     try {
+      // Sanitize task data to prevent circular structure errors
+      const sanitizedData = this.sanitizeTaskData(taskData);
       // Only include Updateable fields
       const params = {
         records: [{
           Id: parseInt(id),
-          Name: taskData.subject || taskData.Name || 'Updated Task',
-          subject_c: taskData.subject || '',
-          description_c: taskData.description || '',
-          status_c: taskData.status || 'New',
-          priority_c: taskData.priority || 'Medium',
-          dueDate_c: taskData.dueDate || null,
-          startDate_c: taskData.startDate || null,
-          contactId_c: taskData.contactId ? parseInt(taskData.contactId) : null,
-          category_c: taskData.category || '',
-          isRecurring_c: taskData.isRecurring || false,
-          recurrencePattern_c: taskData.recurrencePattern || '',
-          completedDate_c: taskData.completedDate || null,
-          reminderSet_c: taskData.reminderSet || false,
-          reminderTime_c: taskData.reminderTime || null
+          Name: sanitizedData.subject || sanitizedData.Name || 'Updated Task',
+          subject_c: sanitizedData.subject || '',
+          description_c: sanitizedData.description || '',
+          status_c: sanitizedData.status || 'New',
+          priority_c: sanitizedData.priority || 'Medium',
+          dueDate_c: sanitizedData.dueDate || null,
+          startDate_c: sanitizedData.startDate || null,
+          contactId_c: sanitizedData.contactId ? parseInt(sanitizedData.contactId) : null,
+          category_c: sanitizedData.category || '',
+          isRecurring_c: Boolean(sanitizedData.isRecurring) || false,
+          recurrencePattern_c: sanitizedData.recurrencePattern || '',
+          completedDate_c: sanitizedData.completedDate || null,
+          reminderSet_c: Boolean(sanitizedData.reminderSet) || false,
+          reminderTime_c: sanitizedData.reminderTime || null
         }]
       };
 

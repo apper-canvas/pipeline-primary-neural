@@ -144,8 +144,8 @@ if (!formData.company) {
 <FormField
             label="Company"
             type="select"
-            value={formData.company}
-            onChange={(e) => handleChange("company", e.target.value)}
+value={formData.company}
+            onChange={(value) => handleChange("company", value)}
             error={errors.company}
             disabled={loadingCompanies}
           >

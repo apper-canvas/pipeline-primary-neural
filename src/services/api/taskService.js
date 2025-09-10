@@ -1,4 +1,5 @@
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
+import React from "react";
 
 class TaskService {
   constructor() {
@@ -226,13 +227,14 @@ async create(taskData) {
       const sanitizedData = this.sanitizeTaskData(taskData);
       
       // Only include Updateable fields
+// Only include Updateable fields
       const params = {
         records: [{
           Name: sanitizedData.subject || sanitizedData.Name || 'New Task',
-          subject_c: sanitizedData.subject || '',
-          description_c: sanitizedData.description || '',
-status_c: sanitizedData.status_c || 'New',
+          subject_c: sanitizedData.subject || 'Untitled Task',
+          status_c: sanitizedData.status || 'New',
           priority_c: sanitizedData.priority || 'Medium',
+          description_c: sanitizedData.description || '',
           dueDate_c: sanitizedData.dueDate || null,
           startDate_c: sanitizedData.startDate || null,
           contactId_c: sanitizedData.contactId ? parseInt(sanitizedData.contactId) : null,
@@ -243,7 +245,6 @@ status_c: sanitizedData.status_c || 'New',
           reminderSet_c: Boolean(sanitizedData.reminderSet) || false,
           reminderTime_c: sanitizedData.reminderTime || null
         }]
-      };
       
       const response = await this.apperClient.createRecord(this.tableName, params);
 
@@ -284,15 +285,15 @@ async update(id, taskData) {
     try {
       // Sanitize task data to prevent circular structure errors
       const sanitizedData = this.sanitizeTaskData(taskData);
-      // Only include Updateable fields
+// Only include Updateable fields
       const params = {
         records: [{
           Id: parseInt(id),
           Name: sanitizedData.subject || sanitizedData.Name || 'Updated Task',
           subject_c: sanitizedData.subject || '',
-          description_c: sanitizedData.description || '',
-status_c: sanitizedData.status_c || 'New',
+          status_c: sanitizedData.status || 'New',
           priority_c: sanitizedData.priority || 'Medium',
+          description_c: sanitizedData.description || '',
           dueDate_c: sanitizedData.dueDate || null,
           startDate_c: sanitizedData.startDate || null,
           contactId_c: sanitizedData.contactId ? parseInt(sanitizedData.contactId) : null,

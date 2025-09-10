@@ -249,10 +249,10 @@ if (contactFilter) filters.contactId = contactFilter;
               className="w-full"
             />
           </div>
-          <div>
+<div>
             <Select
               value={statusFilter}
-onChange={setStatusFilter}
+              onChange={setStatusFilter}
               options={[
                 { value: '', label: 'All Status' },
                 { value: 'New', label: 'New' },
@@ -261,12 +261,11 @@ onChange={setStatusFilter}
                 { value: 'On Hold', label: 'On Hold' },
                 { value: 'Canceled', label: 'Canceled' }
               ]}
-              options={statusOptions}
             />
           </div>
           <div>
             <Select
-value={priorityFilter}
+              value={priorityFilter}
               onChange={setPriorityFilter}
               options={[
                 { value: '', label: 'All Priority' },
@@ -274,12 +273,10 @@ value={priorityFilter}
                 { value: 'Medium', label: 'Medium' },
                 { value: 'Low', label: 'Low' }
               ]}
-              onChange={setPriorityFilter}
-              options={priorityOptions}
             />
           </div>
           <div>
-<Select
+            <Select
               value={contactFilter}
               onChange={setContactFilter}
               options={[
@@ -287,15 +284,6 @@ value={priorityFilter}
                 ...contacts.map(contact => ({
                   value: contact.Id.toString(),
                   label: contact.Name || contact.email || `Contact ${contact.Id}`
-                }))
-              ]}
-              value={contactFilter}
-              onChange={setContactFilter}
-              options={[
-                { value: '', label: 'All Contacts' },
-                ...contacts.map(contact => ({
-                  value: contact.Id.toString(),
-                  label: contact.Name
                 }))
               ]}
             />

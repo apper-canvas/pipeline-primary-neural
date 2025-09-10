@@ -244,7 +244,8 @@ async create(taskData) {
           completedDate_c: sanitizedData.completedDate || null,
           reminderSet_c: Boolean(sanitizedData.reminderSet) || false,
           reminderTime_c: sanitizedData.reminderTime || null
-        }]
+}]
+      };
       
       const response = await this.apperClient.createRecord(this.tableName, params);
 

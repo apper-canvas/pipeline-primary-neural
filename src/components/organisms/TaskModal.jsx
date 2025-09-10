@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { contactService } from "@/services/contactService";
 import ApperIcon from "@/components/ApperIcon";
 import Modal from "@/components/atoms/Modal";
 import Input from "@/components/atoms/Input";
 import Select from "@/components/atoms/Select";
 import Button from "@/components/atoms/Button";
 import Label from "@/components/atoms/Label";
-import { contactService } from "@/services/contactService";
 
 const TaskModal = ({ isOpen, onClose, task, onSave, contacts = [] }) => {
 const [formData, setFormData] = useState({
@@ -51,20 +51,11 @@ const [formData, setFormData] = useState({
     { value: 'Monthly', label: 'Monthly' },
     { value: 'Quarterly', label: 'Quarterly' },
     { value: 'Yearly', label: 'Yearly' },
+{ value: 'Yearly', label: 'Yearly' },
     { value: 'Custom', label: 'Custom' }
   ];
 
-  // Contact options
-  const contactOptions = [
-    { value: '', label: 'Unassigned' },
-    ...contacts.map(contact => ({
-      value: contact.Id.toString(),
-      label: contact.Name
-    }))
-  ];
-
 // State for contact options
-  const [contactOptions, setContactOptions] = useState([
     { value: '', label: 'Select Contact' }
   ]);
 

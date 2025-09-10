@@ -15,6 +15,7 @@ class ContactService {
       
       const params = {
 fields: [
+          { field: { Name: "Id" } },
           { field: { Name: "Name" } },
           { field: { Name: "email" } },
           { field: { Name: "phone" } },
@@ -62,6 +63,7 @@ fields: [
       
       const params = {
 fields: [
+          { field: { Name: "Id" } },
           { field: { Name: "Name" } },
           { field: { Name: "email" } },
           { field: { Name: "phone" } },

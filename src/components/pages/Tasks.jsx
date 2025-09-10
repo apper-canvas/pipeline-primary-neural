@@ -316,7 +316,7 @@ if (contactFilter) filters.contactId = contactFilter;
                         <h3 className="text-lg font-medium text-gray-900 truncate">
                           {task.subject_c || 'Untitled Task'}
 </h3>
-<div className="flex items-center gap-2 mt-1">
+                        <div className="flex items-center gap-2 mt-1">
                           {getStatusBadge(task.status_c)}
                           {getPriorityBadge(task.priority_c)}
                           {task.isRecurring_c && (
@@ -333,29 +333,24 @@ if (contactFilter) filters.contactId = contactFilter;
                         </div>
                       </div>
                       
+                      {/* Contact Assignment - Prominent Display */}
+                      <div className="flex items-center gap-1 text-sm text-gray-700 font-medium mb-2">
+                        <ApperIcon name="User" size={14} />
+                        <span>Contact: {getContactName(task.contactId_c)}</span>
+                      </div>
+                      
                       {task.description_c && (
                         <p className="text-gray-600 text-sm mb-3 line-clamp-2">
                           {task.description_c}
                         </p>
                       )}
                       
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 text-sm text-gray-500">
-                        <div className="flex items-center gap-1">
-                          <ApperIcon name="User" size={14} />
-                          <span>{getContactName(task.contactId_c)}</span>
-                        </div>
-                        
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 text-sm text-gray-500">
                         <div className="space-y-1">
                           {task.category_c && (
                             <div className="flex items-center gap-1 text-sm text-gray-600">
                               <ApperIcon name="Tag" size={12} />
                               <span>{task.category_c}</span>
-                            </div>
-                          )}
-                          {task.contactId_c && (
-                            <div className="flex items-center gap-1 text-sm text-gray-600">
-                              <ApperIcon name="User" size={12} />
-                              <span>Assigned: {getContactName(task.contactId_c)}</span>
                             </div>
                           )}
                           {task.recurrencePattern_c && (
@@ -378,7 +373,8 @@ if (contactFilter) filters.contactId = contactFilter;
                             Due: {formatDate(task.dueDate_c)}
                           </span>
                         </div>
-<div className="flex items-center gap-1">
+                        
+                        <div className="flex items-center gap-1">
                           <ApperIcon name="Clock" size={14} />
                           <span>Created: {formatDate(task.CreatedOn)}</span>
                         </div>

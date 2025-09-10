@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { contactService } from "@/services/contactService";
+import { contactService } from "@/services/api/contactService";
 import ApperIcon from "@/components/ApperIcon";
 import Modal from "@/components/atoms/Modal";
 import Input from "@/components/atoms/Input";

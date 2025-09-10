@@ -6,6 +6,7 @@ import Input from "@/components/atoms/Input";
 import Select from "@/components/atoms/Select";
 import Button from "@/components/atoms/Button";
 import Label from "@/components/atoms/Label";
+import { contactService } from "@/services/contactService";
 
 const TaskModal = ({ isOpen, onClose, task, onSave, contacts = [] }) => {
 const [formData, setFormData] = useState({
@@ -62,12 +63,36 @@ const [formData, setFormData] = useState({
     }))
   ];
 
+// State for contact options
+  const [contactOptions, setContactOptions] = useState([
+    { value: '', label: 'Select Contact' }
+  ]);
+
+  // Load contacts for Assigned To dropdown
+  const loadContacts = async () => {
+    try {
+      const contactsData = await contactService.getAll();
+      const options = contactsData.map(contact => ({
+        value: contact.Id.toString(),
+        label: contact.Name || contact.email || `Contact ${contact.Id}`
+      }));
+      setContactOptions([
+        { value: '', label: 'Select Contact' },
+        ...options
+      ]);
+    } catch (error) {
+      console.error('Error loading contacts:', error);
+      setContactOptions([{ value: '', label: 'Select Contact' }]);
+    }
+  };
+
   // Reset form when modal opens/closes or task changes
   useEffect(() => {
     if (isOpen) {
+      loadContacts();
       if (task) {
         // Edit mode - populate with existing data
-setFormData({
+        setFormData({
           subject: task.subject_c || '',
           description: task.description_c || '',
           status: task.status_c || 'New',
@@ -285,33 +310,33 @@ startDate: formData.startDate ? new Date(formData.startDate).toISOString() : nul
               <Select
                 id="status"
                 value={formData.status}
-                onChange={(value) => handleChange('status', value)}
+onChange={(value) => handleChange('status', value)}
                 options={statusOptions}
                 disabled={loading}
               />
             </div>
 
-            <div>
-              <Label htmlFor="priority">Priority</Label>
-              <Select
-                id="priority"
-                value={formData.priority}
-                onChange={(value) => handleChange('priority', value)}
-                options={priorityOptions}
-                disabled={loading}
-              />
-            </div>
+<div>
+            <Label htmlFor="priority">Priority</Label>
+            <Select
+              id="priority"
+              value={formData.priority}
+              onChange={(value) => handleChange('priority', value)}
+              options={priorityOptions}
+              disabled={loading}
+            />
+          </div>
 
 <div>
-              <Label htmlFor="contactId">Assigned To (Contact)</Label>
-              <Select
-                id="contactId"
-                value={formData.contactId}
-                onChange={(value) => handleChange('contactId', value)}
-                options={contactOptions}
-                disabled={loading}
-              />
-            </div>
+            <Label htmlFor="contactId">Assigned To (Contact)</Label>
+            <Select
+              id="contactId"
+              value={formData.contactId}
+              onChange={(value) => handleChange('contactId', value)}
+              options={contactOptions}
+              disabled={loading}
+            />
+          </div>
 
             <div>
               <Label htmlFor="category">Category</Label>
@@ -383,14 +408,13 @@ startDate: formData.startDate ? new Date(formData.startDate).toISOString() : nul
             {formData.isRecurring && (
               <div>
                 <Label htmlFor="recurrencePattern">Recurrence Pattern</Label>
-                <Select
+<Select
                   id="recurrencePattern"
                   value={formData.recurrencePattern}
                   onChange={(value) => handleChange('recurrencePattern', value)}
                   options={recurrenceOptions}
                   error={errors.recurrencePattern}
                   disabled={loading}
-                  placeholder="Select recurrence pattern"
                 />
               </div>
             )}

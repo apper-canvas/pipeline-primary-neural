@@ -1,5 +1,4 @@
-import { toast } from "react-toastify";
-import React from "react";
+import { toast } from 'react-toastify';
 
 class TaskService {
   constructor() {

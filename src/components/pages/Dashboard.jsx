@@ -357,11 +357,20 @@ const handleDealSave = async (dealData) => {
                   className="flex flex-col items-center p-4 bg-gradient-to-br from-info/10 to-primary/10 rounded-lg border-2 border-dashed border-info/20 hover:border-info/40 transition-all duration-200 group min-h-[100px] justify-center"
                 >
                   <ApperIcon name="Download" size={24} className="text-info mb-2 group-hover:scale-110 transition-transform" />
-                  <span className="text-sm font-medium text-gray-700 text-center">Export Data</span>
-                </button>
-              </>
-            )}
-          </div>
+<span className="text-sm font-medium text-gray-700 text-center">Export Data</span>
+</button>
+<button 
+  onClick={() => {
+    navigate('/invoices');
+  }}
+  className="flex flex-col items-center p-4 bg-gradient-to-br from-accent/10 to-primary/10 rounded-lg border-2 border-dashed border-accent/20 hover:border-accent/40 transition-all duration-200 group min-h-[100px] justify-center"
+>
+  <ApperIcon name="Receipt" size={24} className="text-accent mb-2 group-hover:scale-110 transition-transform" />
+  <span className="text-sm font-medium text-gray-700 text-center">Create Invoice</span>
+</button>
+</>
+)}
+</div>
 </CardContent>
       </Card>
 

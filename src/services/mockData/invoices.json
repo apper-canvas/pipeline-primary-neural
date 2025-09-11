@@ -1,0 +1,510 @@
+[
+  {
+    "Id": 1,
+    "invoiceNumber": "INV-2024-001",
+    "contactId": 1,
+    "companyId": 1,
+    "clientName": "Acme Corporation",
+    "issueDate": "2024-01-15",
+    "dueDate": "2024-02-15",
+    "status": "Paid",
+    "subtotal": 5000.00,
+    "taxRate": 0.08,
+    "taxAmount": 400.00,
+    "total": 5400.00,
+    "notes": "Thank you for your business. Payment terms: Net 30 days.",
+    "lineItems": [
+      {
+        "id": 1,
+        "description": "Website Development",
+        "quantity": 1,
+        "price": 3000.00,
+        "total": 3000.00
+      },
+      {
+        "id": 2,
+        "description": "SEO Optimization",
+        "quantity": 1,
+        "price": 2000.00,
+        "total": 2000.00
+      }
+    ],
+    "createdAt": "2024-01-15T10:00:00Z"
+  },
+  {
+    "Id": 2,
+    "invoiceNumber": "INV-2024-002",
+    "contactId": 2,
+    "companyId": 2,
+    "clientName": "Tech Solutions Inc",
+    "issueDate": "2024-01-20",
+    "dueDate": "2024-02-20",
+    "status": "Sent",
+    "subtotal": 7500.00,
+    "taxRate": 0.08,
+    "taxAmount": 600.00,
+    "total": 8100.00,
+    "notes": "Monthly retainer for digital marketing services.",
+    "lineItems": [
+      {
+        "id": 1,
+        "description": "Digital Marketing Strategy",
+        "quantity": 1,
+        "price": 4500.00,
+        "total": 4500.00
+      },
+      {
+        "id": 2,
+        "description": "Social Media Management",
+        "quantity": 1,
+        "price": 3000.00,
+        "total": 3000.00
+      }
+    ],
+    "createdAt": "2024-01-20T14:30:00Z"
+  },
+  {
+    "Id": 3,
+    "invoiceNumber": "INV-2024-003",
+    "contactId": 3,
+    "companyId": 3,
+    "clientName": "Global Enterprises",
+    "issueDate": "2024-02-01",
+    "dueDate": "2024-03-01",
+    "status": "Overdue",
+    "subtotal": 3200.00,
+    "taxRate": 0.08,
+    "taxAmount": 256.00,
+    "total": 3456.00,
+    "notes": "Consulting services for Q1 2024.",
+    "lineItems": [
+      {
+        "id": 1,
+        "description": "Business Consulting",
+        "quantity": 40,
+        "price": 80.00,
+        "total": 3200.00
+      }
+    ],
+    "createdAt": "2024-02-01T09:15:00Z"
+  },
+  {
+    "Id": 4,
+    "invoiceNumber": "INV-2024-004",
+    "contactId": 4,
+    "companyId": 4,
+    "clientName": "StartupCo",
+    "issueDate": "2024-02-05",
+    "dueDate": "2024-03-05",
+    "status": "Draft",
+    "subtotal": 1500.00,
+    "taxRate": 0.08,
+    "taxAmount": 120.00,
+    "total": 1620.00,
+    "notes": "Logo design and brand identity package.",
+    "lineItems": [
+      {
+        "id": 1,
+        "description": "Logo Design",
+        "quantity": 1,
+        "price": 800.00,
+        "total": 800.00
+      },
+      {
+        "id": 2,
+        "description": "Brand Guidelines",
+        "quantity": 1,
+        "price": 700.00,
+        "total": 700.00
+      }
+    ],
+    "createdAt": "2024-02-05T16:45:00Z"
+  },
+  {
+    "Id": 5,
+    "invoiceNumber": "INV-2024-005",
+    "contactId": 5,
+    "companyId": 5,
+    "clientName": "Innovation Labs",
+    "issueDate": "2024-02-10",
+    "dueDate": "2024-03-10",
+    "status": "Sent",
+    "subtotal": 12000.00,
+    "taxRate": 0.08,
+    "taxAmount": 960.00,
+    "total": 12960.00,
+    "notes": "Mobile app development project - Phase 1.",
+    "lineItems": [
+      {
+        "id": 1,
+        "description": "UI/UX Design",
+        "quantity": 1,
+        "price": 4000.00,
+        "total": 4000.00
+      },
+      {
+        "id": 2,
+        "description": "Frontend Development",
+        "quantity": 1,
+        "price": 5000.00,
+        "total": 5000.00
+      },
+      {
+        "id": 3,
+        "description": "Backend Integration",
+        "quantity": 1,
+        "price": 3000.00,
+        "total": 3000.00
+      }
+    ],
+    "createdAt": "2024-02-10T11:20:00Z"
+  },
+  {
+    "Id": 6,
+    "invoiceNumber": "INV-2024-006",
+    "contactId": 6,
+    "companyId": 6,
+    "clientName": "Retail Chain Co",
+    "issueDate": "2024-02-15",
+    "dueDate": "2024-03-15",
+    "status": "Paid",
+    "subtotal": 2800.00,
+    "taxRate": 0.08,
+    "taxAmount": 224.00,
+    "total": 3024.00,
+    "notes": "E-commerce platform setup and configuration.",
+    "lineItems": [
+      {
+        "id": 1,
+        "description": "Platform Setup",
+        "quantity": 1,
+        "price": 1500.00,
+        "total": 1500.00
+      },
+      {
+        "id": 2,
+        "description": "Payment Integration",
+        "quantity": 1,
+        "price": 800.00,
+        "total": 800.00
+      },
+      {
+        "id": 3,
+        "description": "Training Session",
+        "quantity": 1,
+        "price": 500.00,
+        "total": 500.00
+      }
+    ],
+    "createdAt": "2024-02-15T13:30:00Z"
+  },
+  {
+    "Id": 7,
+    "invoiceNumber": "INV-2024-007",
+    "contactId": 7,
+    "companyId": 7,
+    "clientName": "Manufacturing Corp",
+    "issueDate": "2024-02-20",
+    "dueDate": "2024-03-20",
+    "status": "Sent",
+    "subtotal": 6500.00,
+    "taxRate": 0.08,
+    "taxAmount": 520.00,
+    "total": 7020.00,
+    "notes": "ERP system customization and deployment.",
+    "lineItems": [
+      {
+        "id": 1,
+        "description": "System Analysis",
+        "quantity": 20,
+        "price": 150.00,
+        "total": 3000.00
+      },
+      {
+        "id": 2,
+        "description": "Custom Development",
+        "quantity": 1,
+        "price": 3500.00,
+        "total": 3500.00
+      }
+    ],
+    "createdAt": "2024-02-20T08:45:00Z"
+  },
+  {
+    "Id": 8,
+    "invoiceNumber": "INV-2024-008",
+    "contactId": 8,
+    "companyId": 8,
+    "clientName": "Healthcare Systems",
+    "issueDate": "2024-02-25",
+    "dueDate": "2024-03-25",
+    "status": "Draft",
+    "subtotal": 9500.00,
+    "taxRate": 0.08,
+    "taxAmount": 760.00,
+    "total": 10260.00,
+    "notes": "HIPAA compliant patient management system.",
+    "lineItems": [
+      {
+        "id": 1,
+        "description": "System Development",
+        "quantity": 1,
+        "price": 7000.00,
+        "total": 7000.00
+      },
+      {
+        "id": 2,
+        "description": "Security Audit",
+        "quantity": 1,
+        "price": 1500.00,
+        "total": 1500.00
+      },
+      {
+        "id": 3,
+        "description": "Documentation",
+        "quantity": 1,
+        "price": 1000.00,
+        "total": 1000.00
+      }
+    ],
+    "createdAt": "2024-02-25T12:15:00Z"
+  },
+  {
+    "Id": 9,
+    "invoiceNumber": "INV-2024-009",
+    "contactId": 9,
+    "companyId": 9,
+    "clientName": "Financial Services Ltd",
+    "issueDate": "2024-03-01",
+    "dueDate": "2024-04-01",
+    "status": "Sent",
+    "subtotal": 4500.00,
+    "taxRate": 0.08,
+    "taxAmount": 360.00,
+    "total": 4860.00,
+    "notes": "Compliance reporting dashboard development.",
+    "lineItems": [
+      {
+        "id": 1,
+        "description": "Dashboard Development",
+        "quantity": 1,
+        "price": 3500.00,
+        "total": 3500.00
+      },
+      {
+        "id": 2,
+        "description": "Data Integration",
+        "quantity": 1,
+        "price": 1000.00,
+        "total": 1000.00
+      }
+    ],
+    "createdAt": "2024-03-01T10:30:00Z"
+  },
+  {
+    "Id": 10,
+    "invoiceNumber": "INV-2024-010",
+    "contactId": 10,
+    "companyId": 10,
+    "clientName": "Education Institute",
+    "issueDate": "2024-03-05",
+    "dueDate": "2024-04-05",
+    "status": "Paid",
+    "subtotal": 3800.00,
+    "taxRate": 0.08,
+    "taxAmount": 304.00,
+    "total": 4104.00,
+    "notes": "Learning management system upgrade.",
+    "lineItems": [
+      {
+        "id": 1,
+        "description": "System Upgrade",
+        "quantity": 1,
+        "price": 2500.00,
+        "total": 2500.00
+      },
+      {
+        "id": 2,
+        "description": "User Training",
+        "quantity": 1,
+        "price": 800.00,
+        "total": 800.00
+      },
+      {
+        "id": 3,
+        "description": "Technical Support",
+        "quantity": 1,
+        "price": 500.00,
+        "total": 500.00
+      }
+    ],
+    "createdAt": "2024-03-05T14:20:00Z"
+  },
+  {
+    "Id": 11,
+    "invoiceNumber": "INV-2024-011",
+    "contactId": 11,
+    "companyId": 11,
+    "clientName": "Transportation Group",
+    "issueDate": "2024-03-10",
+    "dueDate": "2024-04-10",
+    "status": "Overdue",
+    "subtotal": 5600.00,
+    "taxRate": 0.08,
+    "taxAmount": 448.00,
+    "total": 6048.00,
+    "notes": "Fleet management system implementation.",
+    "lineItems": [
+      {
+        "id": 1,
+        "description": "Software License",
+        "quantity": 1,
+        "price": 3000.00,
+        "total": 3000.00
+      },
+      {
+        "id": 2,
+        "description": "Implementation Services",
+        "quantity": 1,
+        "price": 2600.00,
+        "total": 2600.00
+      }
+    ],
+    "createdAt": "2024-03-10T09:10:00Z"
+  },
+  {
+    "Id": 12,
+    "invoiceNumber": "INV-2024-012",
+    "contactId": 12,
+    "companyId": 12,
+    "clientName": "Media Agency",
+    "issueDate": "2024-03-15",
+    "dueDate": "2024-04-15",
+    "status": "Draft",
+    "subtotal": 2200.00,
+    "taxRate": 0.08,
+    "taxAmount": 176.00,
+    "total": 2376.00,
+    "notes": "Creative campaign development and execution.",
+    "lineItems": [
+      {
+        "id": 1,
+        "description": "Campaign Strategy",
+        "quantity": 1,
+        "price": 1200.00,
+        "total": 1200.00
+      },
+      {
+        "id": 2,
+        "description": "Creative Design",
+        "quantity": 1,
+        "price": 1000.00,
+        "total": 1000.00
+      }
+    ],
+    "createdAt": "2024-03-15T11:45:00Z"
+  },
+  {
+    "Id": 13,
+    "invoiceNumber": "INV-2024-013",
+    "contactId": 13,
+    "companyId": 13,
+    "clientName": "Real Estate Partners",
+    "issueDate": "2024-03-20",
+    "dueDate": "2024-04-20",
+    "status": "Sent",
+    "subtotal": 8200.00,
+    "taxRate": 0.08,
+    "taxAmount": 656.00,
+    "total": 8856.00,
+    "notes": "Property management platform development.",
+    "lineItems": [
+      {
+        "id": 1,
+        "description": "Platform Development",
+        "quantity": 1,
+        "price": 6000.00,
+        "total": 6000.00
+      },
+      {
+        "id": 2,
+        "description": "Mobile App",
+        "quantity": 1,
+        "price": 2200.00,
+        "total": 2200.00
+      }
+    ],
+    "createdAt": "2024-03-20T15:30:00Z"
+  },
+  {
+    "Id": 14,
+    "invoiceNumber": "INV-2024-014",
+    "contactId": 14,
+    "companyId": 14,
+    "clientName": "Energy Solutions",
+    "issueDate": "2024-03-25",
+    "dueDate": "2024-04-25",
+    "status": "Paid",
+    "subtotal": 15000.00,
+    "taxRate": 0.08,
+    "taxAmount": 1200.00,
+    "total": 16200.00,
+    "notes": "Smart grid monitoring system - Phase 2.",
+    "lineItems": [
+      {
+        "id": 1,
+        "description": "System Architecture",
+        "quantity": 1,
+        "price": 5000.00,
+        "total": 5000.00
+      },
+      {
+        "id": 2,
+        "description": "Development Services",
+        "quantity": 100,
+        "price": 80.00,
+        "total": 8000.00
+      },
+      {
+        "id": 3,
+        "description": "Testing & QA",
+        "quantity": 1,
+        "price": 2000.00,
+        "total": 2000.00
+      }
+    ],
+    "createdAt": "2024-03-25T13:15:00Z"
+  },
+  {
+    "Id": 15,
+    "invoiceNumber": "INV-2024-015",
+    "contactId": 15,
+    "companyId": 15,
+    "clientName": "Consulting Group",
+    "issueDate": "2024-03-30",
+    "dueDate": "2024-04-30",
+    "status": "Draft",
+    "subtotal": 4800.00,
+    "taxRate": 0.08,
+    "taxAmount": 384.00,
+    "total": 5184.00,
+    "notes": "Digital transformation roadmap and strategy.",
+    "lineItems": [
+      {
+        "id": 1,
+        "description": "Strategy Development",
+        "quantity": 1,
+        "price": 3000.00,
+        "total": 3000.00
+      },
+      {
+        "id": 2,
+        "description": "Implementation Plan",
+        "quantity": 1,
+        "price": 1800.00,
+        "total": 1800.00
+      }
+    ],
+    "createdAt": "2024-03-30T16:00:00Z"
+  }
+]

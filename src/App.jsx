@@ -13,6 +13,7 @@ import Pipeline from "@/components/pages/Pipeline";
 import Deals from "@/components/pages/Deals";
 import Dashboard from "@/components/pages/Dashboard";
 import Activities from "@/components/pages/Activities";
+import Invoices from "@/components/pages/Invoices";
 import CompanyDetail from "@/components/pages/CompanyDetail";
 import Leads from "@/components/pages/Leads";
 import Tasks from "@/components/pages/Tasks";
@@ -152,9 +153,10 @@ function AppRouter() {
             <Route path="/companies" element={<Companies />} />
             <Route path="/companies/:id" element={<CompanyDetail />} />
             <Route path="/leads" element={<Leads />} />
-            <Route path="/tasks" element={<Tasks />} />
-            <Route path="/activities" element={<Activities />} />
-          </Routes>
+<Route path="/tasks" element={<Tasks />} />
+<Route path="/activities" element={<Activities />} />
+<Route path="/invoices" element={<Invoices />} />
+</Routes>
         </main>
         <ToastContainer
           position="top-right"
